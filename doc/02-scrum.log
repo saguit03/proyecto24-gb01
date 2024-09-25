@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.22)  25 SEP 2024 20:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.22)  25 SEP 2024 21:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/sarag/Documents/GitHub/proyecto24-gb01/subfiles/02-scrum.tex
-(c:/Users/sarag/Documents/GitHub/proyecto24-gb01/subfiles/02-scrum.tex
+**c:/Users/sarag/Documents/GitHub/proyecto24-gb01/doc/02-scrum.tex
+(c:/Users/sarag/Documents/GitHub/proyecto24-gb01/doc/02-scrum.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-30>
 (c:/texlive/2024/texmf-dist/tex/latex/subfiles/subfiles.cls
@@ -12,7 +12,7 @@ Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
 Preamble taken from file `../main.tex'
 (c:/texlive/2024/texmf-dist/tex/latex/import/import.sty
 Package: import 2020/04/01  v 6.2
-) (subfiles/../main.tex (c:/texlive/2024/texmf-dist/tex/latex/base/article.cls
+) (doc/../main.tex (c:/texlive/2024/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
 (c:/texlive/2024/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
@@ -766,7 +766,7 @@ Writing index file 02-scrum.idx
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count365
 \l__pdf_internal_box=\box133
-) (subfiles/02-scrum.aux
+) (doc/02-scrum.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -813,7 +813,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 LaTeX Info: Redefining \. on input line 2.
 LaTeX Info: Redefining \% on input line 2.
 Package hyperref Info: Link coloring ON on input line 2.
- (subfiles/02-scrum.out) (subfiles/02-scrum.out)
+ (doc/02-scrum.out) (doc/02-scrum.out)
 \@outlinefile=\write5
 \openout5 = `02-scrum.out'.
 
@@ -855,7 +855,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 [1{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}
 
-{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}] (subfiles/02-scrum.aux
+{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}] (doc/02-scrum.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -868,14 +868,14 @@ Package rerunfilecheck Info: File `02-scrum.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  28658 strings out of 473579
- 544811 string characters out of 5732263
+ 544726 string characters out of 5732263
  945895 words of memory out of 5000000
  51040 multiletter control sequences out of 15000+600000
  600518 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 118i,11n,118p,618b,457s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 118i,11n,118p,613b,457s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmb10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbo10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-Output written on subfiles/02-scrum.pdf (1 page, 139714 bytes).
+Output written on doc/02-scrum.pdf (1 page, 139534 bytes).
 PDF statistics:
  61 PDF objects out of 1000 (max. 8388607)
  44 compressed objects within 1 object stream

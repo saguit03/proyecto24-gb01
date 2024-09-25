@@ -1,12 +1,12 @@
 # Fdb version 4
-["makeindex subfiles/02-scrum.idx"] 1727289830.38736 "subfiles/02-scrum.idx" "subfiles/02-scrum.ind" "subfiles/02-scrum" 1727289832.27212 0
-  "subfiles/02-scrum.idx" 1727289831 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex doc/02-scrum.idx"] 1727291848.80133 "doc/02-scrum.idx" "doc/02-scrum.ind" "doc/02-scrum" 1727291850.67608 0
+  "doc/02-scrum.idx" 1727291850 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
-  "subfiles/02-scrum.ilg"
-  "subfiles/02-scrum.ind"
+  "doc/02-scrum.ilg"
+  "doc/02-scrum.ind"
   (rewritten before read)
-["pdflatex"] 1727289830.85867 "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/subfiles/02-scrum.tex" "subfiles/02-scrum.pdf" "02-scrum" 1727289832.27354 0
-  "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/subfiles/02-scrum.tex" 1727289828 3082 a751d7351e9005208f4c9672570f6638 ""
+["pdflatex"] 1727291849.24328 "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/doc/02-scrum.tex" "doc/02-scrum.pdf" "02-scrum" 1727291850.67731 0
+  "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/doc/02-scrum.tex" 1727291846 3065 22e4aee421bcac483efe234e9afcfd14 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1727029783 2375 baa924870cfb487815765f9094cf3728 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1727029783 2840 216e6e45ad352e2456e1149f28885bee ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc" 1727029783 3031 6c4d3515bf7115d8518af1c9ab97ca44 ""
@@ -211,15 +211,15 @@
   "c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1727035124 5543950 2aa73a438b7054b2327b796fbe5f4275 ""
   "c:/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1727035282 3326032 3ce1f3de9de7236c34e86823eba16a09 ""
   "c:/texlive/2024/texmf.cnf" 1727035102 713 e69b156964470283e0530f5060668171 ""
-  "subfiles/../main.tex" 1727289824 3375 dc36386419ae357a1647226312eac3ec ""
-  "subfiles/02-scrum.aux" 1727289832 627 3703125230c19097183d446a5edbf3aa "pdflatex"
-  "subfiles/02-scrum.ind" 1727289830 0 d41d8cd98f00b204e9800998ecf8427e "makeindex subfiles/02-scrum.idx"
-  "subfiles/02-scrum.out" 1727289832 423 1da91ca7a07de86452da888b9b97282a "pdflatex"
-  "subfiles/02-scrum.tex" 1727289828 3082 a751d7351e9005208f4c9672570f6638 ""
+  "doc/../main.tex" 1727291350 3442 2a7bb9968d15f3aa687b3285a6865ed1 ""
+  "doc/02-scrum.aux" 1727291850 627 3703125230c19097183d446a5edbf3aa "pdflatex"
+  "doc/02-scrum.ind" 1727291849 0 d41d8cd98f00b204e9800998ecf8427e "makeindex doc/02-scrum.idx"
+  "doc/02-scrum.out" 1727291850 423 1da91ca7a07de86452da888b9b97282a "pdflatex"
+  "doc/02-scrum.tex" 1727291846 3065 22e4aee421bcac483efe234e9afcfd14 ""
   (generated)
-  "subfiles/02-scrum.aux"
-  "subfiles/02-scrum.idx"
-  "subfiles/02-scrum.log"
-  "subfiles/02-scrum.out"
-  "subfiles/02-scrum.pdf"
+  "doc/02-scrum.aux"
+  "doc/02-scrum.idx"
+  "doc/02-scrum.log"
+  "doc/02-scrum.out"
+  "doc/02-scrum.pdf"
   (rewritten before read)

@@ -1,14 +1,14 @@
 # Fdb version 4
-["makeindex main.idx"] 1727285365.67207 "main.idx" "main.ind" "main" 1727291354.3656 0
-  "main.idx" 1727291353 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+["makeindex main.idx"] 1727285365.67207 "main.idx" "main.ind" "main" 1727291856.54932 0
+  "main.idx" 1727291856 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   (generated)
   "main.ilg"
   "main.ind"
   (rewritten before read)
-["pdflatex"] 1727291352.88017 "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/main.tex" "main.pdf" "main" 1727291354.36664 0
+["pdflatex"] 1727291855.02819 "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/main.tex" "main.pdf" "main" 1727291856.55024 0
   "anexos/actas.tex" 1727291345 1522 f908b91cbd9cd1fbf94d6aca61da40a5 ""
   "anexos/pautas.tex" 1727291332 2540 9443781348917d5d59f307254228d0bc ""
-  "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/main.tex" 1727291350 3442 2a7bb9968d15f3aa687b3285a6865ed1 ""
+  "c:/Users/sarag/Documents/GitHub/proyecto24-gb01/main.tex" 1727291854 3442 2a7bb9968d15f3aa687b3285a6865ed1 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1727029783 2375 baa924870cfb487815765f9094cf3728 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1727029783 2840 216e6e45ad352e2456e1149f28885bee ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc" 1727029783 3031 6c4d3515bf7115d8518af1c9ab97ca44 ""
@@ -220,13 +220,13 @@
   "c:/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1727035282 3326032 3ce1f3de9de7236c34e86823eba16a09 ""
   "c:/texlive/2024/texmf.cnf" 1727035102 713 e69b156964470283e0530f5060668171 ""
   "doc/01-introduccion.tex" 1727289804 1687 ef41473646f698946ae28fd8b2899630 ""
-  "doc/02-scrum.tex" 1727289828 3082 a751d7351e9005208f4c9672570f6638 ""
-  "main.aux" 1727291354 2354 edce49463b78a1241a1e7df7b455d0eb "pdflatex"
+  "doc/02-scrum.tex" 1727291846 3065 22e4aee421bcac483efe234e9afcfd14 ""
+  "main.aux" 1727291856 2354 edce49463b78a1241a1e7df7b455d0eb "pdflatex"
   "main.ind" 1727285366 0 d41d8cd98f00b204e9800998ecf8427e "makeindex main.idx"
-  "main.lof" 1727291354 30 1bb04962d39b6bda471ac6c46ce13f85 "pdflatex"
-  "main.out" 1727291354 2833 d7f1a6f59b8cdf8ffbc6e2aa5a316385 "pdflatex"
-  "main.tex" 1727291350 3442 2a7bb9968d15f3aa687b3285a6865ed1 ""
-  "main.toc" 1727291354 1251 f90db536a74f1f19a25f57244a0165b1 "pdflatex"
+  "main.lof" 1727291856 30 1bb04962d39b6bda471ac6c46ce13f85 "pdflatex"
+  "main.out" 1727291856 2833 d7f1a6f59b8cdf8ffbc6e2aa5a316385 "pdflatex"
+  "main.tex" 1727291854 3442 2a7bb9968d15f3aa687b3285a6865ed1 ""
+  "main.toc" 1727291856 1251 f90db536a74f1f19a25f57244a0165b1 "pdflatex"
   "other/cover.tex" 1727276789 871 6543747215ad54d7f0897b011778ad1a ""
   "other/epcc.jpg" 1727204128 9109 96b2adbf7408cfc902a9c802f56df9f9 ""
   "other/mediflix-logo.jpeg" 1727251889 68847 c6b6f4081f17d3684fcb1095a519a494 ""
