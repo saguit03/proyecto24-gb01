@@ -48,7 +48,7 @@
 \setpapersize{A4}
 \hypersetup{
     pdftitle={MEDIFLIX}, % Título
-    pdfauthor={GB01}, % Autor
+    pdfauthor={GB01; Pablo Fernández González; Sara Guillén	Torrado; Sergio Martín Ledesma; Daniel Mocinha Sánchez}, % Autor
     pdfstartpage=1, % Al abrir el pdf empieza por la página que se indique
     colorlinks=true, % false: Cajas en los links; true: Colores en los links
     %____ lo siguiente solo funciona si 'colorlinks=true'_____
@@ -60,42 +60,6 @@
 \setlength{\tabcolsep}{5pt}
 \setlength{\parskip}{1em} % Espacio entre párrafos
 \setlength{\parindent}{3em} % Sangría al inicio de los párrafos
-\lstdefinestyle{bash}{
-    basicstyle=\ttfamily,
-    backgroundcolor=\color{lightgray!20},
-    breakatwhitespace=true, 
-    breaklines=true, 
-    captionpos=b, 
-    extendedchars=true,
-    frame=single,
-    keepspaces=true,
-    language=bash, 
-    % numbers=left, 
-    % numbersep=5pt,
-    showtabs=true, 
-    stepnumber=5, 
-    tabsize=2
-}
-
-\lstdefinestyle{sqlito}{
-    basicstyle=\ttfamily,
-    backgroundcolor=\color{lightgray!20},
-    breakatwhitespace=true, 
-    breaklines=true, 
-    captionpos=b, 
-    extendedchars=true,
-    frame=single,
-    keepspaces=true,
-    language=SQL, 
-    % numbers=lef t, 
-    % numbersep=5pt,
-    showtabs=true, 
-    stepnumber=5, 
-    tabsize=2
-}
-
-% ESTILO DEL CÓDIGO
-\lstset{style=bash}
 
 
 \lstset{literate=
@@ -126,7 +90,16 @@
 
 \clearpage
 
-\subfile{subfiles/01-introduccion}
+\subfile{doc/01-introduccion}
 \clearpage
 
+\subfile{doc/02-scrum}
+\clearpage
+
+
+\subfile{anexos/pautas}
+\clearpage
+
+\subfile{anexos/actas}
+\clearpage
 \end{document}

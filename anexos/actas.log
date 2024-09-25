@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.22)  25 SEP 2024 17:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.22)  25 SEP 2024 21:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/sarag/Documents/GitHub/proyecto24-gb01/subfiles/01-introduccion.tex
-(c:/Users/sarag/Documents/GitHub/proyecto24-gb01/subfiles/01-introduccion.tex
+**c:/Users/sarag/Documents/GitHub/proyecto24-gb01/anexos/actas.tex
+(c:/Users/sarag/Documents/GitHub/proyecto24-gb01/anexos/actas.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-30>
 (c:/texlive/2024/texmf-dist/tex/latex/subfiles/subfiles.cls
@@ -12,7 +12,7 @@ Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
 Preamble taken from file `../main.tex'
 (c:/texlive/2024/texmf-dist/tex/latex/import/import.sty
 Package: import 2020/04/01  v 6.2
-) (subfiles/../main.tex (c:/texlive/2024/texmf-dist/tex/latex/base/article.cls
+) (anexos/../main.tex (c:/texlive/2024/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2024/02/08 v1.4n Standard LaTeX document class
 (c:/texlive/2024/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2024/02/08 v1.4n Standard LaTeX file (size option)
@@ -757,25 +757,20 @@ Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
 Package: subfiles 2020/11/14 v2.2 Multi-file projects (package)
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 59.
- (c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2024/05/25 1.10b listings language file
-) (c:/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2024/05/25 1.10b listings language file
-)
-\01-introduccion@idxfile=\write4
-\openout4 = `01-introduccion.idx'.
+\actas@idxfile=\write4
+\openout4 = `actas.idx'.
 
 
-Writing index file 01-introduccion.idx
+Writing index file actas.idx
 )) (c:/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count365
 \l__pdf_internal_box=\box133
-) (subfiles/01-introduccion.aux
+) (anexos/actas.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
-\openout1 = `01-introduccion.aux'.
+\openout1 = `actas.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
 LaTeX Font Info:    ... okay on input line 2.
@@ -818,18 +813,21 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 LaTeX Info: Redefining \. on input line 2.
 LaTeX Info: Redefining \% on input line 2.
 Package hyperref Info: Link coloring ON on input line 2.
- (subfiles/01-introduccion.out) (subfiles/01-introduccion.out)
+ (anexos/actas.out) (anexos/actas.out)
 \@outlinefile=\write5
-\openout5 = `01-introduccion.out'.
+\openout5 = `actas.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 22.
+ (c:/texlive/2024/texmf-dist/tex/latex/lm/ts1lmr.fd
+File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
 [1{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}
 
-] (subfiles/01-introduccion.aux
+{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] (anexos/actas.aux
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
 )
@@ -837,22 +835,22 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-08-30>
  ***********
-Package rerunfilecheck Info: File `01-introduccion.out' has not changed.
-(rerunfilecheck)             Checksum: A1C965D600A7B78FE1E4B54ED9DAB968;674.
+Package rerunfilecheck Info: File `actas.out' has not changed.
+(rerunfilecheck)             Checksum: 72BC7A2F885D6A273E38EC9A338C8348;1236.
  ) 
 Here is how much of TeX's memory you used:
- 28588 strings out of 473579
- 543072 string characters out of 5732263
- 1118390 words of memory out of 5000000
- 50993 multiletter control sequences out of 15000+600000
- 578846 words of font info for 44 fonts, out of 8000000 for 9000
+ 28575 strings out of 473579
+ 542883 string characters out of 5732263
+ 940875 words of memory out of 5000000
+ 50980 multiletter control sequences out of 15000+600000
+ 579211 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 118i,11n,144p,625b,457s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 118i,11n,118p,613b,457s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmb10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr8.pfb>
-Output written on subfiles/01-introduccion.pdf (1 page, 85538 bytes).
+Output written on anexos/actas.pdf (1 page, 90268 bytes).
 PDF statistics:
- 49 PDF objects out of 1000 (max. 8388607)
- 39 compressed objects within 1 object stream
+ 53 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  6 named destinations out of 1000 (max. 500000)
  45 words of extra memory for PDF output out of 10000 (max. 10000000)
 
