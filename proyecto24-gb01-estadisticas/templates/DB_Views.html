@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center mt-5 mb-5"> MedifliStats - Views</h1>
+</div>
+<div class="container">
+    <div class="row row-col-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="text-center">Insertar Views</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/views" method="POST">
+                        <label>¿Desde qué perfil estás creando la View?
+                            <input type="number" class="form-control mb-3" name="id_profile" required>
+                            <br><br>
+                        </label>
+                        <label>¿De qué contenido quieres hacer la View?
+                            <input type="number" class="form-control mb-3" name="id_content" required>
+                            <br><br>
+                        </label>
+                        <label for="content_type">Elige el tipo de contenido:
+                            <select name="content_type" id="content_type">
+                                {% for name, value in content_types %}
+                                <option value="{{ value }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                            <br><br>
+                        </label>
+                        <label>¿Cuándo has empezado a verlo?
+                            <input type="date" class="form-control mb-3" id="date_init" name="date_init" required>
+                            <br><br>
+                        </label>
+                        <label>¿Cuándo has terminado de verlo?(Opcional)
+                            <input type="date" class="form-control mb-3" id="date_finish" name="date_finish">
+                            <br><br>
+                        </label>
+                        <button class="btn btn-primary" type="submit"> Añadir</button>
+                    </form>
+                </div>
+                <div class="card-header">
+                    <h3 class="text-center">Obtener Todas las Views</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/views/all" method="GET">
+                        <label>Listar todas las views</label>
+                        <button class="btn btn-primary" type="submit"> Buscar</button>
+                    </form>
+                </div>
+                <div class="card-header">
+                    <h3 class="text-center">Obtener View por Id</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/views/{id_view}" method="GET">
+                        <label>¿Qué view deseas buscar?
+                            <input type="number" class="form-control mb-3" name="id_view" required>
+                        </label>
+                        <button class="btn btn-primary" type="submit"> Buscar</button>
+                    </form>
+                </div>
+                <div class="card-header">
+                    <h3 class="text-center">Resto de búsquedas de Views</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/views/contents" method="GET">
+                        <label>¿Sobre qué contenido deseas buscar la View?
+                            <input type="number" class="form-control mb-3" name="id_content" required>
+                        </label>
+                        <button class="btn btn-primary" type="submit"> Buscar</button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <form action="/views/profiles" method="GET">
+                        <label>¿Sobre qué perfil deseas buscar la View?
+                            <input type="number" class="form-control mb-3" name="id_profile" required>
+                        </label>
+                        <button class="btn btn-primary" type="submit"> Buscar</button>
+                    </form>
+                </div>
+                <div class="card-header">
+                    <h3 class="text-center">Obtener estadísticas de Views</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/views/stats" method="GET">
+                        <label>¿Sobre qué contenido deseas buscar la View?
+                            <input type="number" class="form-control mb-3" name="id_content" required>
+                        </label>
+                        <button class="btn btn-primary" type="submit"> Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

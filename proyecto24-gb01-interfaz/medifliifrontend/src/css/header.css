@@ -1,0 +1,30 @@
+
+.topsidebar-header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: aqua;
+    height: 100px;
+}
+
+.search-header{
+    display: flex;
+    width: 500px;
+}
+.search-header>input{
+    flex:1;
+    height: 50px;
+    font-size: xx-large;
+
+}
+
+.button-redondeado{
+    border-radius: 20px;
+}
+
+.section-header-topbar{
+    display: flex;
+    width: 600px;
+    justify-content: space-between;
+    
+}

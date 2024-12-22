@@ -1,6 +1,26 @@
 # Mediflí
 
-## Repositorios privados (ya se han invitado a los docentes):
+## Despliegue
+
+En el directorio raíz del proyecto, para crear las imágenes:  
+
+```bash
+docker compose build
+```
+
+Para desplegar los contenedores:  
+
+```bash
+docker compose up -d
+```
+
+Para parar los contenedores:
+
+```bash
+docker compose down
+```
+
+## Repositorios originales
 
 - https://github.com/UExGPSASEE/proyecto24-gb01-usuarios
 - https://github.com/UExGPSASEE/proyecto24-gb01-contenidos
