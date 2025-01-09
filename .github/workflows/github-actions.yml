@@ -1,0 +1,28 @@
+name: GitHub Actions 
+run-name: ${{ github.actor }} MEDIFLÍ
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+
+jobs:
+  Docker-Compose-Up:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+          
+      - name: Build and start services with Docker Compose
+        run: |
+          docker compose up -d
