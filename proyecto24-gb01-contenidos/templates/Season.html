@@ -6,70 +6,70 @@
     <title>Temporadas</title>
 </head>
 <body>
-<div class="container">
-    <h1 class="text-center mt-5 mb-5"> Gestión de temporadas </h1>
+<div>
+    <h1> Gestión de temporadas </h1>
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
-<div class="container">
-    <div class="row row-col-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
-        <div class="col-md-6 mb-3">
+<div>
+    <div>
+        <div>
 
-            <div class="card">
-                <h3 class="text-center">Añadir temporada</h3>
-                <div class="card-body">
+            <div>
+                <h3>Añadir temporada</h3>
+                <div>
                     <form action="/seasons" method="POST">
 
                         <p>Nota: Los parámetros con * son obligatorios</p>
 
-                        <span>¿A qué serie pertenece?*</span>
+                        <span>¿A qué series pertenece?*</span>
                         <input type="number" min=1 name="id_series" required placeholder="id_series 1">
                         <br></br>
 
                         <span>¿Cuál es el título de la temporada?*</span>
-                        <input type="text" class="form-control mb-3" name="title" required>
+                        <input type="text" name="title" required>
                         <br></br>
 
-                        <span>¿Cuál es el número de la temporada en la serie?*</span>
-                        <input type="number" min=0 class="form-control mb-3" name="season_number" required>
+                        <span>¿Cuál es el número de la temporada en la series?*</span>
+                        <input type="number" min=0 name="season_number" required>
                         <br>
 
-                        <button class="btn btn-primary" type="submit"> Añadir</button>
+                        <button type="submit"> Añadir</button>
                     </form>
                 </div>
             </div>
 
-            <div class="card">
-                <h3 class="text-center">Obtener capítulos de una temporada</h3>
-                <div class="card-body">
+            <div>
+                <h3>Obtener capítulos de una temporada</h3>
+                <div>
                     <form action="/seasons/chapters" method="GET">
                         <span>ID</span>
-                        <input type="text" min=1 class="form-control mb-3" name="id_season" required
+                        <input type="text" min=1 name="id_season" required
                                placeholder="id_season 1">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
+                        <button type="submit">Buscar</button>
                     </form>
                 </div>
             </div>
 
-            <div class="card">
-                <h3 class="text-center">Obtener personajes de una temporada</h3>
-                <div class="card-body">
+            <div>
+                <h3>Obtener personajes de una temporada</h3>
+                <div>
                     <form action="/seasons/characters" method="GET">
                         <span>ID</span>
-                        <input type="text" min=1 class="form-control mb-3" name="id_season" required
+                        <input type="text" min=1 name="id_season" required
                                placeholder="id_season 1">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
+                        <button type="submit">Buscar</button>
                     </form>
                 </div>
             </div>
 
-            <div class="card">
-                <h3 class="text-center">Obtener participantes de una temporada</h3>
-                <div class="card-body">
+            <div>
+                <h3>Obtener participantes de una temporada</h3>
+                <div>
                     <form action="/seasons/participants" method="GET">
                         <span>ID</span>
-                        <input type="text" min=1 class="form-control mb-3" name="id_season" required
+                        <input type="text" min=1 name="id_season" required
                                placeholder="id_season 1">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
+                        <button type="submit">Buscar</button>
                     </form>
                 </div>
             </div>

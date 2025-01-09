@@ -27,27 +27,27 @@ import javax.validation.constraints.Size;
 
 
 public class User {
-    @JsonProperty("idUser")
+    @JsonProperty("iduser")
 
-    private Long idUser = null;
+    private Long iduser = null;
 
-    @JsonProperty("Name")
+    @JsonProperty("name")
 
     private String name = null;
 
-    @JsonProperty("Surname")
+    @JsonProperty("surname")
 
     private String surname = null;
 
-    @JsonProperty("Username")
+    @JsonProperty("username")
 
     private String username = null;
 
-    @JsonProperty("Email")
+    @JsonProperty("email")
 
     private String email = null;
 
-    @JsonProperty("Password")
+    @JsonProperty("password")
 
     private String password = null;
 
@@ -82,27 +82,27 @@ public class User {
         this.password = password;
     }
 
-    public User idUser(Long idUser) {
+    public User iduser(Long iduser) {
 
-        this.idUser = idUser;
+        this.iduser = iduser;
         return this;
     }
 
     /**
-     * Get idUser
+     * Get iduser
      *
-     * @return idUser
+     * @return iduser
      **/
 
     @Schema(example = "1", required = false, description = "")
-    public Long getIdUser() {
-        return idUser;
+    public Long getiduser() {
+        return iduser;
     }
 
 
-    public void setIdUser(Long idUser) {
+    public void setiduser(Long iduser) {
 
-        this.idUser = idUser;
+        this.iduser = iduser;
     }
 
     public User name(String name) {
@@ -137,7 +137,7 @@ public class User {
      *
      * @return surname
      **/
-    @Schema(example = "Fernandez", required = false, description = "")
+    @Schema(example = "Fernández", required = false, description = "")
     public String getSurname() {
         return surname;
     }
@@ -306,7 +306,7 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equals(this.idUser, user.idUser) &&
+        return Objects.equals(this.iduser, user.iduser) &&
                 Objects.equals(this.name, user.name) &&
                 Objects.equals(this.surname, user.surname) &&
                 Objects.equals(this.username, user.username) &&
@@ -320,7 +320,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, name, surname, username, email, password, startDate, profilePicture, registerDate, userProfiles);
+        return Objects.hash(iduser, name, surname, username, email, password, startDate, profilePicture, registerDate, userProfiles);
     }
 
     @Override
@@ -328,7 +328,7 @@ public class User {
         StringBuilder sb = new StringBuilder();
         sb.append("{\n");
 
-        sb.append("    idUser: ").append(toIndentedString(idUser)).append("\n");
+        sb.append("    iduser: ").append(toIndentedString(iduser)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("    surname: ").append(toIndentedString(surname)).append("\n");
         sb.append("    username: ").append(toIndentedString(username)).append("\n");

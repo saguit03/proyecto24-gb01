@@ -14,24 +14,24 @@ class ProfileCtrl:
 
     @staticmethod
     def add_profile(db: Collection):
-        id_profile = get_next_sequence_value(db, "id_profile")
+        idprofile = get_next_sequence_value(db, "idprofile")
         name = request.form.get('name')
-        id_user = request.form.get('id_user')
+        iduser = request.form.get('iduser')
         id_language = request.form.get('id_language')
 
-        if id_profile:
-            id_profile = int(id_profile)
-            profile_user = ProfileUser(id_profile, str(name), int(id_user), int(id_language))
+        if idprofile:
+            idprofile = int(idprofile)
+            profile_user = ProfileUser(idprofile, str(name), int(iduser), int(id_language))
             db.insert_one(profile_user.to_db_collection())
             return OkCtrl.added('Profile')
         else:
             ErrorCtrl.error_404('Profile')
 
     @staticmethod
-    def delete_profile(db: Collection, id_profile: int):
-        if id_profile:
-            id_profile = int(id_profile)
-            result = db.delete_one({'id_profile': id_profile})
+    def delete_profile(db: Collection, idprofile: int):
+        if idprofile:
+            idprofile = int(idprofile)
+            result = db.delete_one({'idprofile': idprofile})
             if result.deleted_count == 1:
                 return OkCtrl.deleted('Profile')
             else:
@@ -41,10 +41,10 @@ class ProfileCtrl:
 
     @staticmethod
     def delete_profile_param(db: Collection):
-        id_profile = int(request.args.get('id_profile'))
-        return ProfileCtrl.delete_profile(db, id_profile)
+        idprofile = int(request.args.get('idprofile'))
+        return ProfileCtrl.delete_profile(db, idprofile)
 
     @staticmethod
     def delete_profile_form(db: Collection):
-        id_profile = int(request.form.get('id_profile'))
-        return ProfileCtrl.delete_profile(db, id_profile)
+        idprofile = int(request.form.get('idprofile'))
+        return ProfileCtrl.delete_profile(db, idprofile)

@@ -6,6 +6,7 @@ from models.views import View
 from clients.contenidos_client import ContenidosClient
 from models.content import ContentType
 from controllers.error_ctrl import ErrorCtrl
+from controllers.ok_ctrl import OkCtrl
 
 class ViewsCtrl:
     @staticmethod
@@ -19,24 +20,23 @@ class ViewsCtrl:
         id_view = get_next_sequence_value(db, "id_view")
         date_init = request.form.get('date_init')
         date_finish = request.form.get('date_finish')
-        id_profile = request.form.get('id_profile')
+        idprofile = request.form.get('idprofile')
         id_content = request.form.get('id_content')
         content_type = request.form.get('content_type')
 
         if id_view and id_content:
-            if ContenidosClient.check_content_exists(int(id_content), int(content_type)):
                 if not date_finish:
                     date_finish = None
                     is_finished = False
                 else:
                     is_finished = True
 
-                view = View(id_view, date_init, is_finished, date_finish, int(id_profile), int(id_content), int(content_type))
+                view = View(id_view, date_init, is_finished, date_finish, int(idprofile), int(id_content), int(content_type))
                 db.insert_one(view.to_db_collection())
                 return OkCtrl.added('View')
 
-            else:
-                ErrorCtrl.error_404('View')
+            # else:
+            #     ErrorCtrl.error_404('View')
         else:
             return jsonify({'error': 'Error when creating view', 'status': '500 Internal Server Error'}), 500
 
@@ -52,7 +52,7 @@ class ViewsCtrl:
                 ErrorCtrl.error_404('View')
             elif result.modified_count == 0:
                 return jsonify({'message': 'New view matches with actual view', 'status': '200 OK'}), 200
-            return redirect(url_for('views'))
+            return OkCtrl.updated('View')
         else:
             ErrorCtrl.error_400()
 
@@ -71,8 +71,8 @@ class ViewsCtrl:
         if id_view:
             id_view = int(id_view)
             result = db.delete_one({'id_view': id_view})
-            if result.deleted_count == 1:
-                return redirect(url_for('views'))
+            if result.deleted_count >= 1:
+                return OkCtrl.deleted('View')
             else:
                 ErrorCtrl.error_404('View')
         else:
@@ -98,7 +98,7 @@ class ViewsCtrl:
                 'is_finished': view.get('is_finished'),
                 'date_finish': view.get('date_finish'),
                 'id_content': view.get('id_content'),
-                'id_profile': view.get('id_profile')
+                'idprofile': view.get('idprofile')
             }
             for view in all_views
         ]
@@ -120,7 +120,7 @@ class ViewsCtrl:
                         'is_finished': view.get('is_finished'),
                         'date_finish': view.get('date_finish'),
                         'id_content': view.get('id_content'),
-                        'id_profile': view.get('id_profile')
+                        'idprofile': view.get('idprofile')
                     }
                     for view in matching_view
                 ]
@@ -145,7 +145,7 @@ class ViewsCtrl:
                     'is_finished': view.get('is_finished'),
                     'date_finish': view.get('date_finish'),
                     'id_content': view.get('id_content'),
-                    'id_profile': view.get('id_profile')
+                    'idprofile': view.get('idprofile')
                 }
                 for view in matching_view
             ]
@@ -158,11 +158,11 @@ class ViewsCtrl:
             ErrorCtrl.error_400()
 
     @staticmethod
-    def get_views_by_id_profile(db: Collection):
-        id_profile = request.args.get('id_profile')
-        if id_profile:
-            id_profile = int(id_profile)
-            matching_view = db.find({'id_profile': id_profile})
+    def get_views_by_idprofile(db: Collection):
+        idprofile = request.args.get('idprofile')
+        if idprofile:
+            idprofile = int(idprofile)
+            matching_view = db.find({'idprofile': idprofile})
             view_list = [
                 {
                     'id_view': view.get('id_view'),
@@ -170,7 +170,7 @@ class ViewsCtrl:
                     'is_finished': view.get('is_finished'),
                     'date_finish': view.get('date_finish'),
                     'id_content': view.get('id_content'),
-                    'id_profile': view.get('id_profile')
+                    'idprofile': view.get('idprofile')
                 }
                 for view in matching_view
             ]
@@ -195,7 +195,7 @@ class ViewsCtrl:
                     'is_finished': view.get('is_finished'),
                     'date_finish': view.get('date_finish'),
                     'id_content': view.get('id_content'),
-                    'id_profile': view.get('id_profile')
+                    'idprofile': view.get('idprofile')
                 }
                 for view in matching_view
             ]

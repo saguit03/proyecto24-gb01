@@ -9,7 +9,7 @@ services:
     environment:
       - CONTENIDOS_URL=http://contenidos:8082/
       - ESTADISTICAS_URL=http://estadisticas:8083/
-      - INTERFAZ_URL=http://interfaz:3000/
+      - INTERFAZ_URL=http://interfaz:8080/
       - SPRING_DATASOURCE_URL=jdbc:h2:~/test;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
       - SPRING_DATASOURCE_DRIVER_CLASSNAME=org.h2.Driver
       - SPRING_DATASOURCE_USERNAME=sa
@@ -25,9 +25,9 @@ services:
     ports:
       - "8082:8082"
     environment:
-      - USUARIOS_URL=http://usuarios:8081/Medifli/
+      - USUARIOS_URL=http://usuarios:8081/
       - ESTADISTICAS_URL=http://estadisticas:8083/
-      - INTERFAZ_URL=http://interfaz:3000/
+      - INTERFAZ_URL=http://interfaz:8080/
       - MONGO_HOST=mongodb-contenidos
       - MONGO_PORT=27017
     networks:
@@ -41,9 +41,9 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - USUARIOS_URL=http://usuarios:8081/Medifli/
+      - USUARIOS_URL=http://usuarios:8081/
       - CONTENIDOS_URL=http://contenidos:8082/
-      - INTERFAZ_URL=http://interfaz:3000/
+      - INTERFAZ_URL=http://interfaz:8080/
       - MONGO_HOST=mongodb-estadisticas
       - MONGO_PORT=27018
     networks:
@@ -52,23 +52,21 @@ services:
       - mongodb-estadisticas
 
   interfaz:
-    build:
-      context: ./proyecto24-gb01-interfaz/medifliifrontend
+    build: 
+      context: ./interfaz
     ports:
-      - "3000:80"
-    networks:
-      - medifli
+      - "8080:8080"
     environment:
-      - NODE_ENV=production
-      - PUBLIC_URL=/app
-      - USUARIOS_URL=http://usuarios:8081/Medifli/
+      - USUARIOS_URL=http://usuarios:8081/
       - CONTENIDOS_URL=http://contenidos:8082/
       - ESTADISTICAS_URL=http://estadisticas:8083/
+    networks:
+      - medifli
     depends_on:
       - usuarios
       - contenidos
       - estadisticas
-    
+
   mongodb-contenidos:
     image: mongo:latest
     container_name: mongodb-contenidos
@@ -84,10 +82,12 @@ services:
   mongodb-estadisticas:
     image: mongo:latest
     container_name: mongodb-estadisticas
+    command: ["mongod", "--port", "27018"]  # Cambia el puerto interno a 28018
+
     environment:
       - MONGO_INITDB_DATABASE=MedifliStats
     ports:
-      - "27018:27017"
+      - "27018:27018"
     networks:
       - medifli
     volumes:

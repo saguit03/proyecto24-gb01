@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Temporadas</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de temporadas</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Obtener todas las temporadas -->
+<div>
+    <h2>Obtener todas las temporadas</h2>
+    <form action="/seasons/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Obtener temporada por ID -->
+<div>
+    <h2>Obtener temporada por ID</h2>
+    <form action="/seasons" method="GET" onsubmit="event.preventDefault(); getSeasonById();">
+        <label>ID*: <input id="id_season" name="id_season" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Añadir temporada -->
+<div>
+    <h2>Añadir temporada</h2>
+    <form action="/seasons/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>ID Serie*: <input id="id_series" name="id_series" required type="text"></label><br>
+        <label>Título*: <input name="title" required type="text"></label><br>
+        <label>Número de temporada*: <input name="season_number" required type="number"></label><br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<!-- Editar temporada -->
+<div>
+    <h2>Editar temporada</h2>
+    <form action="/seasons/update" method="POST">
+        <label>ID Temporada*: <input name="id_season" required type="text"></label><br>
+        <label>ID Serie: <input id="id_series" name="id_series" type="text"></label><br>
+        <label>Título: <input name="title" type="text"></label><br>
+        <label>Número de temporada: <input name="season_number" type="number"></label><br>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+<!-- Eliminar temporada -->
+<div>
+    <h2>Eliminar temporada</h2>
+    <form action="/seasons/delete" method="POST">
+        <label>ID*: <input name="id_season" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<!-- Obtener temporada por título -->
+<div>
+    <h2>Obtener temporada por título</h2>
+    <form action="/seasons/title" method="GET">
+        <label>Título*: <input name="title" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Asignar Tráiler a una Temporada</h2>
+    <form action="/seasons/:id/puttrailer" id="addTrailerForm" method="POST"
+          onsubmit="event.preventDefault(); addTrailer();">
+        <label>ID temporada: <input id="id_season_add" name="id_season" required type="text"></label><br>
+        <label>ID tráiler: <input id="id_trailer_add" name="id_trailer" required type="text"></label><br>
+        <button type="submit">Asignar Tráiler</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Tráiler de una Temporada</h2>
+    <form action="/seasons/:id/deletetrailer" id="deleteTrailerForm" method="POST"
+          onsubmit="event.preventDefault(); deleteTrailer();">
+        <label>ID temporada: <input id="id_season_delete" name="id_season" required type="text"></label><br>
+        <button type="submit">Eliminar Tráiler</button>
+    </form>
+</div>
+
+<div>
+    <h2>Añadir Capítulo a una Temporada</h2>
+    <form action="/seasons/:id/putchapter" id="addChapterForm" method="POST"
+          onsubmit="event.preventDefault(); addChapter();">
+        <label>ID temporada*: <input id="id_season_add_chapter" name="id_season" required type="text"></label><br>
+        <label>ID capítulo*: <input id="id_chapter_add" name="id_chapter" required type="text"></label><br>
+        <button type="submit">Añadir Capítulo</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Capítulo de una Temporada</h2>
+    <form action="/seasons/:id/deletechapter" id="deleteChapterForm" method="POST"
+          onsubmit="event.preventDefault(); deleteChapter();">
+        <label>ID temporada: <input id="id_season_delete_chapter" name="id_season" required type="text"></label><br>
+        <label>ID capítulo: <input id="id_chapter_delete" name="id_chapter" required type="text"></label><br>
+        <button type="submit">Eliminar Capítulo</button>
+    </form>
+</div>
+
+<div>
+    <h2>Añadir Categoría a una Temporada</h2>
+    <form action="/seasons/:id/putcategory" id="addCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); addCategory();">
+        <label>ID temporada*: <input id="id_season_add_category" name="id_season" required type="text"></label><br>
+        <label>ID categoría*: <input id="id_category_add" name="id_category" required type="text"></label><br>
+        <button type="submit">Añadir Categoría</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Categoría de una Temporada</h2>
+    <form action="/seasons/:id/deletecategory" id="deleteCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); deleteCategory();">
+        <label>ID temporada: <input id="id_season_delete_category" name="id_season" required type="text"></label><br>
+        <label>ID categoría: <input id="id_category_delete" name="id_category" required type="text"></label><br>
+        <button type="submit">Eliminar Categoría</button>
+    </form>
+</div>
+
+<script>
+    function getSeasonById() {
+        const idSeason = document.getElementById('id_season').value;
+        if (idSeason) {
+            window.location.href = `/seasons/${idSeason}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function addTrailer() {
+        const idSeason = document.getElementById('id_season_add').value;
+        const idTrailer = document.getElementById('id_trailer_add').value;
+
+        if (idSeason && idTrailer) {
+            const formData = new FormData();
+            formData.append('id_trailer', idTrailer);
+
+            fetch(`/seasons/${idSeason}/puttrailer`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar el tráiler.');
+                    }
+                })
+                .then((data) => {
+                    alert('Tráiler asignado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteTrailer() {
+        const idSeason = document.getElementById('id_season_delete').value;
+
+        if (idSeason) {
+            fetch(`/seasons/${idSeason}/deletetrailer`, {
+                method: 'POST',
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar el tráiler.');
+                    }
+                })
+                .then((data) => {
+                    alert('Tráiler eliminado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+
+    function addChapter() {
+        const idSeason = document.getElementById('id_seasonadd_chapter').value;
+        const idChapter = document.getElementById('id_chapter_add').value;
+
+        if (idSeason && idChapter) {
+            const formData = new FormData();
+            formData.append('id_chapter', idChapter);
+
+            fetch(`/seasons/${idSeason}/putchapter`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar.');
+                    }
+                })
+                .then((data) => {
+                    alert('Asignada correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteChapter() {
+        const idSeason = document.getElementById('id_season_delete_chapter').value;
+        const idChapter = document.getElementById('id_chapter_delete').value;
+
+        if (idSeason && idChapter) {
+            const formData = new FormData();
+            formData.append('id_chapter', idChapter);
+            fetch(`/seasons/${idSeason}/deletechapter`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar.');
+                    }
+                })
+                .then((data) => {
+                    alert('Eliminado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function addCategory() {
+        const idSeason = document.getElementById('id_seasonadd_category').value;
+        const idCategory = document.getElementById('id_category_add').value;
+
+        if (idSeason && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+
+            fetch(`/seasons/${idSeason}/putcategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar la categoría.');
+                    }
+                })
+                .then((data) => {
+                    alert('Categoría asignada correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteCategory() {
+        const idSeason = document.getElementById('id_season_delete_category').value;
+        const idCategory = document.getElementById('id_category_delete').value;
+
+        if (idSeason && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+            fetch(`/seasons/${idSeason}/deletecategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar la categoría.');
+                    }
+                })
+                .then((data) => {
+                    alert('Categoría eliminada correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

@@ -1,17 +1,17 @@
 import requests
-
+import os
 
 class LanguageClient:
-    BASE_URL = "http://127.0.0.1:8083"
+    BASE_URL = os.getenv('ESTADISTICAS_URL')
 
     @staticmethod
-    def getLanguage(id_language):
+    def get_language(id_language):
         url = f"{LanguageClient.BASE_URL}/languages/{id_language}"
         response = requests.get(url)
         return LanguageClient.handleResponse(response)
 
     @staticmethod
-    def handleResponse(response):
+    def handle_response(response):
         if response.status_code == 200:
             return response.json()
         else:

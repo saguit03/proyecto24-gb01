@@ -6,7 +6,8 @@ class ContentType(Enum):
     SERIES = 2
     SEASON = 3
     CATEGORY = 4
-
+    TRAILER = 5
+    CHAPTER = 6
 
 class Content:
     def __init__(self, id_content, title, url_video, duration, content_type):
@@ -25,7 +26,9 @@ def get_content_type_str(content_type: ContentType):
         ContentType.MOVIE: 'movie',
         ContentType.SERIES: 'series',
         ContentType.SEASON: 'season',
-        ContentType.CATEGORY: 'category'
+        ContentType.CATEGORY: 'category',
+        ContentType.TRAILER: 'trailer',
+        ContentType.CHAPTER: 'chapter'
     }
     return switch.get(content_type, 'other')
 
@@ -35,6 +38,8 @@ def get_content_type(content_type_str: str):
         'movie': ContentType.MOVIE,
         'series': ContentType.SERIES,
         'season': ContentType.SEASON,
-        'category': ContentType.CATEGORY
+        'category': ContentType.CATEGORY,
+        'trailer': ContentType.TRAILER,
+        'chapter': ContentType.CHAPTER
     }
     return switch.get(content_type_str, 'other')

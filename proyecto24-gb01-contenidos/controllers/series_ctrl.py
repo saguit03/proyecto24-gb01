@@ -1,16 +1,15 @@
 from flask import render_template, request, jsonify, redirect, url_for
 from pymongo.collection import Collection
-
 from database import get_next_sequence_value as get_next_sequence_value
 from models.series import Series
 from controllers.season_ctrl import SeasonCtrl
 from controllers.ok_ctrl import OkCtrl
-
+from clients.view_client import ViewClient
 
 class SeriesCtrl:
 
     err_msg = 'Missing data or incorrect method';
-    series_not_found_msg = 'Serie no encontrada';
+    series_not_found_msg = 'Series no encontrada';
     not_found = '404 Not Found';
     bad_request = '400 Bad Request';
 
@@ -33,12 +32,26 @@ class SeriesCtrl:
         is_subscription = request.form.get('is_subscription')
 
         if id_series:
-            series = Series(id_series, title, None, url_title_page, release_date, synopsis, description,
-                            is_subscription, duration, None, None, None, None, None)
+            series = Series(id_series=id_series,
+                            title=title,
+                            duration=duration,
+                            url_title_page=url_title_page,
+                            release_date=release_date,
+                            synopsis=synopsis,
+                            description=description,
+                            is_subscription=is_subscription,
+                            languages=[],
+                            categories=[],
+                            characters=[],
+                            participants=[],
+                            seasons=[],
+                            trailer=None)
+
+
             db.insert_one(series.to_db_collection())
             return OkCtrl.added('Series')
         else:
-            return jsonify({'error': 'Serie no añadida', 'status': SeriesCtrl.not_found}), 404
+            return jsonify({'error': 'Series no añadida', 'status': SeriesCtrl.not_found}), 404
 
     # --------------------------------------------------------------
 
@@ -104,6 +117,8 @@ class SeriesCtrl:
                 for series in matching_series
             ]
             if series_found.__len__()>0:
+                ViewClient.add_view_to_content(id_content=id_series, content_type=2)
+
                 return jsonify(series_found), 200
             else:
                 return jsonify({'error': SeriesCtrl.series_not_found_msg, 'status': SeriesCtrl.not_found}), 404
@@ -114,8 +129,7 @@ class SeriesCtrl:
     # --------------------------------------------------------------
 
     @staticmethod
-    def get_series_characters(series_collection: Collection, character_collection: Collection):
-        id_series = int(request.args.get('id_series'))
+    def get_series_characters(id_series: int,series_collection: Collection, character_collection: Collection):
 
         if id_series:
             matching_series = series_collection.find({'id_series': id_series})
@@ -124,9 +138,9 @@ class SeriesCtrl:
                 characters_list = []
 
                 for series in matching_series:
-                    characterIds = series.get('character', [])
+                    character_ids = series.get('character', [])
 
-                    for id_character in characterIds:
+                    for id_character in character_ids:
 
                         if id_character and id_character.strip().isdigit():
                             matching_character = character_collection.find({'id_character': int(id_character)})
@@ -151,9 +165,7 @@ class SeriesCtrl:
     # --------------------------------------------------------------
 
     @staticmethod
-    def get_series_chapters(series_collection: Collection, season_collection: Collection):
-        id_series = int(request.args.get('id_series'))
-        print(id_series)
+    def get_series_chapters(id_series: int, series_collection: Collection, season_collection: Collection):
 
         if id_series:
             matching_series = series_collection.find({'id_series': id_series})
@@ -195,8 +207,7 @@ class SeriesCtrl:
     # --------------------------------------------------------------
 
     @staticmethod
-    def get_series_participants(series_collection, participants_collection):
-        id_series = int(request.args.get('id_series'))
+    def get_series_participants(id_series: int,series_collection, participants_collection):
 
         if id_series:
             matching_series = series_collection.find({'id_series': id_series})
@@ -299,7 +310,7 @@ class SeriesCtrl:
             is_subscription = request.form.get('is_subscription')
 
             if not id_series:
-                return jsonify({'error': 'Identificador de serie requerido', 'status': SeriesCtrl.bad_request}), 400
+                return jsonify({'error': 'Identificador de series requerido', 'status': SeriesCtrl.bad_request}), 400
 
             filter_dict = {'id_series': id_series}
 
@@ -330,7 +341,7 @@ class SeriesCtrl:
 
     @staticmethod
     def put_trailer_into_series(series: Collection, trailers: Collection, id_series: int):
-        id_trailer = request.args.get('id_trailer')
+        id_trailer = request.form.get('id_trailer')
         if id_trailer:
             id_trailer = int(id_trailer)
             if trailers.find({'id_trailer': id_trailer}):
@@ -353,7 +364,7 @@ class SeriesCtrl:
 
     @staticmethod
     def put_category_into_series(series: Collection, categories: Collection, id_series: int):
-        id_category = request.args.get('id_category')
+        id_category = request.form.get('id_category')
         if id_category:
             id_category = int(id_category)
             if categories.find({'id_category': id_category}):
@@ -367,18 +378,21 @@ class SeriesCtrl:
 
     @staticmethod
     def delete_category_from_series(series: Collection, id_series: int):
-        id_category = request.args.get('id_category')
+        id_category = request.form.get('id_category')
         if id_category:
             id_category = int(id_category)
             filter_dict = {'id_series': int(id_series)}
-            change = {'$pull': {'categories': id_category}}
+            series_updated = series.find_one(filter_dict)
+            if series_updated and id_category in series.get('categories', []):  
+                change = {'$pull': {'categories': id_category}} 
+
             return SeriesCtrl.update_series(series, filter_dict, change)
         else:
             return jsonify({'error': SeriesCtrl.err_msg, 'status': SeriesCtrl.bad_request}), 400
 
     @staticmethod
     def put_season_into_series(series: Collection, seasons: Collection, id_series: int):
-        id_season = request.args.get('id_season')
+        id_season = request.form.get('id_season')
         if id_season:
             id_season = int(id_season)
             if seasons.find({'id_season': id_season}):
@@ -393,11 +407,14 @@ class SeriesCtrl:
 
     @staticmethod
     def delete_season_from_series(series: Collection, id_series: int):
-        id_season = request.args.get('id_season')
+        id_season = request.form.get('id_season')
         if id_season:
             id_season = int(id_season)
             filter_dict = {'id_series': int(id_series)}
-            change = {'$pull': {'seasons': id_season}}
+            series = series.find_one(filter_dict)
+            if series and id_season in series.get('seasons', []):  
+                change = {'$pull': {'seasons': id_category}} 
+
             return SeriesCtrl.update_series(series, filter_dict, change)
         else:
             return jsonify({'error': SeriesCtrl.err_msg, 'status': SeriesCtrl.bad_request}), 400

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Series</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de Series</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<div>
+    <!-- Obtener todas las series -->
+    <h2>Obtener Todas las Series</h2>
+    <form action="/series/all" method="GET">
+        <button type="submit">Ver Todas las Series</button>
+    </form>
+</div>
+
+<!-- Obtener serie por ID -->
+<div>
+    <h2>Obtener Serie por ID</h2>
+    <form action="/series" method="GET" onsubmit="event.preventDefault(); getSeriesById();">
+        <label>ID*: <input id="id_series" name="id_series" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <!-- Añadir una nueva serie -->
+    <h2>Añadir Serie</h2>
+    <form action="/series/create" method="POST">
+        <label>Título*: <input name="title" required type="text"></label><br>
+        <label>Duración (minutos)*: <input name="duration" required type="number"></label><br>
+        <label>Descripción: <textarea name="description"></textarea></label><br>
+        <label>Fecha de estreno: <input name="release_date" type="date"></label><br>
+        <label>
+            ¿Disponible con suscripción?<br>
+            <input name="is_subscription" type="radio" value="True"> Sí<br>
+            <input name="is_subscription" type="radio" value="False"> No
+        </label><br>
+        <button type="submit">Añadir Serie</button>
+    </form>
+</div>
+
+<div>
+    <!-- Actualizar una serie -->
+    <h2>Actualizar Serie</h2>
+    <form action="/series/update" method="POST">
+        <label>ID*: <input name="id_series" required type="text"></label><br>
+        <label>Título: <input name="title" type="text"></label><br>
+        <label>Duración (minutos): <input name="duration" type="number"></label><br>
+        <label>Descripción: <textarea name="description"></textarea></label><br>
+        <label>Fecha de estreno: <input name="release_date" type="date"></label><br>
+        <label>
+            ¿Disponible con suscripción?<br>
+            <input name="is_subscription" type="radio" value="True"> Sí<br>
+            <input name="is_subscription" type="radio" value="False"> No
+        </label><br>
+        <button type="submit">Actualizar Serie</button>
+    </form>
+</div>
+
+<div>
+    <!-- Eliminar una serie -->
+    <h2>Eliminar Serie</h2>
+    <form action="/series/delete" method="POST">
+        <label>ID*: <input name="id_series" required type="text"></label><br>
+        <button type="submit">Eliminar Serie</button>
+    </form>
+</div>
+
+<div>
+    <!-- Obtener una serie por título -->
+    <h2>Obtener Serie por Título</h2>
+    <form action="/series/title" method="GET">
+        <label>Título: <input name="title" required type="text"></label><br>
+        <button type="submit">Buscar Serie</button>
+    </form>
+</div>
+
+
+<!--&lt;!&ndash; Obtener serie por ID &ndash;&gt;-->
+<!--<div>-->
+<!--    <h2>Obtener capítulos serie</h2>-->
+<!--    <form action="/series" method="GET" onsubmit="event.preventDefault(); getChapters();">-->
+<!--        <label>ID*: <input type="text" name="id_series" id="id_series" required></label><br>-->
+<!--        <button type="submit">Buscar capítulos</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash; Obtener serie por ID &ndash;&gt;-->
+<!--<div>-->
+<!--    <h2>Obtener personajes serie</h2>-->
+<!--    <form action="/series" method="GET" onsubmit="event.preventDefault(); getCharacters();">-->
+<!--        <label>ID*: <input type="text" name="id_series" id="id_series" required></label><br>-->
+<!--        <button type="submit">Buscar personajes</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Obtener serie por ID &ndash;&gt;-->
+<!--<div>-->
+<!--    <h2>Obtener intérpretes serie</h2>-->
+<!--    <form action="/series" method="GET" onsubmit="event.preventDefault(); getParticipants();">-->
+<!--        <label>ID*: <input type="text" name="id_series" id="id_series" required></label><br>-->
+<!--        <button type="submit">Buscar intérpretes</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+
+<!--<div>-->
+<!--    <h2>Añadir Temporada a una Serie</h2>-->
+<form action="/series/:id/putseason" id="addSeasonForm" method="POST" onsubmit="event.preventDefault(); addSeason();">
+    <label>ID serie: <input id="id_series_add_season" name="id_series" required type="text"></label><br>
+    <label>ID temporada: <input id="id_season_add" name="id_season" required type="text"></label><br>
+    <button type="submit">Añadir Temporada</button>
+</form>
+</div>
+
+<div>
+    <h2>Eliminar Temporada de una Serie</h2>
+    <form action="/series/:id/deleteseason" id="deleteSeasonForm" method="POST"
+          onsubmit="event.preventDefault(); deleteSeason();">
+        <label>ID serie: <input id="id_series_delete_season" name="id_series" required type="text"></label><br>
+        <label>ID temporada: <input id="id_season_delete" name="id_season" required type="text"></label><br>
+        <button type="submit">Eliminar Temporada</button>
+    </form>
+</div>
+
+<div>
+    <h2>Asignar Tráiler a una Serie</h2>
+    <form action="/series/:id/puttrailer" id="addTrailerForm" method="POST"
+          onsubmit="event.preventDefault(); addTrailer();">
+        <label>ID serie: <input id="id_series_add" name="id_series" required type="text"></label><br>
+        <label>ID del tráiler: <input id="id_trailer_add" name="id_trailer" required type="text"></label><br>
+        <button type="submit">Asignar Tráiler</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Tráiler de una Serie</h2>
+    <form action="/series/:id/deletetrailer" id="deleteTrailerForm" method="POST"
+          onsubmit="event.preventDefault(); deleteTrailer();">
+        <label>ID serie: <input id="id_series_delete" name="id_series" required type="text"></label><br>
+        <button type="submit">Eliminar Tráiler</button>
+    </form>
+</div>
+
+<div>
+    <h2>Añadir Categoría a una Serie</h2>
+    <form action="/series/:id/putcategory" id="addCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); addCategory();">
+        <label>ID serie: <input id="id_series_add_category" name="id_series" required type="text"></label><br>
+        <label>ID categoría: <input id="id_category_add" name="id_category" required type="text"></label><br>
+        <button type="submit">Añadir Categoría</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Categoría de una Serie</h2>
+    <form action="/series/:id/deletecategory" id="deleteCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); deleteCategory();">
+        <label>ID serie: <input id="id_series_delete_category" name="id_series" required type="text"></label><br>
+        <label>ID categoría: <input id="id_category_delete" name="id_category" required type="text"></label><br>
+        <button type="submit">Eliminar Categoría</button>
+    </form>
+</div>
+
+
+<script>
+    // Función para obtener serie por ID
+    function getSeriesById() {
+        const idSeries = document.getElementById('id_series').value;
+        if (idSeries) {
+            window.location.href = `/series/${idSeries}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    // Función para obtener serie por ID
+    function getChapters() {
+        const idSeries = document.getElementById('id_series').value;
+        if (idSeries) {
+            window.location.href = `/series/${idSeries}/chapters`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function getParticipants() {
+        const idSeries = document.getElementById('id_series').value;
+        if (idSeries) {
+            window.location.href = `/series/${idSeries}/participants`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function getCharacters() {
+        const idSeries = document.getElementById('id_series').value;
+        if (idSeries) {
+            window.location.href = `/series/${idSeries}/characters`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function addSeason() {
+        const idSeries = document.getElementById('id_series_add_season').value;
+        const idSeason = document.getElementById('id_season_add').value;
+
+        if (idSeries && idSeason) {
+            const formData = new FormData();
+            formData.append('id_season', idSeason);
+
+            fetch(`/series/${idSeries}/putseason`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar');
+                    }
+                })
+                .then((data) => {
+                    alert('Asignado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteSeason() {
+        const idSeries = document.getElementById('id_series_delete_season').value;
+        const idSeason = document.getElementById('id_season_delete').value;
+
+        if (idSeries && idSeason) {
+            const formData = new FormData();
+            formData.append('id_season', idSeason);
+            fetch(`/series/${idSeries}/deleteseason`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar');
+                    }
+                })
+                .then((data) => {
+                    alert('Eliminado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+
+    function addTrailer() {
+        const idSeries = document.getElementById('id_series_add').value;
+        const idTrailer = document.getElementById('id_trailer_add').value;
+
+        if (idSeries && idTrailer) {
+            const formData = new FormData();
+            formData.append('id_trailer', idTrailer);
+
+            fetch(`/series/${idSeries}/puttrailer`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar el tráiler.');
+                    }
+                })
+                .then((data) => {
+                    alert('Tráiler asignado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteTrailer() {
+        const idSeries = document.getElementById('id_series_delete').value;
+
+        if (idSeries) {
+            fetch(`/series/${idSeries}/deletetrailer`, {
+                method: 'POST',
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar el tráiler.');
+                    }
+                })
+                .then((data) => {
+                    alert('Tráiler eliminado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+
+    function addCategory() {
+        const idSeries = document.getElementById('id_series_add_category').value;
+        const idCategory = document.getElementById('id_category_add').value;
+
+        if (idSeries && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+
+            fetch(`/series/${idSeries}/putcategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar');
+                    }
+                })
+                .then((data) => {
+                    alert('Asignado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteCategory() {
+        const idSeries = document.getElementById('id_series_delete_category').value;
+        const idCategory = document.getElementById('id_category_delete').value;
+
+        if (idSeries && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+            fetch(`/series/${idSeries}/deletecategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar');
+                    }
+                })
+                .then((data) => {
+                    alert('Eliminado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+</body>
+</html>

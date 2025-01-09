@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-10-18T10:29:32.211856553Z[GMT]")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Validated
 public interface SubscriptionsApi {
 
@@ -56,9 +58,9 @@ public interface SubscriptionsApi {
             @ApiResponse(responseCode = "400", description = "Valor no soportado"),
 
             @ApiResponse(responseCode = "404", description = "Suscripción no encontrada")})
-    @RequestMapping(value = "/subscriptions/{idSubscription}",
+    @RequestMapping(value = "/subscriptions/{idsubscription}",
             method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteSubscriptionByIdSubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idSubscription") Long idSubscription
+    ResponseEntity<Void> deleteSubscriptionByidsubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idsubscription") Long idsubscription
             , @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "User", required = false) String sessionUserCookie
     );
 
@@ -111,11 +113,11 @@ public interface SubscriptionsApi {
             @ApiResponse(responseCode = "400", description = "Valor no soportado"),
 
             @ApiResponse(responseCode = "404", description = "Suscripción no encontrada")})
-    @RequestMapping(value = "/subscriptions/{idSubscription}",
+    @RequestMapping(value = "/subscriptions/{idsubscription}",
             produces = {"application/json", "application/xml", "application/x-www-form-urlencoded"},
             consumes = {"application/json", "application/xml", "application/x-www-form-urlencoded"},
             method = RequestMethod.PUT)
-    ResponseEntity<Subscription> updateSubscriptionByIdSubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idSubscription") Integer idSubscription
+    ResponseEntity<Subscription> updateSubscriptionByidsubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idsubscription") Integer idsubscription
             , @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "SessionUserCookie", required = false) User sessionUserCookie
             , @Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody Subscription body
     );

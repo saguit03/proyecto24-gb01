@@ -6,6 +6,8 @@ from pymongo.collection import Collection
 from database import get_next_sequence_value as get_next_sequence_value
 from models.movie import Movie
 from controllers.ok_ctrl import OkCtrl
+from clients.view_client import ViewClient
+from models.content import ContentType
 
 
 class MovieCtrl:
@@ -36,8 +38,21 @@ class MovieCtrl:
         is_subscription = request.form.get('is_subscription')
 
         if id_movie:
-            movie = Movie(id_movie, movie_title, url_video, url_title_page, release_date, synopsis, description,
-                          is_subscription, duration, None, None, None, None, None)
+            movie = Movie(id_movie=id_movie,
+                title=movie_title,
+                url_video=url_video,
+                url_title_page=url_title_page,
+                release_date=release_date,
+                synopsis=synopsis,
+                description=description,
+                is_subscription=is_subscription,
+                duration=duration,
+                categories=[], 
+                characters=[], 
+                participants=[], 
+                languages=[], 
+                trailer=None)
+
             db.insert_one(movie.to_db_collection())
             return OkCtrl.added('Movie')
         else:
@@ -51,7 +66,7 @@ class MovieCtrl:
             id_movie = int(id_movie)
             matching_movie = db.find({'id_movie': id_movie})
 
-            movieFound = [
+            movie_found = [
                 {
                     'id_movie': movie.get('id_movie'),
                     'title': movie.get('title'),
@@ -70,8 +85,9 @@ class MovieCtrl:
                 }
                 for movie in matching_movie
             ]
-            if movieFound.__len__()>0:
-                return jsonify(movieFound), 200
+            if movie_found.__len__()>0:
+                ViewClient.add_view_to_content(id_content=id_movie, content_type=1)
+                return jsonify(movie_found), 200
 
             else:
                 return jsonify({'error': MovieCtrl.movie_not_found_msg, 'status': MovieCtrl.not_found}), 404
@@ -83,7 +99,7 @@ class MovieCtrl:
 
     @staticmethod
     def get_movie_characters(movie_collection: Collection, character_collection: Collection):
-        id_movie = int(request.args.get('id_movie'))
+        id_movie = int(request.form.get('id_movie'))
 
         if id_movie:
             matching_movie = movie_collection.find({'id_movie': id_movie})
@@ -91,9 +107,9 @@ class MovieCtrl:
             characters_list = []
 
             for movie in matching_movie:
-                characterIds = movie.get('character', [])
+                character_ids = movie.get('character', [])
 
-                for id_character in characterIds:
+                for id_character in character_ids:
                     if id_character and id_character.strip().isdigit():
                         matching_character = character_collection.find({'id_character': int(id_character)})
 
@@ -121,7 +137,7 @@ class MovieCtrl:
 
     @staticmethod
     def get_movie_participants(movie_collection, participants_collection):
-        id_movie = int(request.args.get('id_movie'))
+        id_movie = int(request.form.get('id_movie'))
 
         if id_movie:
             matching_movie = movie_collection.find({'id_movie': id_movie})
@@ -163,7 +179,7 @@ class MovieCtrl:
             matching_movie = db.find({'title': {'$regex': title, '$options': 'i'}})
 
             if db.count_documents({'title': {'$regex': title, '$options': 'i'}}) > 0:
-                movieFound = [
+                movie_found = [
                     {
                         'id_movie': movie.get('id_movie'),
                         'title': movie.get('title'),
@@ -182,8 +198,8 @@ class MovieCtrl:
                     }
                     for movie in matching_movie
                 ]
-                if movieFound.__len__() > 0:
-                    return jsonify(movieFound), 200
+                if movie_found.__len__() > 0:
+                    return jsonify(movie_found), 200
                 else:
                     return jsonify({'error': MovieCtrl.movie_not_found_msg, 'status': MovieCtrl.not_found}), 404
 
@@ -204,7 +220,7 @@ class MovieCtrl:
             matching_movies = db.find({'release_date': str(release_date)})
 
             if db.count_documents({'release_date': str(release_date)}) > 0:
-                movieFound = [
+                movie_found = [
                     {
                         'id_movie': movie.get('id_movie'),
                         'title': movie.get('title'),
@@ -223,8 +239,8 @@ class MovieCtrl:
                     }
                     for movie in matching_movies
                 ]
-                if movieFound.__len__() > 0:
-                    return jsonify(movieFound), 200
+                if movie_found.__len__() > 0:
+                    return jsonify(movie_found), 200
                 else:
                     return jsonify({'error': MovieCtrl.listmovies_not_found_msg, 'status': MovieCtrl.not_found}), 404
 
@@ -331,7 +347,7 @@ class MovieCtrl:
 
     @staticmethod
     def put_trailer_into_movie(movies: Collection, trailers: Collection, id_movie: int):
-        id_trailer = request.args.get('id_trailer')
+        id_trailer = request.form.get('id_trailer')
         if id_trailer:
             id_trailer = int(id_trailer)
             if trailers.find({'id_trailer': id_trailer}):
@@ -354,12 +370,14 @@ class MovieCtrl:
 
     @staticmethod
     def put_category_into_movie(movies: Collection, categories: Collection, id_movie: int):
-        id_category = request.args.get('id_category')
+        id_category = request.form.get('id_category')
         if id_category:
             id_category = int(id_category)
             if categories.find({'id_category': id_category}):
                 filter_dict = {'id_movie': int(id_movie)}
-                change = {'$addToSet': {'categories': id_category}}
+                if (movies.find({'id_movie': int(id_movie), 'categories': id_category})):
+                    change = {'$addToSet': {'categories': id_category}}
+                else: change = {'$set': {'categories': id_category}}
                 return MovieCtrl.update_movie(movies, filter_dict, change)
             else:
                 return jsonify({'error': 'No category was found', 'status': MovieCtrl.not_found}), 400
@@ -368,11 +386,14 @@ class MovieCtrl:
 
     @staticmethod
     def delete_category_from_movie(movies: Collection, id_movie: int):
-        id_category = request.args.get('id_category')
+        id_category = request.form.get('id_category')
         if id_category:
             id_category = int(id_category)
             filter_dict = {'id_movie': int(id_movie)}
-            change = {'$pull': {'categories': id_category}}
+            movie = movies.find_one(filter_dict)
+            if movie and id_category in movie.get('categories', []):  
+                change = {'$pull': {'categories': id_category}} 
+
             return MovieCtrl.update_movie(movies, filter_dict, change)
         else:
             return jsonify({'error': MovieCtrl.err_msg, 'status': MovieCtrl.bad_request}), 400

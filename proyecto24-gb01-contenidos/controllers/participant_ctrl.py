@@ -168,10 +168,7 @@ class ParticipantCtrl:
     # ---------------------------------------------------------
 
     @staticmethod
-    def get_content_by_participant(participant_collection: Collection, movie_collection: Collection,
-                                series_collection: Collection):
-        id_participant = int(request.args.get('id_participant'))
-
+    def get_content_by_participant(id_participant: int, participant_collection: Collection, movie_collection: Collection, series_collection: Collection):
         if id_participant:
             matching_participant = participant_collection.find({'id_participant': id_participant})
 
@@ -200,9 +197,9 @@ class ParticipantCtrl:
                     })
 
                 content_list.append({'Content': 'Series'})
-                matching_serie = series_collection.find({'participant': {'$in': [str(id_participant)]}})
+                matching_series = series_collection.find({'participant': {'$in': [str(id_participant)]}})
 
-                for series in matching_serie:
+                for series in matching_series:
                     content_list.append({
                         'id_series': series.get('id_series'),
                         'title': series.get('title'),

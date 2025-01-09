@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Películas</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de películas</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Obtener todas las películas -->
+<div>
+    <h2>Obtener todas las películas</h2>
+    <form action="/movies/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Obtener película por ID -->
+<div>
+    <h2>Obtener película por ID</h2>
+    <form action="/movies" method="GET" onsubmit="event.preventDefault(); getMovieById();">
+        <label>ID*: <input id="id_movie" name="id_movie" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Añadir película -->
+<div>
+    <h2>Añadir película</h2>
+    <form action="/movies/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>Título*: <input name="title" required type="text"></label><br>
+        <label>Duración (minutos)*: <input name="duration" required type="number"></label><br>
+        <label>Fecha de estreno: <input name="release_date" type="date"></label><br>
+        <label>
+            ¿Disponible con suscripción?<br>
+            <input name="is_subscription" type="radio" value="True"> Sí<br>
+            <input name="is_subscription" type="radio" value="False"> No
+        </label><br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<!-- Editar película -->
+<div>
+    <h2>Editar película</h2>
+    <form action="/movies/update" method="POST">
+        <label>ID*: <input name="id_movie" required type="text"></label><br>
+        <label>Título: <input name="title" type="text"></label><br>
+        <label>Duración (minutos): <input name="duration" type="number"></label><br>
+        <label>Fecha de estreno: <input name="release_date" type="date"></label><br>
+        <label>
+            ¿Disponible con suscripción?<br>
+            <input name="is_subscription" type="radio" value="True"> Sí<br>
+            <input name="is_subscription" type="radio" value="False"> No
+        </label><br>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+<!-- Eliminar película -->
+<div>
+    <h2>Eliminar película</h2>
+    <form action="/movies/delete" method="POST">
+        <label>ID*: <input name="id_movie" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<!-- Obtener película por título -->
+<div>
+    <h2>Obtener película por título</h2>
+    <form action="/movies/title" method="GET">
+        <label>Título*: <input name="title" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+
+<!-- Obtener película por fecha de estreno -->
+<div>
+    <h2>Obtener película por fecha de estreno</h2>
+    <form action="/movies/release" method="GET">
+        <label>Fecha de estreno*: <input name="release_date" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Asignar Tráiler a una Película</h2>
+    <form action="/movies/:id/puttrailer" id="addTrailerForm" method="POST"
+          onsubmit="event.preventDefault(); addTrailer();">
+        <label>ID película: <input id="id_movie_add" name="id_movie" required type="text"></label><br>
+        <label>ID del tráiler: <input id="id_trailer_add" name="id_trailer" required type="text"></label><br>
+        <button type="submit">Asignar Tráiler</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Tráiler de una Película</h2>
+    <form action="/movies/:id/deletetrailer" id="deleteTrailerForm" method="POST"
+          onsubmit="event.preventDefault(); deleteTrailer();">
+        <label>ID película: <input id="id_movie_delete" name="id_movie" required type="text"></label><br>
+        <button type="submit">Eliminar Tráiler</button>
+    </form>
+</div>
+
+
+<div>
+    <h2>Añadir Categoría a una Película</h2>
+    <form action="/movies/:id/putcategory" id="addCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); addCategory();">
+        <label>ID película: <input id="id_movieadd_category" name="id_movie" required type="text"></label><br>
+        <label>ID categoría: <input id="id_category_add" name="id_category" required type="text"></label><br>
+        <button type="submit">Añadir Categoría</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Categoría de una Película</h2>
+    <form action="/movies/:id/deletecategory" id="deleteCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); deleteCategory();">
+        <label>ID película: <input id="id_movie_delete_category" name="id_movie" required type="text"></label><br>
+        <label>ID categoría: <input id="id_category_delete" name="id_category" required type="text"></label><br>
+        <button type="submit">Eliminar Categoría</button>
+    </form>
+</div>
+
+<script>
+    function getMovieById() {
+        const idMovie = document.getElementById('id_movie').value;
+        if (idMovie) {
+            window.location.href = `/movies/${idMovie}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function addTrailer() {
+        const idMovie = document.getElementById('id_movie_add').value;
+        const idTrailer = document.getElementById('id_trailer_add').value;
+
+        if (idMovie && idTrailer) {
+            const formData = new FormData();
+            formData.append('id_trailer', idTrailer);
+
+            fetch(`/movies/${idMovie}/puttrailer`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar el tráiler.');
+                    }
+                })
+                .then((data) => {
+                    alert('Tráiler asignado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteTrailer() {
+        const idMovie = document.getElementById('id_movie_delete').value;
+
+        if (idMovie) {
+            fetch(`/movies/${idMovie}/deletetrailer`, {
+                method: 'POST',
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar el tráiler.');
+                    }
+                })
+                .then((data) => {
+                    alert('Tráiler eliminado correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+
+    function addCategory() {
+        const idMovie = document.getElementById('id_movieadd_category').value;
+        const idCategory = document.getElementById('id_category_add').value;
+
+        if (idMovie && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+
+            fetch(`/movies/${idMovie}/putcategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar la categoría.');
+                    }
+                })
+                .then((data) => {
+                    alert('Categoría asignada correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteCategory() {
+        const idMovie = document.getElementById('id_movie_delete_category').value;
+        const idCategory = document.getElementById('id_category_delete').value;
+
+        if (idMovie && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+            fetch(`/movies/${idMovie}/deletecategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar la categoría.');
+                    }
+                })
+                .then((data) => {
+                    alert('Categoría eliminada correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

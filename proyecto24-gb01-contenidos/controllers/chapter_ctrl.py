@@ -4,6 +4,7 @@ from pymongo.collection import Collection
 from database import get_next_sequence_value as get_next_sequence_value
 from models.chapter import Chapter
 from controllers.ok_ctrl import OkCtrl
+from clients.view_client import ViewClient
 
 
 class ChapterCtrl:
@@ -102,7 +103,7 @@ class ChapterCtrl:
         if id_chapter:
             id_chapter = int(id_chapter)
             matching_chapter = db.find({'id_chapter': id_chapter})
-            chapterFound = [
+            chapter_found = [
                 {
                     'id_chapter': chapter.get('id_chapter'),
                     'title': chapter.get('title'),
@@ -112,10 +113,31 @@ class ChapterCtrl:
                 }
                 for chapter in matching_chapter
             ]
-            if chapterFound.__len__() > 0:
-                return jsonify(chapterFound), 200
+            if chapter_found.__len__() > 0:
+                ViewClient.add_view_to_content(id_content=id_chapter, content_type=6)
+                return jsonify(chapter_found), 200
             else:
                 return jsonify({'error': ChapterCtrl.chapter_not_found_msg, 'status': ChapterCtrl.not_found}), 404
 
         else:
             return jsonify({'error': ChapterCtrl.err_msg, 'status': ChapterCtrl.bad_request}), 400
+
+    @staticmethod
+    def get_all_chapters(db: Collection):
+        all_chapters = db.find()
+
+        if db.count_documents({}) > 0:
+            chapters_list = [
+                {
+                    'id_chapter': chapter.get('id_chapter'),
+                    'title': chapter.get('title'),
+                    'duration': chapter.get('duration'),
+                    'chapter_number': chapter.get('chapter_number'),
+                    'url_video': chapter.get('url_video')
+                }
+                for chapter in all_chapters
+            ]
+            if chapters_list.__len__()>0:
+               return jsonify(chapters_list), 200
+        return jsonify({'error': ChapterCtrl.listchapters_not_found_msg, 'status': ChapterCtrl.not_found}), 404
+        

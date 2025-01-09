@@ -146,9 +146,9 @@ class CharacterCtrl:
                 })
 
             content_list.append({'Content': 'Series'})
-            matching_serie = series_collection.find({'character': {'$in': [str(id_character)]}})
+            matching_series = series_collection.find({'character': {'$in': [str(id_character)]}})
 
-            for series in matching_serie:
+            for series in matching_series:
                 content_list.append({
                     'id_series': series.get('id_series'),
                     'title': series.get('title'),

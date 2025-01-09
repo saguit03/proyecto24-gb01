@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Capítulos</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de capítulos</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Obtener todas las capítulos -->
+<div>
+    <h2>Obtener todas las capítulos</h2>
+    <form action="/chapters/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Obtener capítulo por ID -->
+<div>
+    <h2>Obtener capítulo por ID</h2>
+    <form action="/chapters" method="GET" onsubmit="event.preventDefault(); getChapterById();">
+        <label>ID*: <input id="id_chapter" name="id_chapter" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Añadir capítulo -->
+<div>
+    <h2>Añadir capítulo</h2>
+    <form action="/chapters/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>Título*: <input name="title" required type="text"></label><br>
+        <label>Duración (minutos)*: <input name="duration" required type="number"></label><br>
+        <label>¿Cuál es el número del capítulo en la temporada?*
+            <input name="chapter_number" required type="number">
+        </label>
+        <br></br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<!-- Editar capítulo -->
+<div>
+    <h2>Editar capítulo</h2>
+    <form action="/chapters/update" method="POST">
+        <label>ID*: <input name="id_chapter" required type="text"></label><br>
+        <label>Título: <input name="title" type="text"></label><br>
+        <label>Duración (minutos): <input name="duration" type="number"></label><br>
+        <label>¿Cuál es el número del capítulo en la temporada?
+            <input name="chapter_number" type="number">
+        </label>
+        <br></br>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+<!-- Eliminar capítulo -->
+<div>
+    <h2>Eliminar capítulo</h2>
+    <form action="/chapters/delete" method="POST">
+        <label>ID*: <input name="id_chapter" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+
+<script>
+    function getChapterById() {
+        const idChapter = document.getElementById('id_chapter').value;
+        if (idChapter) {
+            window.location.href = `/chapters/${idChapter}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

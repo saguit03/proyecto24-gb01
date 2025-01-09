@@ -21,20 +21,17 @@ class ReviewCtrl:
         id_review = get_next_sequence_value(db, "id_review")
         rating = request.form.get('rating')
         commentary = request.form.get('commentary')
-        id_profile = request.form.get('id_profile')
+        idprofile = request.form.get('idprofile')
         id_content = request.form.get('id_content')
         content_type = request.form.get('content_type')
 
         if id_review and id_content:
-            if ContenidosClient.check_content_exists(int(id_content), int(content_type)):
-                if not commentary:
-                    commentary = None
-                review = Review(int(id_review), int(rating), commentary, int(id_profile), int(id_content),
-                                int(content_type))
-                db.insert_one(review.to_db_collection())
-                return OkCtrl.added('Review')
-            else:
-                ErrorCtrl.error_404('Review')
+            if not commentary:
+                commentary = None
+            review = Review(int(id_review), int(rating), commentary, int(idprofile), int(id_content),
+                            int(content_type))
+            db.insert_one(review.to_db_collection())
+            return OkCtrl.added('Review')
         else:
             return jsonify({'error': 'Error when creating review', 'status': '500 Internal Server Error'}), 500
 
@@ -101,7 +98,7 @@ class ReviewCtrl:
                 'id_review': review.get('id_review'),
                 'rating': review.get('rating'),
                 'commentary': review.get('commentary'),
-                'id_profile': review.get('id_profile'),
+                'idprofile': review.get('idprofile'),
                 'id_content': review.get('id_content')
             }
             for review in all_reviews
@@ -121,7 +118,7 @@ class ReviewCtrl:
                     'id_review': review.get('id_review'),
                     'rating': review.get('rating'),
                     'commentary': review.get('commentary'),
-                    'id_profile': review.get('id_profile'),
+                    'idprofile': review.get('idprofile'),
                     'id_content': review.get('id_content')
                 }
                 for review in matching_review
@@ -144,7 +141,7 @@ class ReviewCtrl:
                     'id_review': review.get('id_review'),
                     'rating': review.get('rating'),
                     'commentary': review.get('commentary'),
-                    'id_profile': review.get('id_profile'),
+                    'idprofile': review.get('idprofile'),
                     'id_content': review.get('id_content')
                 }
                 for review in matching_review
@@ -157,17 +154,17 @@ class ReviewCtrl:
             ErrorCtrl.error_400()
 
     @staticmethod
-    def get_reviews_by_id_profile(db: Collection):
-        id_profile = request.args.get('id_profile')
-        if id_profile:
-            id_profile = int(id_profile)
-            matching_review = db.find({'id_profile': id_profile})
+    def get_reviews_by_idprofile(db: Collection):
+        idprofile = request.args.get('idprofile')
+        if idprofile:
+            idprofile = int(idprofile)
+            matching_review = db.find({'idprofile': idprofile})
             review_list = [
                 {
                     'id_review': review.get('id_review'),
                     'rating': review.get('rating'),
                     'commentary': review.get('commentary'),
-                    'id_profile': review.get('id_profile'),
+                    'idprofile': review.get('idprofile'),
                     'id_content': review.get('id_content')
                 }
                 for review in matching_review
@@ -189,7 +186,7 @@ class ReviewCtrl:
                     'id_review': review.get('id_review'),
                     'rating': review.get('rating'),
                     'commentary': review.get('commentary'),
-                    'id_profile': review.get('id_profile'),
+                    'idprofile': review.get('idprofile'),
                     'id_content': review.get('id_content')
                 }
                 for review in matching_review
@@ -211,7 +208,7 @@ class ReviewCtrl:
                     'id_review': review.get('id_review'),
                     'rating': review.get('rating'),
                     'commentary': review.get('commentary'),
-                    'id_profile': review.get('id_profile'),
+                    'idprofile': review.get('idprofile'),
                     'id_content': review.get('id_content')
                 }
                 for review in matching_review
@@ -233,7 +230,7 @@ class ReviewCtrl:
                     'id_review': review.get('id_review'),
                     'rating': review.get('rating'),
                     'commentary': review.get('commentary'),
-                    'id_profile': review.get('id_profile'),
+                    'idprofile': review.get('idprofile'),
                     'id_content': review.get('id_content')
                 }
                 for review in matching_review
@@ -253,7 +250,7 @@ class ReviewCtrl:
                 'id_review': review.get('id_review'),
                 'rating': review.get('rating'),
                 'commentary': review.get('commentary'),
-                'id_profile': review.get('id_profile'),
+                'idprofile': review.get('idprofile'),
                 'id_content': review.get('id_content')
             }
             for review in all_reviews_commented
@@ -268,7 +265,7 @@ class ReviewCtrl:
                 'id_review': review.get('id_review'),
                 'rating': review.get('rating'),
                 'commentary': review.get('commentary'),
-                'id_profile': review.get('id_profile'),
+                'idprofile': review.get('idprofile'),
                 'id_content': review.get('id_content')
             }
             for review in all_reviews_not_commented
@@ -286,7 +283,7 @@ class ReviewCtrl:
                     'id_review': review.get('id_review'),
                     'rating': review.get('rating'),
                     'commentary': review.get('commentary'),
-                    'id_profile': review.get('id_profile'),
+                    'idprofile': review.get('idprofile'),
                     'id_content': review.get('id_content')
                 }
                 for review in matching_review

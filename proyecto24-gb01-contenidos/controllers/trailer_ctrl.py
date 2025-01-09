@@ -4,6 +4,7 @@ from pymongo.collection import Collection
 from database import get_next_sequence_value as get_next_sequence_value
 from models.trailer import Trailer
 from controllers.ok_ctrl import OkCtrl
+from clients.view_client import ViewClient
 
 
 class TrailerCtrl:
@@ -26,7 +27,14 @@ class TrailerCtrl:
         duration = request.form.get('duration')
         url_video = request.form.get('url_video')
         if id_trailer:
-            trailer = Trailer(id_trailer, title, duration, url_video, None, None, None, None)
+            trailer = Trailer(id_trailer=id_trailer,
+                                title= title,
+                                duration=duration,
+                                url_video=url_video,
+                                languages=[],
+                                categories=[],
+                                characters=[],
+                                participants=[])
             db.insert_one(trailer.to_db_collection())
             return OkCtrl.added('Trailer')
         else:
@@ -53,6 +61,7 @@ class TrailerCtrl:
                 for trailer in matching_trailer
             ]
             if trailer_found.__len__()>0:
+                ViewClient.add_view_to_content(id_content=id_trailer, content_type=5)
                 return jsonify(trailer_found), 200
             else:
                 return jsonify({'error': 'Tráiler no encontrado', 'status': TrailerCtrl.not_found}), 404
@@ -132,7 +141,10 @@ class TrailerCtrl:
         if id_category:
             id_category = int(id_category)
             filter_dict = {'id_trailer': int(id_trailer)}
-            change = {'$pull': {'categories': id_category}}
+            trailer = trailers.find_one(filter_dict)
+            if trailer and id_category in trailer.get('categories', []):  
+                change = {'$pull': {'categories': id_category}} 
+
             return TrailerCtrl.update_trailer(trailers, filter_dict, change)
         else:
             return jsonify({'error': TrailerCtrl.err_msg, 'status': TrailerCtrl.bad_request}), 400
@@ -146,3 +158,22 @@ class TrailerCtrl:
         elif result.modified_count == 0:
             return jsonify({'message': 'There was no nothing to be updated or deleted', 'status': '200 OK'}), 200
         return OkCtrl.updated('Trailer')
+    
+    @staticmethod
+    def get_all_trailers(db: Collection):
+        all_trailers = db.find()
+
+        if db.count_documents({}) > 0:
+            trailers_list = [
+                {
+                    'id_trailer': trailer.get('id_trailer'),
+                    'title': trailer.get('title'),
+                    'duration': trailer.get('duration'),
+                    'categories': trailer.get('categories')
+                }
+                for trailer in all_trailers
+            ]
+            if trailers_list.__len__()>0:
+               return jsonify(trailers_list), 200
+        return jsonify({'error': TrailerCtrl.listtrailers_not_found_msg, 'status': TrailerCtrl.not_found}), 404
+

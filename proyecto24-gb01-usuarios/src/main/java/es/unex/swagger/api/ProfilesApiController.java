@@ -21,11 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-10-18T10:29:32.211856553Z[GMT]")
 @RestController
-
-@CrossOrigin(origins = "${INTERFAZ_URL:http://localhost:3000}")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ProfilesApiController implements ProfilesApi {
 
     private static final Logger log = LoggerFactory.getLogger(ProfilesApiController.class);
@@ -42,15 +42,13 @@ public class ProfilesApiController implements ProfilesApi {
         this.request = request;
     }
 
-    public ResponseEntity<UserProfile> deleteUserProfileById(@Parameter(in = ParameterIn.PATH, description = "El id del profile de user que se desea eliminar.", required = false, schema = @Schema()) @PathVariable("idProfile") Long idProfile
-            ,
-                                                             @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "SessionUserCookie", required = false) User sessionUserCookie) {
+    public ResponseEntity<UserProfile> deleteUserProfileById(@Parameter(in = ParameterIn.PATH, description = "El id del profile de user que se desea eliminar.", required = false, schema = @Schema()) @PathVariable("idprofile") Long idprofile, @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "SessionUserCookie", required = false) User sessionUserCookie) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                UserProfileEntity userProfile = userProfileRepository.findById(idProfile.longValue()).orElse(null);
+                UserProfileEntity userProfile = userProfileRepository.findById(idprofile.longValue()).orElse(null);
                 ResponseEntity<UserProfile> respuesta = new ResponseEntity<UserProfile>(UserProfileMapper.toModel(userProfile), HttpStatus.OK);
-                userProfileRepository.deleteById(idProfile.longValue());
+                userProfileRepository.deleteById(idprofile.longValue());
 
                 return respuesta;
             } catch (Exception e) {
@@ -58,48 +56,17 @@ public class ProfilesApiController implements ProfilesApi {
                 return new ResponseEntity<UserProfile>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<UserProfile>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<UserProfile>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    public ResponseEntity<List<UserProfile>> getAllUserProfileById(
-            @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "SessionUserCookie", required = false) User sessionUserCookie) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<UserProfile>>(objectMapper.readValue("[ {\n  \"Pin\" : \"1234\",\n  \"idUser\" : 1,\n  \"id-profile\" : 1,\n  \"profileName\" : \"Pablito\"\n}, {\n  \"Pin\" : \"1234\",\n  \"idUser\" : 1,\n  \"id-profile\" : 1,\n  \"profileName\" : \"Pablito\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<UserProfile>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
-        return new ResponseEntity<List<UserProfile>>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
 
     public ResponseEntity<List<UserProfile>> getProfilesByUserId(
-            @PathVariable("idUser") Long idUser) {
+            @PathVariable("iduser") Long iduser) {
 
         // Simulación de datos: Reemplazar con acceso real a la base de datos o servicio
-        List<UserProfileEntity> allProfiles = userProfileRepository.findByIdUser(idUser);
+        List<UserProfileEntity> allProfiles = userProfileRepository.findByiduser(iduser);
 
 
         return ResponseEntity.ok(userProfileMapper.toModelList(allProfiles));
-    }
-
-
-    public ResponseEntity<UserProfile> getUserProfileById(@Parameter(in = ParameterIn.PATH, description = "El id del profile de user que se desea buscar.", required = false, schema = @Schema()) @PathVariable("idProfile") Long idProfile
-            , @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "SessionUserCookie", required = false) User sessionUserCookie) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<UserProfile>(UserProfileMapper.toModel(userProfileRepository.findById(idProfile.longValue()).orElse(null)), HttpStatus.OK);
-            } catch (Exception e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<UserProfile>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-        return new ResponseEntity<UserProfile>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<UserProfile> postUserProfile(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody UserProfile body
@@ -115,20 +82,16 @@ public class ProfilesApiController implements ProfilesApi {
             }
         }
 
-        return new ResponseEntity<UserProfile>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<UserProfile>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public ResponseEntity<UserProfile> putUserProfileById(@Parameter(in = ParameterIn.PATH, description = "El id del profile de user que se desea eliminar.", required = false, schema = @Schema()) @PathVariable("idProfile") Long idProfile
-            ,
-                                                          @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "User", required = false) User sessionUserCookie, @Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody UserProfile body
+    public ResponseEntity<UserProfile> putUserProfileById(@Parameter(in = ParameterIn.PATH, description = "El id del profile de user que se desea eliminar.", required = false, schema = @Schema()) @PathVariable("idprofile") Long idprofile,@Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "User", required = false) User sessionUserCookie, @Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody UserProfile body
     ) {
         String accept = request.getHeader("Accept");
-        System.out.println("Entra en el cuerpo del recurso de actualización del perfil");
         if (accept != null && accept.contains("application/json")) {
             try {
-                System.out.println("Entra en el bloque condicional");
                 System.out.println(body);
-                userProfileRepository.deleteById(idProfile);
+                userProfileRepository.deleteById(idprofile);
                 userProfileRepository.save(UserProfileMapper.toEntity(body));
                 return new ResponseEntity<UserProfile>(body, HttpStatus.OK);
             } catch (Exception e) {
@@ -136,8 +99,7 @@ public class ProfilesApiController implements ProfilesApi {
                 return new ResponseEntity<UserProfile>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        System.out.println("Termina la función del recurso de modificación del perfil de usuario.");
-        return new ResponseEntity<UserProfile>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<UserProfile>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

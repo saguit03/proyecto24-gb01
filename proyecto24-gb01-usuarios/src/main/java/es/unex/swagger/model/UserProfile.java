@@ -18,93 +18,93 @@ import es.unex.swagger.configuration.NotUndefined;
 
 
 public class UserProfile {
-    @JsonProperty("id-profile")
+    @JsonProperty("idprofile")
 
-    private Long idProfile = null;
+    private Long idprofile = null;
 
-    @JsonProperty("idUser")
+    @JsonProperty("iduser")
 
-    private Long idUser = null;
+    private Long iduser = null;
 
-    @JsonProperty("profileName")
+    @JsonProperty("profilename")
 
-    private String profileName = null;
+    private String profilename = null;
 
-    @JsonProperty("Pin")
+    @JsonProperty("pin")
 
     private String pin = null;
 
 
-    public UserProfile idProfile(Long idProfile) {
+    public UserProfile idprofile(Long idprofile) {
 
-        this.idProfile = idProfile;
+        this.idprofile = idprofile;
         return this;
     }
 
     /**
-     * Get idProfile
+     * Get idprofile
      *
-     * @return idProfile
+     * @return idprofile
      **/
 
     @Schema(example = "1", required = false, description = "")
 
-    public Long getIdProfile() {
-        return idProfile;
+    public Long getidprofile() {
+        return idprofile;
     }
 
 
-    public void setIdProfile(Long idProfile) {
+    public void setidprofile(Long idprofile) {
 
-        this.idProfile = idProfile;
+        this.idprofile = idprofile;
     }
 
-    public UserProfile idUser(Long idUser) {
+    public UserProfile iduser(Long iduser) {
 
-        this.idUser = idUser;
+        this.iduser = iduser;
         return this;
     }
 
     /**
      * Id del user al que pertenece ese profile
      *
-     * @return idUser
+     * @return iduser
      **/
 
     @Schema(example = "1", required = false, description = "Id del user al que pertenece ese profile")
 
-    public Long getidUser() {
-        return idUser;
+    public Long getiduser() {
+        return iduser;
     }
 
 
-    public void setidUser(Long idUser) {
+    public void setiduser(Long iduser) {
 
-        this.idUser = idUser;
+        this.iduser = iduser;
     }
 
-    public UserProfile profileName(String profileName) {
+    public UserProfile profilename(String profilename) {
 
-        this.profileName = profileName;
+        this.profilename = profilename;
         return this;
     }
 
     /**
-     * Get profileName
+     * Get profilename
      *
-     * @return profileName
+     * @return profilename
      **/
 
     @Schema(example = "Pablito", required = false, description = "")
 
-    public String getProfileName() {
-        return profileName;
+    public String getprofilename() {
+        return profilename;
     }
 
 
-    public void setProfileName(String profileName) {
+    public void setprofilename(String profilename) {
 
-        this.profileName = profileName;
+        this.profilename = profilename;
     }
 
     public UserProfile pin(String pin) {
@@ -140,15 +140,15 @@ public class UserProfile {
             return false;
         }
         UserProfile userProfile = (UserProfile) o;
-        return Objects.equals(this.idProfile, userProfile.idProfile) &&
-                Objects.equals(this.idUser, userProfile.idUser) &&
-                Objects.equals(this.profileName, userProfile.profileName) &&
+        return Objects.equals(this.idprofile, userProfile.idprofile) &&
+                Objects.equals(this.iduser, userProfile.iduser) &&
+                Objects.equals(this.profilename, userProfile.profilename) &&
                 Objects.equals(this.pin, userProfile.pin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProfile, idUser, profileName, pin);
+        return Objects.hash(idprofile, iduser, profilename, pin);
     }
 
     @Override
@@ -156,9 +156,9 @@ public class UserProfile {
         StringBuilder sb = new StringBuilder();
         sb.append("class UserProfile {\n");
 
-        sb.append("    idProfile: ").append(toIndentedString(idProfile)).append("\n");
-        sb.append("    idUser: ").append(toIndentedString(idUser)).append("\n");
-        sb.append("    profileName: ").append(toIndentedString(profileName)).append("\n");
+        sb.append("    idprofile: ").append(toIndentedString(idprofile)).append("\n");
+        sb.append("    iduser: ").append(toIndentedString(iduser)).append("\n");
+        sb.append("    profilename: ").append(toIndentedString(profilename)).append("\n");
         sb.append("    pin: ").append(toIndentedString(pin)).append("\n");
         sb.append("}");
         return sb.toString();

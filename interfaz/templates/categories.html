@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Categorías</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de categorías</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Obtener todas las categorías -->
+<div>
+    <h2>Obtener todas las categorías</h2>
+    <form action="/categories/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Añadir categoría -->
+<div>
+    <h2>Añadir categoría</h2>
+    <form action="/categories/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>Nombre*: <input name="name" required type="text"></label><br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<!-- Obtener categoría por ID -->
+<div>
+    <h2>Obtener categoría por ID</h2>
+    <form action="/categories" method="GET" onsubmit="event.preventDefault(); getCategoryById();">
+        <label>ID*: <input id="id_category" name="id_category" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Obtener categoría por nombre -->
+<div>
+    <h2>Obtener categoría por nombre</h2>
+    <form action="/categories/name" method="GET">
+        <label>Nombre*: <input name="name" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener contenidos de una categoría</h2>
+    <form action="/categories" method="GET" onsubmit="event.preventDefault(); getContentsByCategory();">
+        <label>ID*: <input id="id_category_content" name="id_category" required type="text"></label><br>
+        <button type="submit">Buscar contenidos</button>
+    </form>
+</div>
+
+<script>
+    function getCategoryById() {
+        const idCategory = document.getElementById('id_category').value;
+        if (idCategory) {
+            window.location.href = `/categories/${idCategory}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function getContentsByCategory() {
+        const idCategory = document.getElementById('id_category_content').value;
+        if (idCategory) {
+            window.location.href = `/categories/${idCategory}/content`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+</script>
+
+
+</body>
+</html>

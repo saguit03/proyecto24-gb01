@@ -14,50 +14,50 @@ public class UserProfileEntity {
 
     @Id
     @GeneratedValue
-    private Long idProfile;
+    private Long idprofile;
 
-    @Column(name = "idUser", nullable = false)
-    private Long idUser;
+    @Column(name = "iduser", nullable = false)
+    private Long iduser;
 
-    @Column(name = "profileName", nullable = false)
-    private String profileName;
+    @Column(name = "profilename", nullable = false)
+    private String profilename;
 
     @Column(name = "pin", nullable = false)
     private String pin;
 
     public UserProfileEntity() {
-        this.profileName = "";
+        this.profilename = "";
         this.pin = "";
     }
 
-    public UserProfileEntity(Long idUser, String profileName, String pin) {
-        this.idUser = idUser;
-        this.profileName = profileName;
+    public UserProfileEntity(Long iduser, String profilename, String pin) {
+        this.iduser = iduser;
+        this.profilename = profilename;
         this.pin = pin;
     }
 
-    public Long getIdProfile() {
-        return idProfile;
+    public Long getidprofile() {
+        return idprofile;
     }
 
-    public void setIdProfile(Long idProfile) {
-        this.idProfile = idProfile;
+    public void setidprofile(Long idprofile) {
+        this.idprofile = idprofile;
     }
 
-    public Long getidUser() {
-        return idUser;
+    public Long getiduser() {
+        return iduser;
     }
 
-    public void setidUser(Long idUser) {
-        this.idUser = idUser;
+    public void setiduser(Long iduser) {
+        this.iduser = iduser;
     }
 
-    public String getProfileName() {
-        return profileName;
+    public String getprofilename() {
+        return profilename;
     }
 
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
+    public void setprofilename(String profilename) {
+        this.profilename = profilename;
     }
 
     public String getPin() {
@@ -73,23 +73,23 @@ public class UserProfileEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserProfileEntity that = (UserProfileEntity) o;
-        return Objects.equals(idProfile, that.idProfile) &&
-                Objects.equals(idUser, that.idUser) &&
-                Objects.equals(profileName, that.profileName) &&
+        return Objects.equals(idprofile, that.idprofile) &&
+                Objects.equals(iduser, that.iduser) &&
+                Objects.equals(profilename, that.profilename) &&
                 Objects.equals(pin, that.pin);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProfile, idUser, profileName, pin);
+        return Objects.hash(idprofile, iduser, profilename, pin);
     }
 
     @Override
     public String toString() {
         return "UserProfileEntity{" +
-                "idProfile=" + idProfile +
-                ", idUser=" + idUser +
-                ", profileName='" + profileName + '\'' +
+                "idprofile=" + idprofile +
+                ", iduser=" + iduser +
+                ", profilename='" + profilename + '\'' +
                 ", pin='" + pin + '\'' +
                 '}';
     }

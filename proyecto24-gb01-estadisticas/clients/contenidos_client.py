@@ -1,8 +1,8 @@
 import requests
-
+import os
 
 class ContenidosClient:
-    BASE_URL = "http://127.0.0.1:8082"
+    BASE_URL = os.getenv('CONTENIDOS_URL')
 
     @staticmethod
     def get_movie(id_movie):

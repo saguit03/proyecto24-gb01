@@ -8,8 +8,8 @@ import es.unex.asee.gb01.contents.dto.CategoryDTO;
 import es.unex.asee.gb01.contents.dto.MovieDTO;
 import es.unex.asee.gb01.contents.dto.SeasonDTO;
 import es.unex.asee.gb01.contents.dto.SeriesDTO;
-
-import java.util.List;
+import es.unex.asee.gb01.contents.dto.ContentDTO;
+import es.unex.asee.gb01.contents.dto.ContentType;
 
 @Service
 public class ContentService {
@@ -19,20 +19,35 @@ public class ContentService {
     public ContentService(ContentsClient contentsClient) {
         this.contentsClient = contentsClient;
     }
+    
+    public ContentDTO getContentById(int idContent, int contentType) {
+        switch (contentType) {
+            case 1:
+                return getMovie(idContent);
+            case 2:
+                return getSeason(idContent);
+            case 3:
+                return getSeries(idContent);
+            case 4:
+                return getCategory(idContent);
+            default:
+                return new ContentDTO("Not found", ContentType.MOVIE);
+        }
+    }
 
-    public List<MovieDTO> getMovie(int movieId) {
+    public MovieDTO getMovie(int movieId) {
         return contentsClient.getMovie(movieId);
     }
 
-    public List<CategoryDTO> getCategory(int categoryId) {
+    public CategoryDTO getCategory(int categoryId) {
         return contentsClient.getCategory(categoryId);
     }
 
-    public List<SeriesDTO> getSeries(int seriesId) {
+    public SeriesDTO getSeries(int seriesId) {
         return contentsClient.getSeries(seriesId);
     }
 
-    public List<SeasonDTO> getSeason(int seasonId) {
+    public SeasonDTO getSeason(int seasonId) {
         return contentsClient.getSeason(seasonId);
     }
 }

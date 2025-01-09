@@ -4,6 +4,7 @@ from pymongo.collection import Collection
 from database import get_next_sequence_value as get_next_sequence_value
 from models.season import Season
 from controllers.ok_ctrl import OkCtrl
+from clients.view_client import ViewClient
 
 
 class SeasonCtrl:
@@ -29,8 +30,15 @@ class SeasonCtrl:
         total_chapters = 0
 
         if id_season:
-            season = Season(id_season, int(id_series), title, int(season_number),
-                            total_chapters, None, None, None, None)
+            season = Season(id_season=id_season,
+                            id_series=int(id_series), 
+                            title=title, 
+                            season_number=int(season_number),
+                            total_chapters=total_chapters,
+                            chapters=[],
+                            characters=[],
+                            participants=[],
+                            trailer=None)
 
             db.insert_one(season.to_db_collection())
             return OkCtrl.added('Season')
@@ -74,8 +82,6 @@ class SeasonCtrl:
 
             filter_dict = {'id_season': id_season}
 
-            total_chapters = len([chapter for chapter in chapterList if chapter != ""])
-
             update_fields = {}
 
             if id_series:
@@ -84,8 +90,6 @@ class SeasonCtrl:
                 update_fields['title'] = title
             if season_number:
                 update_fields['season_number'] = int(season_number)
-            if total_chapters:
-                update_fields['total_chapters'] = int(total_chapters)
 
             change = {'$set': update_fields}
 
@@ -100,7 +104,7 @@ class SeasonCtrl:
         if id_season:
             id_season = int(id_season)
             matching_season = db.find({'id_season': id_season})
-            seasonFound = [
+            season_found = [
                 {
                     'id_season': season.get('id_season'),
                     'id_series': season.get('id_series'),
@@ -114,8 +118,9 @@ class SeasonCtrl:
                 }
                 for season in matching_season
             ]
-            if seasonFound.__len__()>0:
-                return jsonify(seasonFound), 200
+            if season_found.__len__()>0:
+                ViewClient.add_view_to_content(id_content=id_season, content_type=3)
+                return jsonify(season_found), 200
             else:
                 return jsonify({'error': 'Season not found', 'status': SeasonCtrl.not_found}), 404
         return jsonify({'error': SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
@@ -123,123 +128,133 @@ class SeasonCtrl:
     # --------------------------------------
 
     @staticmethod
-    def get_season_chapters(season_collection: Collection, chapter_collection: Collection):
-        id_season = int(request.args.get('id_season'))
+    def get_season_chapters(season_collection: Collection, chapter_collection: Collection, id_season: int):
 
-        if id_season:
-            matching_season = season_collection.find({'id_season': id_season})
+        if not id_season:
+            return jsonify({'error': SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
 
-            if matching_season:
-                result_list = []
+        matching_season = season_collection.find({'id_season': id_season})
 
-                for season in matching_season:
-                    chapterList = season.get('chapters', [])
-                    print(chapterList)
+        if not matching_season:
+            return jsonify({'error': SeasonCtrl.season_not_found_msg, 'status': SeasonCtrl.not_found}), 404
 
-                    for id_chapter in chapterList:
-                        if isinstance(id_chapter, (str, int)):
-                            id_chapterStr = str(id_chapter).strip()
-                            if id_chapterStr.isdigit():
-                                matching_character = chapter_collection.find({'id_chapter': int(id_chapterStr)})
+        result_list = []
+        for season in matching_season:
+            chapter_list = season.get('chapters', [])
+            print(chapter_list)
+            result_list.extend(SeasonCtrl.get_chapters(chapter_list, chapter_collection))
 
-                                for character in matching_character:
-                                    result_list.append({
-                                        'id_chapter': character.get('id_chapter'),
-                                        'title': character.get('title'),
-                                        'url_video': character.get('url_video'),
-                                        'duration': character.get('duration'),
-                                        'chapter_number': character.get('chapter_number')
-                                    })
-                            else:
-                                print(f"id_chapter inválido encontrado: {id_chapter}")
-                        else:
-                            print(f"id_chapter no es del tipo esperado: {id_chapter}")
+        return jsonify(result_list), 200
 
-                return jsonify(result_list), 200
-
+    @staticmethod
+    def get_chapters(chapter_list, chapter_collection):
+        result_list = []
+        for id_chapter in chapter_list:
+            if isinstance(id_chapter, (str, int)):
+                id_chapter_str = str(id_chapter).strip()
+                if id_chapter_str.isdigit():
+                    matching_character = chapter_collection.find({'id_chapter': int(id_chapter_str)})
+                    result_list.extend(SeasonCtrl.get_character_details(matching_character))
+                else:
+                    print(f"id_chapter inválido encontrado: {id_chapter}")
             else:
-                return jsonify({'error': SeasonCtrl.season_not_found_msg, 'status': SeasonCtrl.not_found}), 404
+                print(f"id_chapter no es del tipo esperado: {id_chapter}")
+        return result_list
 
-        else:
-            return jsonify({'error':SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
+    @staticmethod
+    def get_character_details(matching_character):
+        result_list = []
+        for character in matching_character:
+            result_list.append({
+                'id_chapter': character.get('id_chapter'),
+                'title': character.get('title'),
+                'url_video': character.get('url_video'),
+                'duration': character.get('duration'),
+                'chapter_number': character.get('chapter_number')
+            })
+        return result_list
 
     # --------------------------------------
 
     @staticmethod
-    def get_season_characters(season_collection: Collection, character_collection: Collection):
-        id_season = int(request.args.get('id_season'))
+    def get_season_characters(season_collection: Collection, character_collection: Collection, id_season: int):
 
-        if id_season:
-            matching_season = season_collection.find({'id_season': id_season})
+        if not id_season:
+            return jsonify({'error': SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
 
-            if matching_season:
-                characters_list = []
+        matching_season = season_collection.find({'id_season': id_season})
 
-                for season in matching_season:
-                    characterIds = season.get('character', [])
+        if not matching_season:
+            return jsonify({'error': SeasonCtrl.season_not_found_msg, 'status': SeasonCtrl.not_found}), 404
 
-                    for id_character in characterIds:
+        characters_list = SeasonCtrl.extract_characters(matching_season, character_collection)
+        return jsonify(characters_list), 200
 
-                        if id_character and id_character.strip().isdigit():
-                            matching_character = character_collection.find({'id_character': int(id_character)})
+    @staticmethod
+    def extract_characters(matching_season, character_collection):
+        characters_list = []
+        for season in matching_season:
+            character_ids = season.get('character', [])
+            characters_list.extend(SeasonCtrl.get_character_details_by_ids(character_ids, character_collection))
+        return characters_list
 
-                            for character in matching_character:
-                                characters_list.append({
-                                    'id_character': character.get('id_character'),
-                                    'name': character.get('name'),
-                                    'participant': character.get('participant'),
-                                    'age': character.get('age')
-                                })
-
-                        else:
-                            print(f"id_character inválido encontrado: {id_character}")
-
-                return jsonify(characters_list), 200
-
+    @staticmethod
+    def get_character_details_by_ids(character_ids, character_collection):
+        characters_list = []
+        for id_character in character_ids:
+            if id_character and id_character.strip().isdigit():
+                matching_character = character_collection.find({'id_character': int(id_character)})
+                characters_list.extend(SeasonCtrl.get_character_details(matching_character))
             else:
-                return jsonify({'error': SeasonCtrl.season_not_found_msg, 'status': SeasonCtrl.not_found}), 404
-
-        else:
-            return jsonify({'error':SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
+                print(f"id_character inválido encontrado: {id_character}")
+        return characters_list
 
     # --------------------------------------
 
     @staticmethod
-    def get_season_participants(season_collection: Collection, participant_collection: Collection):
-        id_season = int(request.args.get('id_season'))
+    def get_season_participants(season_collection: Collection, participant_collection: Collection, id_season: int):
 
-        if id_season:
-            matching_season = season_collection.find({'id_season': id_season})
+        if not id_season:
+            return jsonify({'error': SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
 
-            if matching_season:
-                participants_list = []
+        matching_season = season_collection.find({'id_season': id_season})
 
-                for season in matching_season:
-                    participantIds = season.get('participant', [])
+        if not matching_season:
+            return jsonify({'error': SeasonCtrl.season_not_found_msg, 'status': SeasonCtrl.not_found}), 404
 
-                    for id_participant in participantIds:
+        participants_list = SeasonCtrl.extract_participants(matching_season, participant_collection)
+        return jsonify(participants_list), 200
 
-                        if id_participant and id_participant.strip().isdigit():
-                            matching_participant = participant_collection.find({'id_participant': int(id_participant)})
+    @staticmethod
+    def extract_participants(matching_season, participant_collection):
+        participants_list = []
+        for season in matching_season:
+            participant_ids = season.get('participant', [])
+            participants_list.extend(SeasonCtrl.get_participant_details_by_ids(participant_ids, participant_collection))
+        return participants_list
 
-                            for participant in matching_participant:
-                                participants_list.append({
-                                    'id_participant': participant.get('id_participant'),
-                                    'name': participant.get('name'),
-                                    'surname': participant.get('surname'),
-                                    'age': participant.get('age')
-                                })
-
-                        else:
-                            print(f"id_participant inválido encontrado: {id_participant}")
-
-                return jsonify(participants_list), 200
-
+    @staticmethod
+    def get_participant_details_by_ids(participant_ids, participant_collection):
+        participants_list = []
+        for id_participant in participant_ids:
+            if id_participant and id_participant.strip().isdigit():
+                matching_participant = participant_collection.find({'id_participant': int(id_participant)})
+                participants_list.extend(SeasonCtrl.get_participant_details(matching_participant))
             else:
-                return jsonify({'error': SeasonCtrl.season_not_found_msg, 'status': SeasonCtrl.not_found}), 404
+                print(f"id_participant inválido encontrado: {id_participant}")
+        return participants_list
 
-        else:
-            return jsonify({'error':SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
+    @staticmethod
+    def get_participant_details(matching_participant):
+        participants_list = []
+        for participant in matching_participant:
+            participants_list.append({
+                'id_participant': participant.get('id_participant'),
+                'name': participant.get('name'),
+                'surname': participant.get('surname'),
+                'age': participant.get('age')
+            })
+        return participants_list
 
     @staticmethod
     def put_trailer_into_season(seasons: Collection, trailers: Collection, id_season: int):
@@ -284,7 +299,10 @@ class SeasonCtrl:
         if id_category:
             id_category = int(id_category)
             filter_dict = {'id_season': int(id_season)}
-            change = {'$pull': {'categories': id_category}}
+            season = seasons.find_one(filter_dict)
+            if season and id_category in season.get('categories', []):  
+                change = {'$pull': {'categories': id_category}} 
+
             return SeasonCtrl.update_season(seasons, filter_dict, change)
         else:
             return jsonify({'error': SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
@@ -330,6 +348,32 @@ class SeasonCtrl:
         if id_series and id_season:
             filter_dict = {'id_season': int(id_season)}
             change = {'$set': {'id_series': int(id_series)}}
-            return SeasonCtrl.update_season_series(db, filter_dict, change)
+            return SeasonCtrl.update_season(db, filter_dict, change)
         else:
             return jsonify({'error': SeasonCtrl.err_msg, 'status': SeasonCtrl.bad_request}), 400
+
+
+   
+    @staticmethod
+    def get_all_seasons(db: Collection):
+        all_seasons = db.find()
+
+        if db.count_documents({}) > 0:
+            seasons_list = [
+                {
+                    'id_season': season.get('id_season'),
+                    'id_series': season.get('id_series'),
+                    'title': season.get('title'),
+                    'season_number': season.get('season_number'),
+                    'total_seasons': season.get('total_seasons'),
+                    'seasons': season.get('seasons'),
+                    'characters': season.get('characters'),
+                    'participants': season.get('participants'),
+                    'trailer': season.get('trailer')
+                }
+                for season in all_seasons
+            ]
+            if seasons_list.__len__()>0:
+               return jsonify(seasons_list), 200
+        return jsonify({'error': SeasonCtrl.listseasons_not_found_msg, 'status': SeasonCtrl.not_found}), 404
+        

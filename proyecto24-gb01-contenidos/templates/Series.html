@@ -6,27 +6,27 @@
     <title>Series</title>
 </head>
 <body>
-<div class="container">
-    <h1 class="text-center mt-5 mb-5"> Gestión de series </h1>
+<div>
+    <h1> Gestión de series </h1>
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
-<div class="container">
-    <div class="row row-col-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
-        <div class="col-md-6 mb-3">
-            <div class="card-header">
-                <h3 class="text-center">Añadir serie</h3>
+<div>
+    <div>
+        <div>
+            <div>
+                <h3>Añadir series</h3>
             </div>
 
-            <div class="card-body">
+            <div>
                 <form action="/series" method="POST">
 
                     <p>Nota: Los parámetros con * son obligatorios</p>
 
                     <span>Título*</span>
-                    <input type="text" class="form-control mb-3" name="title" required>
+                    <input type="text" name="title" required>
                     <br></br>
                     <span>Duración (en minutos)*</span>
-                    <input type="number" min=0 class="form-control mb-3" name="duration" required>
+                    <input type="number" min=0 name="duration" required>
 
                     <p>Disponible con suscripción</p>
                     <input type="radio" id="yes" name="is_subscription" value="True">
@@ -35,72 +35,72 @@
                     <label for="no">No</label><br>
 
                     <span>URL de la portada de la película</span>
-                    <input type="url" class="form-control mb-3" name="url_title_page">
+                    <input type="url" name="url_title_page">
                     <br></br>
 
                     <span>Fecha de estreno</span>
-                    <input type="date" class="form-control mb-3" name="release_date">
+                    <input type="date" name="release_date">
                     <br></br>
 
                     <span>Sinopsis de la película</span>
-                    <input type="text" class="form-control mb-3" name="synopsis">
+                    <input type="text" name="synopsis">
                     <br></br>
 
                     <span>Descripción de la película</span>
-                    <input type="text" class="form-control mb-3" name="description">
+                    <input type="text" name="description">
                     <br></br>
 
-                    <button class="btn btn-primary" type="submit"> Añadir</button>
+                    <button type="submit"> Añadir</button>
                 </form>
             </div>
 
-            <div class="card-body">
-                <h3 class="text-center">Obtener todas las series</h3>
+            <div>
+                <h3>Obtener todas las series</h3>
                 <form action="/series/all" method="GET">
-                    <button class="btn btn-primary" type="submit"> Buscar</button>
+                    <button type="submit"> Buscar</button>
                 </form>
             </div>
 
-            <div class="card-body">
-                <h3 class="text-center">Obtener series por título</h3>
+            <div>
+                <h3>Obtener series por título</h3>
                 <form action="/series/title" method="GET">
                     <span>Título</span>
-                    <input type="text" class="form-control mb-3" name="title" required placeholder="Stranger Things">
-                    <button class="btn btn-primary" type="submit"> Buscar</button>
+                    <input type="text" name="title" required placeholder="Stranger Things">
+                    <button type="submit"> Buscar</button>
                 </form>
             </div>
 
-            <div class="card">
-                <h3 class="text-center">Obtener capítulos de serie</h3>
-                <div class="card-body">
+            <div>
+                <h3>Obtener capítulos de series</h3>
+                <div>
                     <form action="/series/chapters" method="GET">
                         <span>ID</span>
-                        <input type="text" class="form-control mb-3" min=1 name="id_series" required
+                        <input type="text" min=1 name="id_series" required
                                placeholder="id_series 1">
-                        <button class="btn btn-primary" type="submit">Buscar</button>
+                        <button type="submit">Buscar</button>
                     </form>
                 </div>
             </div>
-            <div class="card">
-                <h3 class="text-center">Obtener personajes de una serie</h3>
-                <div class="card-body">
+            <div>
+                <h3>Obtener personajes de una series</h3>
+                <div>
                     <form action="/series/characters" method="GET">
                         <span>ID</span>
-                        <input type="text" class="form-control mb-3" name="id_series" min="1" placeholder="id_series 1"
+                        <input type="text" name="id_series" min="1" placeholder="id_series 1"
                                required>
-                        <button class="btn btn-primary" type="submit">Buscar</button>
+                        <button type="submit">Buscar</button>
                     </form>
                 </div>
             </div>
 
-            <div class="card">
-                <h3 class="text-center">Obtener participantes de una serie</h3>
-                <div class="card-body">
+            <div>
+                <h3>Obtener participantes de una series</h3>
+                <div>
                     <form action="/series/participants" method="GET">
                         <span>ID</span>
-                        <input type="text" class="form-control mb-3" name="id_series" min="1" placeholder="id_series 1"
+                        <input type="text" name="id_series" min="1" placeholder="id_series 1"
                                required>
-                        <button class="btn btn-primary" type="submit">Buscar</button>
+                        <button type="submit">Buscar</button>
                     </form>
                 </div>
             </div>

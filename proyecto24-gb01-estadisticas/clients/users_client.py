@@ -1,18 +1,19 @@
 import requests
+import os
 
 
 class UserClient:
-    BASE_URL = "http://127.0.0.1:8081/Medifli"
+    BASE_URL = os.getenv('USUARIOS_URL')
 
     @staticmethod
-    def get_user(id_user):
-        url = f'{UserClient.BASE_URL}/users/{id_user} -H "Accept: application/json"'
+    def get_user(iduser):
+        url = f'{UserClient.BASE_URL}/users/{iduser} -H "Accept: application/json"'
         response = requests.get(url)
         return UserClient.handle_response(response)
 
     @staticmethod
-    def get_profile(id_profile):
-        url = f'{UserClient.BASE_URL}/profiles/{id_profile} -H "Accept: application/json"'
+    def get_profile(idprofile):
+        url = f'{UserClient.BASE_URL}/profiles/{idprofile} -H "Accept: application/json"'
         response = requests.get(url)
         return UserClient.handle_response(response)
 

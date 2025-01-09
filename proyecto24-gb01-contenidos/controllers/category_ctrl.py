@@ -69,10 +69,7 @@ class CategoryCtrl:
     # ---------------------------------------------------------
 
     @staticmethod
-    def get_content_by_category(category_collection: Collection, movie_collection: Collection, series_collection: Collection):
-        id_category = int(request.args.get('id_category'))
-        print(id_category)
-
+    def get_content_by_category(id_category: int, category_collection: Collection, movie_collection: Collection, series_collection: Collection):
         if id_category:
             matching_category = category_collection.find({'id_category': id_category})
             print(matching_category)
@@ -102,9 +99,9 @@ class CategoryCtrl:
                     })
 
                 content_list.append({'Content': 'Series'})
-                matching_serie = series_collection.find({'category': {'$in': [str(id_category)]}})
+                matching_series = series_collection.find({'category': {'$in': [str(id_category)]}})
 
-                for series in matching_serie:
+                for series in matching_series:
                     content_list.append({
                         'id_series': series.get('id_series'),
                         'title': series.get('title'),

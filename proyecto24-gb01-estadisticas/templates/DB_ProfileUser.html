@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-<div class="container">
-    <h1 class="text-center mt-5 mb-5"> MedifliStats - ProfileUsers</h1>
+<div>
+    <h1> MedifliStats - ProfileUsers</h1>
 </div>
-<div class="container">
-    <div class="row row-col-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-2">
-        <div class="col-md-6 mb-3">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="text-center">Insertar ProfileUser</h5>
+<div>
+    <div>
+        <div>
+            <div>
+                <div>
+                    <h5>Insertar ProfileUser</h5>
                 </div>
-                <div class="card-body">
+                <div>
                     <form action="/profiles" method="POST">
                         <label>Nombre del Profile
-                            <input type="text" class="form-control mb-3" name="name" required>
+                            <input type="text" name="name" required>
                             <br><br>
                         </label>
                         <label>PIN del Profile
-                            <input type="number" class="form-control mb-3" name="pin" required>
+                            <input type="number" name="pin" required>
                             <br><br>
                         </label>
                         <label>¿A qué usuario se asocia este perfil?
-                            <input type="number" class="form-control mb-3" name="id_user" required>
+                            <input type="number" name="iduser" required>
                             <br><br>
                         </label>
                         <label>¿Qué idioma quieres usar?
-                            <input type="number" class="form-control mb-3" name="id_language" required>
+                            <input type="number" name="id_language" required>
                             <br><br>
                         </label>
-                        <button class="btn btn-primary" type="submit"> Añadir</button>
+                        <button type="submit"> Añadir</button>
                     </form>
                 </div>
             </div>

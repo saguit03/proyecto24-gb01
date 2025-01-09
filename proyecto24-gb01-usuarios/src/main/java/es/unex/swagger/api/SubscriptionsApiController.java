@@ -26,8 +26,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-10-18T10:29:32.211856553Z[GMT]")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class SubscriptionsApiController implements SubscriptionsApi {
 
@@ -53,12 +55,12 @@ public class SubscriptionsApiController implements SubscriptionsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> deleteSubscriptionByIdSubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idSubscription") Long idSubscription
+    public ResponseEntity<Void> deleteSubscriptionByidsubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idsubscription") Long idsubscription
             ,
                                                                    @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "User", required = false) String sessionUserCookie) {
         String accept = request.getHeader("Accept");
 
-        subscriptionRepository.deleteById(idSubscription);
+        subscriptionRepository.deleteById(idsubscription);
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
 
@@ -66,7 +68,7 @@ public class SubscriptionsApiController implements SubscriptionsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<Subscription>>(objectMapper.readValue("[ {\n  \"idSubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"idUser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}, {\n  \"idSubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"idUser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<Subscription>>(objectMapper.readValue("[ {\n  \"idsubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"iduser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}, {\n  \"idsubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"iduser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Subscription>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -83,9 +85,9 @@ public class SubscriptionsApiController implements SubscriptionsApi {
         if (accept != null && accept.contains("application/json")) {
             try {
                 UserEntity user = userRepository.findByEmail(sessionUserCookie);
-                UserEntity userSubs = userRepository.findById(body.getIdSubscription()).orElse(null);
+                UserEntity userSubs = userRepository.findById(body.getidsubscription()).orElse(null);
                 SubscriptionEntity subscription = SubscriptionMapper.toEntity(body);
-                if (subscription.getidUser() != user.getIdUser()) {
+                if (subscription.getiduser() != user.getiduser()) {
                     return new ResponseEntity<Subscription>(HttpStatus.BAD_REQUEST);
                 }
                 if (userSubs == null) {
@@ -102,14 +104,14 @@ public class SubscriptionsApiController implements SubscriptionsApi {
         return new ResponseEntity<Subscription>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Subscription> updateSubscriptionByIdSubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idSubscription") Integer idSubscription
+    public ResponseEntity<Subscription> updateSubscriptionByidsubscription(@Parameter(in = ParameterIn.PATH, description = "Id de la suscripción.", required = false, schema = @Schema()) @PathVariable("idsubscription") Integer idsubscription
             ,
                                                                            @Parameter(in = ParameterIn.COOKIE, description = "", required = false, schema = @Schema()) @CookieValue(value = "SessionUserCookie", required = false) User sessionUserCookie, @Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody Subscription body
     ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Subscription>(objectMapper.readValue("{\n  \"idSubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"idUser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}", Subscription.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Subscription>(objectMapper.readValue("{\n  \"idsubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"iduser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}", Subscription.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Subscription>(HttpStatus.INTERNAL_SERVER_ERROR);

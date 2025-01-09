@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="reviewport">
+    <title>Gestión de Valoraciones</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de valoraciones</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Obtener todas las valoraciones -->
+<div>
+    <h2>Obtener todas las valoraciones</h2>
+    <form action="/reviews/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Añadir valoración -->
+<div>
+    <h2>Añadir valoración</h2>
+    <form action="/reviews/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>ID Perfil*:
+            <input name="idprofile" required type="number">
+            <br><br>
+        </label>
+        <label>ID Contenido*:
+            <input name="id_content" required type="number">
+            <br><br>
+        </label>
+        <label>Tipo de contenido:
+            <select name="content_type">
+                {% for name, value in content_types %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </label>
+        <label>Puntuación:*
+            <input name="rating" required type="number">
+        </label>
+        <br><br>
+        <label>Comentario:
+            <input name="commentary" type="text">
+        </label>
+        <br><br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<!-- Modificar valoración -->
+<div>
+    <h2>Modificar valoración</h2>
+    <form action="/reviews/update" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>ID REVIEW*: <input name="id_review" required type="text"></label><br>
+        <label>ID Perfil:
+            <input name="idprofile" type="number">
+            <br><br>
+        </label>
+        <label>ID Contenido:
+            <input name="id_content" type="number">
+            <br><br>
+        </label>
+        <label>Tipo de contenido:
+            <select name="content_type">
+                {% for name, value in content_types %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </label>
+        <label>Puntuación:*
+            <input name="rating" required type="number">
+        </label>
+        <br><br>
+        <label>Comentario:
+            <input name="commentary" type="text">
+        </label>
+        <br><br>
+        <button type="submit">Modificar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar valoración</h2>
+    <form action="/reviews/delete" method="POST">
+        <label>ID*: <input name="id_review" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<!-- Obtener valoración por ID -->
+<div>
+    <h2>Obtener valoración por ID</h2>
+    <form action="/reviews" method="GET" onsubmit="event.preventDefault(); getReviewById();">
+        <label>ID*: <input id="id_review" name="id_review" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+
+<div>
+    <h2>Buscar valoraciones con comentarios</h2>
+    <form action="/reviews/comments" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Buscar valoraciones sin comentarios</h2>
+    <form action="/reviews/nocomments" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener valoración por contenido</h2>
+    <form action="/reviews/contents" method="GET">
+        <label>ID Contenido*: <input name="id_content" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener valoración por perfil</h2>
+    <form action="/reviews/profiles" method="GET">
+        <label>ID Perfil*: <input name="idprofile" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<script>
+    function getReviewById() {
+        const idReview = document.getElementById('id_review').value;
+        if (idReview) {
+            window.location.href = `/reviews/${idReview}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

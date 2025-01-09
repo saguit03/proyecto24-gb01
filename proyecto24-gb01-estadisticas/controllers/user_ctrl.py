@@ -14,13 +14,13 @@ class UserCtrl:
 
     @staticmethod
     def add_user(db: Collection):
-        id_user = get_next_sequence_value(db, "id_user")
+        iduser = get_next_sequence_value(db, "iduser")
         username = request.form['username']
         email = request.form['email']
 
-        if id_user:
-            id_user = int(id_user)
-            user = User(id_user, username, email)
+        if iduser:
+            iduser = int(iduser)
+            user = User(iduser, username, email)
 
             db.insert_one(user.to_db_collection())
             return OkCtrl.added('User')
@@ -28,10 +28,10 @@ class UserCtrl:
             ErrorCtrl.error_404('User')
 
     @staticmethod
-    def delete_user(db: Collection, id_user: int):
-        if id_user:
-            id_user = int(id_user)
-            result = db.delete_one({'id_user': id_user})
+    def delete_user(db: Collection, iduser: int):
+        if iduser:
+            iduser = int(iduser)
+            result = db.delete_one({'iduser': iduser})
             if result.deleted_count == 1:
                 return OkCtrl.deleted('User')
             else:
@@ -41,10 +41,10 @@ class UserCtrl:
 
     @staticmethod
     def delete_user_param(db: Collection):
-        id_user = int(request.args.get('id_user'))
-        return UserCtrl.delete_user(db, id_user)
+        iduser = int(request.args.get('iduser'))
+        return UserCtrl.delete_user(db, iduser)
 
     @staticmethod
     def delete_user_form(db: Collection):
-        id_user = int(request.form.get('id_user'))
-        return UserCtrl.delete_user(db, id_user)
+        iduser = int(request.form.get('iduser'))
+        return UserCtrl.delete_user(db, iduser)
