@@ -1,12 +1,14 @@
 
 export const constantesComunes = {
     // Aquí van las constantes comunes
-    "URLEstadistica" : "http://localhost:8083/",
+    "URL_Usuarios" : "http://usuarios:8081/Medifli/",
 
-    "URL_Usuarios" : "http://localhost:8081/Medifli/",
+    "URLContenido" : "http://contenidos:8082/",
+    
+    "URLEstadistica" : "http://estadisticas:8083/",
+
     
 
-    "URLContenido" : "http://localhost:8082/",
     "contentType": {
 
     }

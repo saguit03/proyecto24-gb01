@@ -24,7 +24,8 @@ import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-10-18T10:29:32.211856553Z[GMT]")
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+
+@CrossOrigin(origins = "${INTERFAZ_URL:http://localhost:3000}")
 public class ProfilesApiController implements ProfilesApi {
 
     private static final Logger log = LoggerFactory.getLogger(ProfilesApiController.class);
