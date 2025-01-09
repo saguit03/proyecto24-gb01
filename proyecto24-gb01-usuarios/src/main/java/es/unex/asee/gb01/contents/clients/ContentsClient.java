@@ -11,7 +11,7 @@ import es.unex.asee.gb01.contents.dto.SeriesDTO;
 
 import java.util.List;
 
-@FeignClient(name = "contenidos-client", url = "http://localhost:8082")
+@FeignClient(name = "contenidos-client", url = "${ESTADISTICAS_URL:http://localhost:8082}")
 public interface ContentsClient {
 
     @GetMapping("/movies/{idMovie}")

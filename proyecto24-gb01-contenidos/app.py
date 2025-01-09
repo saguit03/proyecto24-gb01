@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_cors import CORS
+import os
 
 import database as dbase
 from controllers.category_ctrl import CategoryCtrl
@@ -16,7 +17,7 @@ db = dbase.conexion_mongodb()
 app = Flask(__name__)
 
 # CORS(app)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})  # CORS restringido al origen React
+CORS(app, resources={r"/*": {"origins": os.getenv('INTERFAZ_URL')}})  # CORS restringido al origen React
 
 # -------------------------------------------------------------------------------------------------------
 
