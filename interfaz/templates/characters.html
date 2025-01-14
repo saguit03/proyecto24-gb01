@@ -11,12 +11,24 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las personajes -->
+<!-- Obtener ALL personajes -->
 <div>
-    <h2>Obtener todas las personajes</h2>
+    <h2>Obtener ALL personajes</h2>
     <form action="/characters/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
+    <h2> Lista de personajes </h2>
+    <ul>
+        {% for character in characters %}
+        <li>
+            <h3>{{ character.name }}</h3> 
+            ID: {{ character.id_character }},
+            Edad: {{ character.age }}
+            
+            <a href="/characters/update/{{ character.id_character }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!-- Añadir personaje -->
@@ -26,18 +38,7 @@
         <p>Nota: Los parámetros con * son obligatorios</p>
         <label>Nombre*: <input name="name" required type="text"></label><br>
         <label>Edad*: <input name="age" type="number" required></label><br>
-    </form>
-</div>
-
-<!-- Modificar personaje -->
-<div>
-    <h2>Modificar personaje</h2>
-    <form action="/characters/update" method="POST">
-        <p>Nota: Los parámetros con * son obligatorios</p>
-        <label>ID*: <input name="id_character" required type="text"></label><br>
-        <label>Nombre: <input name="name" type="text"></label><br>
-        <label>Edad: <input name="age" type="number"></label><br>
-        <button type="submit">Modificar</button>
+        <button type="submit">Añadir</button>
     </form>
 </div>
 

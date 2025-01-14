@@ -5,9 +5,20 @@ import requests
 class ReviewsClient:
     BASE_URL =  f"{os.getenv('ESTADISTICAS_URL')}reviews"
 
+        
     @staticmethod
     def add_review():
-        form_data = request.form.to_dict()
+        form_data = {
+            "id_content": request.form.get('id_content'),
+            "idprofile": request.form.get('idprofile'),
+            "rating": request.form.get('rating'),
+            "review": request.form.get('review'),
+            "date_review": request.form.get('date_review'),
+            "commentary": request.form.get('commentary'),
+            "content_type": request.form.get('content_type'),
+        }
+        
+        print(form_data)
         response = requests.post(ReviewsClient.BASE_URL, data=form_data)
         return ReviewsClient.handle_response(response)
 
@@ -58,10 +69,9 @@ class ReviewsClient:
         return ReviewsClient.handle_response(response)
     
     @staticmethod
-    def get_review_profiles():
-        params = {'idprofile': request.args.get('idprofile')}
-        url = f"{ReviewsClient.BASE_URL}/profiles"
-        response = requests.get(url, params=params)
+    def get_review_profiles(idprofile):
+        url = f"{ReviewsClient.BASE_URL}/profiles/{idprofile}"
+        response = requests.get(url)
         return ReviewsClient.handle_response(response)
     
     @staticmethod

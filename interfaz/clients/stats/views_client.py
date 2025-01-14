@@ -7,10 +7,18 @@ class ViewsClient:
 
     @staticmethod
     def add_view():
-        form_data = request.form.to_dict()
+        form_data = {
+                "id_view": request.form.get('id_view'),
+                "date_init": request.form.get('date_init'),
+                "is_finished": request.form.get('is_finished'),
+                "date_finish": request.form.get('date_finish'),
+                "idprofile": request.form.get('idprofile'),
+                "id_content": request.form.get('id_content'),
+                "content_type": request.form.get('content_type'),
+        }
         response = requests.post(ViewsClient.BASE_URL, data=form_data)
         return ViewsClient.handle_response(response)
-
+    
     @staticmethod
     def delete_view_form():
         id_view = request.form.get('id_view')

@@ -15,6 +15,18 @@ class ChapterCtrl:
     bad_request = '400 Bad Request';
 
     @staticmethod
+    def get_json(chapter):
+
+        return {
+            'id_chapter': chapter.get('id_chapter'),
+            'title': chapter.get('title'),
+            'duration': chapter.get('duration'),
+            'chapter_number': chapter.get('chapter_number'),
+            'url_video': chapter.get('url_video'),
+            'views': ViewClient.get_number_views(id_content=chapter.get('id_chapter'), content_type=6)
+            }
+
+    @staticmethod
     def render_template(db: Collection):
         chapters_received = db.find()
         return render_template('Chapter.html', chapters=chapters_received)
@@ -26,10 +38,9 @@ class ChapterCtrl:
         id_chapter = int(get_next_sequence_value(db, "id_chapter"))
         title = request.form.get('title')
         duration = request.form.get('duration')
-        url_video = request.form.get('url_video')
         chapter_number = int(request.form.get('chapter_number'))
         if id_chapter:
-            chapter = Chapter(id_chapter, title, duration, url_video, chapter_number)
+            chapter = Chapter(id_chapter=id_chapter, title=title, duration=duration, url_video=None, chapter_number=chapter_number)
             db.insert_one(chapter.to_db_collection())
             return OkCtrl.added('Chapter')
         else:
@@ -104,13 +115,7 @@ class ChapterCtrl:
             id_chapter = int(id_chapter)
             matching_chapter = db.find({'id_chapter': id_chapter})
             chapter_found = [
-                {
-                    'id_chapter': chapter.get('id_chapter'),
-                    'title': chapter.get('title'),
-                    'url_video': chapter.get('url_video'),
-                    'duration': chapter.get('duration'),
-                    'chapter_number': chapter.get('chapter_number')
-                }
+                ChapterCtrl.get_json(chapter)
                 for chapter in matching_chapter
             ]
             if chapter_found.__len__() > 0:
@@ -128,16 +133,12 @@ class ChapterCtrl:
 
         if db.count_documents({}) > 0:
             chapters_list = [
-                {
-                    'id_chapter': chapter.get('id_chapter'),
-                    'title': chapter.get('title'),
-                    'duration': chapter.get('duration'),
-                    'chapter_number': chapter.get('chapter_number'),
-                    'url_video': chapter.get('url_video')
-                }
+                ChapterCtrl.get_json(chapter)
                 for chapter in all_chapters
             ]
             if chapters_list.__len__()>0:
                return jsonify(chapters_list), 200
-        return jsonify({'error': ChapterCtrl.listchapters_not_found_msg, 'status': ChapterCtrl.not_found}), 404
+        return jsonify([]), 200
+    
+
         

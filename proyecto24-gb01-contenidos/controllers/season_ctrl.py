@@ -15,6 +15,21 @@ class SeasonCtrl:
     bad_request = '400 Bad Request';
 
     @staticmethod
+    def get_json(season):
+        return {
+                'id_season': season.get('id_season'),
+                'id_series': season.get('id_series'),
+                'title': season.get('title'),
+                'season_number': season.get('season_number'),
+                'total_chapters': season.get('total_chapters'),
+                'chapters': season.get('chapters'),
+                'characters': season.get('characters'),
+                'participants': season.get('participants'),
+                'trailer': season.get('trailer'),
+                'views': ViewClient.get_number_views(id_content=season.get('id_season'), content_type=3)
+            }
+
+    @staticmethod
     def render_template(db: Collection):
         seasons_received = db.find()
         return render_template('Season.html', seasons=seasons_received)
@@ -105,17 +120,7 @@ class SeasonCtrl:
             id_season = int(id_season)
             matching_season = db.find({'id_season': id_season})
             season_found = [
-                {
-                    'id_season': season.get('id_season'),
-                    'id_series': season.get('id_series'),
-                    'title': season.get('title'),
-                    'season_number': season.get('season_number'),
-                    'total_chapters': season.get('total_chapters'),
-                    'chapters': season.get('chapters'),
-                    'characters': season.get('characters'),
-                    'participants': season.get('participants'),
-                    'trailer': season.get('trailer')
-                }
+                SeasonCtrl.get_json(season)
                 for season in matching_season
             ]
             if season_found.__len__()>0:
@@ -360,20 +365,10 @@ class SeasonCtrl:
 
         if db.count_documents({}) > 0:
             seasons_list = [
-                {
-                    'id_season': season.get('id_season'),
-                    'id_series': season.get('id_series'),
-                    'title': season.get('title'),
-                    'season_number': season.get('season_number'),
-                    'total_seasons': season.get('total_seasons'),
-                    'seasons': season.get('seasons'),
-                    'characters': season.get('characters'),
-                    'participants': season.get('participants'),
-                    'trailer': season.get('trailer')
-                }
+                SeasonCtrl.get_json(season)
                 for season in all_seasons
             ]
             if seasons_list.__len__()>0:
                return jsonify(seasons_list), 200
-        return jsonify({'error': SeasonCtrl.listseasons_not_found_msg, 'status': SeasonCtrl.not_found}), 404
+        return jsonify([]), 200
         

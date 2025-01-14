@@ -93,6 +93,23 @@ def delete_profile(idprofile):
 def favorites():
     return render_template('favorites.html')
 
+
+@app.route('/favorites/create', methods=['GET'])
+@login_required
+def create_favorite():
+    return 
+
+@app.route('/favorites/delete', methods=['GET'])
+@login_required
+def delete_favorite():
+    return render_template('favorites.html')
+
+
+@app.route('/favorites/<int:idfavorite>', methods=['GET'])
+@login_required
+def get_favorite():
+    return render_template('favorites.html')
+
 @app.route('/users', methods=['GET'])
 def users():
     return UsersClient.get_all_users()
@@ -235,7 +252,11 @@ def get_view_profiles():
 
 @app.route('/movies', methods=['GET'])
 def movies():
-    return render_template('movies.html')
+    return MoviesClient.render_movies()
+
+@app.route('/movies/update/<int:id_movie>', methods=['GET'])
+def render_update_movie(id_movie):
+    return MoviesClient.render_update_movie(id_movie)
 
 @app.route('/movies/all', methods=['GET'])
 def all_movies():
@@ -291,7 +312,11 @@ def delete_trailer_from_movie(id_movie):
 
 @app.route('/series', methods=['GET'])
 def series():
-    return render_template('series.html')
+    return SeriesClient.render_series()
+
+@app.route('/series/update/<int:id_series>', methods=['GET'])
+def render_update_series(id_series):
+    return SeriesClient.render_update_series(id_series)
 
 @app.route('/series/all', methods=['GET'])
 def all_series():
@@ -347,7 +372,11 @@ def delete_trailer_from_series(id_series):
 
 @app.route('/seasons', methods=['GET'])
 def seasons():
-    return render_template('seasons.html')
+    return SeasonsClient.render_seasons()
+
+@app.route('/seasons/update/<int:id_season>', methods=['GET'])
+def render_update_season(id_season):
+    return SeasonsClient.render_update_season(id_season)
 
 @app.route('/seasons/all', methods=['GET'])
 def all_seasons():
@@ -415,7 +444,11 @@ def delete_trailer_from_seasons(id_season):
 
 @app.route('/chapters', methods=['GET'])
 def chapters():
-    return render_template('chapters.html')
+    return ChaptersClient.render_chapters()
+
+@app.route('/chapters/update/<int:id_chapter>', methods=['GET'])
+def render_update_chapter(id_chapter):
+    return ChaptersClient.render_update_chapter(id_chapter)
 
 @app.route('/chapters/all', methods=['GET'])
 def all_chapters():
@@ -447,7 +480,7 @@ def get_chapter_by_id(id_chapter):
 
 @app.route('/categories', methods=['GET'])
 def categories():
-    return render_template('categories.html')
+    return CategoriesClient.render_categories()
 
 @app.route('/categories/create', methods=['POST'])
 def add_category():
@@ -467,7 +500,11 @@ def get_content_by_category(id_category):
 
 @app.route('/participants', methods=['GET'])
 def participants():
-    return render_template('participants.html')
+    return ParticipantsClient.render_participants()
+
+@app.route('/participants/update/<int:id_participant>', methods=['GET'])
+def render_update_participant(id_participant):
+    return ParticipantsClient.render_update_participant(id_participant)
 
 @app.route('/participants/create', methods=['POST'])
 def add_participant():
@@ -519,7 +556,11 @@ def get_all_participants():
 
 @app.route('/characters', methods=['GET'])
 def characters():
-    return render_template('characters.html')
+    return CharactersClient.render_characters()
+
+@app.route('/characters/update/<int:id_character>', methods=['GET'])
+def render_update_character(id_character):
+    return CharactersClient.render_update_character(id_character)
 
 @app.route('/characters/create', methods=['POST'])
 def add_character():
@@ -559,7 +600,11 @@ def get_all_characters():
 
 @app.route('/trailers', methods=['GET'])
 def trailers():
-    return render_template('trailers.html')
+    return TrailersClient.render_trailers()
+
+@app.route('/trailers/update/<int:id_trailer>', methods=['GET'])
+def render_update_trailer(id_trailer):
+    return TrailersClient.render_update_trailer(id_trailer)
 
 @app.route('/trailers/all', methods=['GET'])
 def all_trailers():

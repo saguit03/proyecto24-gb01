@@ -11,6 +11,19 @@ from controllers.ok_ctrl import OkCtrl
 
 class ReviewCtrl:
     @staticmethod
+    def review_json(review):
+        content = ContenidosClient.get_content(review.get('id_content'), review.get('content_type'))
+        return {
+                    'id_review': review.get('id_review'),
+                    'rating': review.get('rating'),
+                    'commentary': review.get('commentary'),
+                    'idprofile': review.get('idprofile'),
+                    'id_content': review.get('id_content'),
+                    'content_type': review.get('content_type'),
+                    'content': content
+                }
+
+    @staticmethod
     def render_template(db: Collection):
         reviews_received = db.find()
         content_types = [(ct.name, ct.value) for ct in ContentType]
@@ -28,8 +41,12 @@ class ReviewCtrl:
         if id_review and id_content:
             if not commentary:
                 commentary = None
-            review = Review(int(id_review), int(rating), commentary, int(idprofile), int(id_content),
-                            int(content_type))
+            review = Review(id_review=int(id_review),
+                            rating=int(rating),
+                            commentary= commentary,
+                            idprofile= int(idprofile), 
+                            id_content=int(id_content),
+                            content_type=int(content_type))
             db.insert_one(review.to_db_collection())
             return OkCtrl.added('Review')
         else:
@@ -94,19 +111,13 @@ class ReviewCtrl:
     def get_all_reviews(db: Collection):
         all_reviews = db.find()
         review_list = [
-            {
-                'id_review': review.get('id_review'),
-                'rating': review.get('rating'),
-                'commentary': review.get('commentary'),
-                'idprofile': review.get('idprofile'),
-                'id_content': review.get('id_content')
-            }
+            ReviewCtrl.review_json(review)
             for review in all_reviews
         ]
         if review_list.__len__() > 0:
             return jsonify(review_list), 200
         else:
-            ErrorCtrl.error_404('Review')
+            return jsonify([]), 200
 
     @staticmethod
     def get_review_by_id(db: Collection, id_review):
@@ -114,13 +125,7 @@ class ReviewCtrl:
             id_review = int(id_review)
             matching_review = db.find({'id_review': id_review})
             review_found = [
-                {
-                    'id_review': review.get('id_review'),
-                    'rating': review.get('rating'),
-                    'commentary': review.get('commentary'),
-                    'idprofile': review.get('idprofile'),
-                    'id_content': review.get('id_content')
-                }
+                ReviewCtrl.review_json(review)
                 for review in matching_review
             ]
             if review_found.__len__()>0:
@@ -137,13 +142,7 @@ class ReviewCtrl:
             id_content = int(id_content)
             matching_review = db.find({'id_content': id_content})
             review_list = [
-                {
-                    'id_review': review.get('id_review'),
-                    'rating': review.get('rating'),
-                    'commentary': review.get('commentary'),
-                    'idprofile': review.get('idprofile'),
-                    'id_content': review.get('id_content')
-                }
+                ReviewCtrl.review_json(review)
                 for review in matching_review
             ]
             if review_list.__len__() > 0:
@@ -154,19 +153,12 @@ class ReviewCtrl:
             ErrorCtrl.error_400()
 
     @staticmethod
-    def get_reviews_by_idprofile(db: Collection):
-        idprofile = request.args.get('idprofile')
+    def get_reviews_by_idprofile(idprofile:int, db: Collection):
         if idprofile:
             idprofile = int(idprofile)
             matching_review = db.find({'idprofile': idprofile})
             review_list = [
-                {
-                    'id_review': review.get('id_review'),
-                    'rating': review.get('rating'),
-                    'commentary': review.get('commentary'),
-                    'idprofile': review.get('idprofile'),
-                    'id_content': review.get('id_content')
-                }
+                ReviewCtrl.review_json(review)
                 for review in matching_review
             ]
             if review_list.__len__() > 0:
@@ -182,13 +174,7 @@ class ReviewCtrl:
         if rating:
             matching_review = db.find({'rating': rating})
             review_list = [
-                {
-                    'id_review': review.get('id_review'),
-                    'rating': review.get('rating'),
-                    'commentary': review.get('commentary'),
-                    'idprofile': review.get('idprofile'),
-                    'id_content': review.get('id_content')
-                }
+                ReviewCtrl.review_json(review)
                 for review in matching_review
             ]
             if review_list.__len__() > 0:
@@ -204,13 +190,7 @@ class ReviewCtrl:
         if rating:
             matching_review = db.find({'rating': {'$gte': rating}})
             review_list = [
-                {
-                    'id_review': review.get('id_review'),
-                    'rating': review.get('rating'),
-                    'commentary': review.get('commentary'),
-                    'idprofile': review.get('idprofile'),
-                    'id_content': review.get('id_content')
-                }
+                ReviewCtrl.review_json(review)
                 for review in matching_review
             ]
             if review_list.__len__() > 0:
@@ -226,13 +206,7 @@ class ReviewCtrl:
         if rating:
             matching_review = db.find({'rating': {'$lte': rating}})
             review_list = [
-                {
-                    'id_review': review.get('id_review'),
-                    'rating': review.get('rating'),
-                    'commentary': review.get('commentary'),
-                    'idprofile': review.get('idprofile'),
-                    'id_content': review.get('id_content')
-                }
+                ReviewCtrl.review_json(review)
                 for review in matching_review
             ]
             if review_list.__len__() > 0:
@@ -279,13 +253,7 @@ class ReviewCtrl:
             id_content = int(id_content)
             matching_review = db.find({'id_content': id_content})
             review_list = [
-                {
-                    'id_review': review.get('id_review'),
-                    'rating': review.get('rating'),
-                    'commentary': review.get('commentary'),
-                    'idprofile': review.get('idprofile'),
-                    'id_content': review.get('id_content')
-                }
+                ReviewCtrl.review_json(review)
                 for review in matching_review
             ]
             if review_list.__len__() > 0:

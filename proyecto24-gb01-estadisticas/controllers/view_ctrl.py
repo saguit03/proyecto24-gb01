@@ -14,6 +14,20 @@ class ViewsCtrl:
         views_received = db.find()
         content_types = [(ct.name, ct.value) for ct in ContentType]
         return render_template('DB_Views.html', views=views_received, content_types=content_types)
+    
+    @staticmethod
+    def get_json(view):
+        content = ContenidosClient.get_content(view.get('id_content'), view.get('content_type'))
+        return {
+                'id_view': view.get('id_view'),
+                'date_init': view.get('date_init'),
+                'is_finished': view.get('is_finished'),
+                'date_finish': view.get('date_finish'),
+                'idprofile': view.get('idprofile'),
+                'id_content': view.get('id_content'),
+                'content_type': view.get('content_type'),
+                'content': content
+            }
 
     @staticmethod
     def add_view(db: Collection):
@@ -31,12 +45,16 @@ class ViewsCtrl:
                 else:
                     is_finished = True
 
-                view = View(id_view, date_init, is_finished, date_finish, int(idprofile), int(id_content), int(content_type))
+                view = View(id_view=id_view,
+                            date_init= date_init,
+                            date_finish=date_finish,
+                            is_finished=is_finished,
+                            idprofile= int(idprofile),
+                            id_content= int(id_content),
+                            content_type= int(content_type))
                 db.insert_one(view.to_db_collection())
+                print(view.to_db_collection())
                 return OkCtrl.added('View')
-
-            # else:
-            #     ErrorCtrl.error_404('View')
         else:
             return jsonify({'error': 'Error when creating view', 'status': '500 Internal Server Error'}), 500
 
@@ -92,20 +110,13 @@ class ViewsCtrl:
     def get_all_views(db: Collection):
         all_views = db.find()
         view_list = [
-            {
-                'id_view': view.get('id_view'),
-                'date_init': view.get('date_init'),
-                'is_finished': view.get('is_finished'),
-                'date_finish': view.get('date_finish'),
-                'id_content': view.get('id_content'),
-                'idprofile': view.get('idprofile')
-            }
+            ViewsCtrl.get_json(view)
             for view in all_views
         ]
         if view_list.__len__()>0:
             return jsonify(view_list), 200
         else:
-            ErrorCtrl.error_404('View')
+            return jsonify([]), 200
 
     @staticmethod
     def get_view_by_id(db: Collection, id_view):
@@ -114,14 +125,7 @@ class ViewsCtrl:
             matching_view = db.find({'id_view': id_view})
             if matching_view:
                 view_list = [
-                    {
-                        'id_view': view.get('id_view'),
-                        'date_init': view.get('date_init'),
-                        'is_finished': view.get('is_finished'),
-                        'date_finish': view.get('date_finish'),
-                        'id_content': view.get('id_content'),
-                        'idprofile': view.get('idprofile')
-                    }
+                    ViewsCtrl.get_json(view)
                     for view in matching_view
                 ]
 
@@ -131,7 +135,7 @@ class ViewsCtrl:
                     ErrorCtrl.error_404('View')
         else:
             ErrorCtrl.error_400()
-
+    
     @staticmethod
     def get_views_by_id_content(db: Collection):
         id_content = request.args.get('id_content')
@@ -140,22 +144,18 @@ class ViewsCtrl:
             matching_view = db.find({'id_content': id_content})
             view_list = [
                 {
-                    'id_view': view.get('id_view'),
-                    'date_init': view.get('date_init'),
-                    'is_finished': view.get('is_finished'),
-                    'date_finish': view.get('date_finish'),
-                    'id_content': view.get('id_content'),
-                    'idprofile': view.get('idprofile')
+                'id_view': view.get('id_view')
                 }
                 for view in matching_view
             ]
 
             if view_list.__len__() > 0:
-                return jsonify(view_list), 200
+                return jsonify(len(view_list)), 200
             else:
                 ErrorCtrl.error_404('View')
         else:
             ErrorCtrl.error_400()
+
 
     @staticmethod
     def get_views_by_idprofile(db: Collection):
@@ -164,14 +164,7 @@ class ViewsCtrl:
             idprofile = int(idprofile)
             matching_view = db.find({'idprofile': idprofile})
             view_list = [
-                {
-                    'id_view': view.get('id_view'),
-                    'date_init': view.get('date_init'),
-                    'is_finished': view.get('is_finished'),
-                    'date_finish': view.get('date_finish'),
-                    'id_content': view.get('id_content'),
-                    'idprofile': view.get('idprofile')
-                }
+                ViewsCtrl.get_json(view)
                 for view in matching_view
             ]
 
@@ -189,14 +182,7 @@ class ViewsCtrl:
             id_content = int(id_content)
             matching_view = db.find({'id_content': id_content})
             view_list = [
-                {
-                    'id_view': view.get('id_view'),
-                    'date_init': view.get('date_init'),
-                    'is_finished': view.get('is_finished'),
-                    'date_finish': view.get('date_finish'),
-                    'id_content': view.get('id_content'),
-                    'idprofile': view.get('idprofile')
-                }
+                ViewsCtrl.get_json(view)
                 for view in matching_view
             ]
 

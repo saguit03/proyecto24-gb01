@@ -11,9 +11,9 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las valoraciones -->
+<!-- Obtener ALL valoraciones -->
 <div>
-    <h2>Obtener todas las valoraciones</h2>
+    <h2>Obtener ALL valoraciones</h2>
     <form action="/reviews/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
@@ -122,6 +122,14 @@
     <h2>Obtener valoración por contenido</h2>
     <form action="/reviews/contents" method="GET">
         <label>ID Contenido*: <input name="id_content" required type="text"></label><br>
+        <label>Tipo de contenido:
+            <select name="content_type">
+                {% for name, value in content_types %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </label>
         <button type="submit">Buscar</button>
     </form>
 </div>

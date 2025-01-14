@@ -11,14 +11,27 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las temporadas -->
+
+<!-- Obtener ALL temporadas -->
 <div>
-    <h2>Obtener todas las temporadas</h2>
+    <h2>Obtener ALL temporadas</h2>
     <form action="/seasons/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
-</div>
+    <h2> Lista de temporadas </h2>
+    <ul>
+        {% for season in seasons %}
+        <li>
+            
+            <h3> {{ season.title }} </h3>
+            ID: {{ season.id_season }},
+            N.º temporada: {{ season.season_number }}
 
+            <a href="/seasons/update/{{ season.id_season }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 <!-- Obtener temporada por ID -->
 <div>
     <h2>Obtener temporada por ID</h2>
@@ -37,18 +50,6 @@
         <label>Título*: <input name="title" required type="text"></label><br>
         <label>Número de temporada*: <input name="season_number" required type="number"></label><br>
         <button type="submit">Añadir</button>
-    </form>
-</div>
-
-<!-- Editar temporada -->
-<div>
-    <h2>Editar temporada</h2>
-    <form action="/seasons/update" method="POST">
-        <label>ID Temporada*: <input name="id_season" required type="text"></label><br>
-        <label>ID Serie: <input id="id_series" name="id_series" type="text"></label><br>
-        <label>Título: <input name="title" type="text"></label><br>
-        <label>Número de temporada: <input name="season_number" type="number"></label><br>
-        <button type="submit">Editar</button>
     </form>
 </div>
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edición de Capítulos</title>
+</head>
+<body>
+    <p><a href="/">Volver al menú de gestión</a></p>
+<!-- Editar tráiler -->
+<div>
+    <h2>Editar tráiler</h2>
+    <form action="/trailers/update" method="POST">
+        <label>ID Tráiler*: 
+            <input name="id_trailer" required type="text" value="{{ trailer.id_trailer }}" readonly>
+        </label><br>
+        <label>Título: 
+            <input name="title" type="text" value="{{ trailer.title }}">
+        </label><br>
+        <label>Duración (minutos): 
+            <input name="duration" type="number" value="{{ trailer.duration }}">
+        </label><br>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+
+</body>
+</html>

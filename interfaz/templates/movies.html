@@ -11,12 +11,25 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las películas -->
+<!-- Obtener ALL películas -->
 <div>
-    <h2>Obtener todas las películas</h2>
+    <h2>Obtener ALL películas</h2>
     <form action="/movies/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
+    <h2> Lista de películas </h2>
+    <ul>
+        {% for movie in movies %}
+        <li>
+            <h3>{{ movie.title }}</h3> 
+            ID: {{ movie.id_movie }}, 
+            Duración: {{ movie.duration }}, 
+            Fecha de estreno: {{ movie.release_date }}, 
+            ¿Es suscripción?: {{ movie.is_subscription }}
+            <a href="/movies/update/{{ movie.id_movie }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!-- Obtener película por ID -->
@@ -42,23 +55,6 @@
             <input name="is_subscription" type="radio" value="False"> No
         </label><br>
         <button type="submit">Añadir</button>
-    </form>
-</div>
-
-<!-- Editar película -->
-<div>
-    <h2>Editar película</h2>
-    <form action="/movies/update" method="POST">
-        <label>ID*: <input name="id_movie" required type="text"></label><br>
-        <label>Título: <input name="title" type="text"></label><br>
-        <label>Duración (minutos): <input name="duration" type="number"></label><br>
-        <label>Fecha de estreno: <input name="release_date" type="date"></label><br>
-        <label>
-            ¿Disponible con suscripción?<br>
-            <input name="is_subscription" type="radio" value="True"> Sí<br>
-            <input name="is_subscription" type="radio" value="False"> No
-        </label><br>
-        <button type="submit">Editar</button>
     </form>
 </div>
 

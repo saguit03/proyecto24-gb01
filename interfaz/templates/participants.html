@@ -11,12 +11,27 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todos los participantes -->
+<!-- Obtener ALL participantes -->
 <div>
-    <h2>Obtener todos los participantes</h2>
+    <h2>Obtener ALL participantes</h2>
     <form action="/participants/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
+    <h2> Lista de participantes </h2>
+    <ul>
+        {% for participant in participants %}
+        <li>
+            
+            <h3> {{ participant.name }} </h3>
+            ID: {{ participant.id_participant }},
+            Edad: {{ participant.age }},
+            Apellido(s): {{ participant.surname }},
+            Nacionalidad: {{ participant.nationality }}
+
+            <a href="/participants/update/{{ participant.id_participant }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!-- Añadir participante -->
@@ -29,20 +44,6 @@
         <label>Apellido(s): <input name="surname" type="text"></label><br>
         <label>Nacionalidad: <input name="nationality" type="text"></label><br>
         <button type="submit">Añadir</button>
-    </form>
-</div>
-
-<!-- Modificar participante -->
-<div>
-    <h2>Modificar participante</h2>
-    <form action="/participants/update" method="POST">
-        <p>Nota: Los parámetros con * son obligatorios</p>
-        <label>ID*: <input name="id_participant" required type="text"></label><br>
-        <label>Nombre: <input name="name" type="text"></label><br>
-        <label>Apellido(s): <input name="surname" type="text"></label><br>
-        <label>Nacionalidad: <input name="nationality" type="text"></label><br>
-        <label>Edad: <input name="age" type="number"></label><br>
-        <button type="submit">Modificar</button>
     </form>
 </div>
 
