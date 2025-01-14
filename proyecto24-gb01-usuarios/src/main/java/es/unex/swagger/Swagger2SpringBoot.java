@@ -38,7 +38,6 @@ import java.util.List;
 @EntityScan(basePackages = "es.unex.asee.gb01.contents.entities")
 @EnableFeignClients(basePackages = "es.unex.asee.gb01.contents.clients")
 @ComponentScan(basePackages = {"es.unex.swagger", "es.unex.swagger.api", "es.unex.swagger.configuration", "es.unex.asee.gb01.contents"})
-
 public class Swagger2SpringBoot implements CommandLineRunner {
     private static final String DEFAULT_PASSWORD = "12345";
     @Autowired

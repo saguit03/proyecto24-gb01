@@ -24,8 +24,8 @@ public class SubscriptionMapper {
         }
 
         Subscription subscription = new Subscription();
-        subscription.setIdSubscription(entity.getIdSubscription());
-        subscription.setidUser(entity.getidUser());
+        subscription.setidsubscription(entity.getidsubscription());
+        subscription.setiduser(entity.getiduser());
         subscription.setStartDate(entity.getStartDate().format(DATE_FORMAT));
         subscription.setEndDate(entity.getEndDate() != null ? entity.getEndDate().format(DATE_FORMAT) : null);
 
@@ -41,8 +41,8 @@ public class SubscriptionMapper {
         }
 
         SubscriptionEntity entity = new SubscriptionEntity();
-        entity.setIdSubscription(model.getIdSubscription());
-        entity.setidUser(model.getidUser());
+        entity.setidsubscription(model.getidsubscription());
+        entity.setiduser(model.getiduser());
         entity.setStartDate(LocalDate.parse(model.getStartDate(), DATE_FORMAT));
         entity.setEndDate(model.getEndDate() != null ? LocalDate.parse(model.getEndDate(), DATE_FORMAT) : null);
 

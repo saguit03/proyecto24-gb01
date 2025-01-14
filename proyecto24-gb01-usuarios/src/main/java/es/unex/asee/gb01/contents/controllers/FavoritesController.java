@@ -2,24 +2,18 @@ package es.unex.asee.gb01.contents.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import es.unex.asee.gb01.contents.entities.FavoriteEntity;
 import es.unex.asee.gb01.contents.repositories.FavoritesRepository;
 import es.unex.asee.gb01.contents.services.FavoriteService;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-
+import es.unex.asee.gb01.contents.dto.ContentDTO;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/favorites")
 public class FavoritesController {
-    
+
     FavoriteService favoriteService;
     FavoritesRepository favoritesRepository;
 
@@ -30,32 +24,33 @@ public class FavoritesController {
     }
 
     @GetMapping("")
-    public Iterable<FavoriteEntity> getAllFavorites() {
+    public Iterable<ContentDTO> getAllFavorites() {
         return favoriteService.getAllFavorites();
     }
 
-    @GetMapping("/{idUser}")
-    public Iterable<FavoriteEntity> getAllFavoritesByUser(@PathVariable long idUser) {
-        return favoriteService.getAllFavoritesByUser(idUser);
+    @GetMapping("/{iduser}")
+    public Iterable<ContentDTO> getAllFavoritesByUser(@PathVariable long iduser) {
+        return favoriteService.getAllFavoritesByUser(iduser);
     }
 
-    @PostMapping("/{idUser}")
+    @PostMapping("/{iduser}")
     public ResponseEntity<FavoriteEntity> addFavorite(
-            @PathVariable Long idUser,
-            @RequestParam Long idContent,
-            @RequestParam int contentType) {
-        FavoriteEntity favorite = favoriteService.addFavorite(idUser, idContent, contentType);
+            @PathVariable Long iduser,
+            @ModelAttribute FavoriteEntity favoriteEntity) {
+        favoriteEntity.setiduser(iduser);
+        FavoriteEntity favorite = favoriteService.addFavorite(
+                favoriteEntity.getiduser(),
+                favoriteEntity.getIdContent(),
+                favoriteEntity.getContentType()
+        );
         return ResponseEntity.ok(favorite);
     }
 
-
-    @DeleteMapping("/{idUser}/{idFavorite}")
+    @DeleteMapping("/{iduser}/{idFavorite}")
     public ResponseEntity<Void> removeFavorite(
-            @PathVariable Long idUser,
+            @PathVariable Long iduser,
             @PathVariable Long idFavorite) {
-        favoriteService.removeFavorite(idUser, idFavorite);
+        favoriteService.removeFavorite(iduser, idFavorite);
         return ResponseEntity.noContent().build();
     }
-
-
 }

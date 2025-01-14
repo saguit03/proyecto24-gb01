@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Tráileres</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de tráileres</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+
+<!-- Obtener ALL tráileres -->
+<div>
+    <h2>Obtener ALL tráileres</h2>
+    <form action="/trailers/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+    <h2> Lista de tráileres </h2>
+    <ul>
+        {% for trailer in trailers %}
+        <li>
+            
+            <h3> {{ trailer.title }} </h3>
+            ID: {{ trailer.id_trailer }},
+            Duración: {{ trailer.duration }}
+
+            <a href="/trailers/update/{{ trailer.id_trailer }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Obtener tráiler por ID -->
+<div>
+    <h2>Obtener tráiler por ID</h2>
+    <form action="/trailers" method="GET" onsubmit="event.preventDefault(); getTrailerById();">
+        <label>ID*: <input id="id_trailer" name="id_trailer" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Añadir tráiler -->
+<div>
+    <h2>Añadir tráiler</h2>
+    <form action="/trailers/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>Título*: <input name="title" required type="text"></label><br>
+        <label>Duración (minutos)*: <input name="duration" required type="number"></label><br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<!-- Editar tráiler -->
+<div>
+    <h2>Editar tráiler</h2>
+    <form action="/trailers/update" method="POST">
+        <label>ID Tráiler*: <input name="id_trailer" required type="text"></label><br>
+        <label>Título: <input name="title" type="text"></label><br>
+        <label>Duración (minutos): <input name="duration" type="number"></label><br>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+<!-- Eliminar tráiler -->
+<div>
+    <h2>Eliminar tráiler</h2>
+    <form action="/trailers/delete" method="POST">
+        <label>ID*: <input name="id_trailer" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Añadir Categoría a un Tráiler</h2>
+    <form action="/trailers/:id/putcategory" id="addCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); addCategory();">
+        <label>ID tráiler*: <input id="id_trailer_add_category" name="id_trailer" required type="text"></label><br>
+        <label>ID categoría*: <input id="id_category_add" name="id_category" required type="text"></label><br>
+        <button type="submit">Añadir Categoría</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar Categoría de un Tráiler</h2>
+    <form action="/trailers/:id/deletecategory" id="deleteCategoryForm" method="POST"
+          onsubmit="event.preventDefault(); deleteCategory();">
+        <label>ID tráiler: <input id="id_trailer_delete_category" name="id_trailer" required type="text"></label><br>
+        <label>ID categoría: <input id="id_category_delete" name="id_category" required type="text"></label><br>
+        <button type="submit">Eliminar Categoría</button>
+    </form>
+</div>
+
+<script>
+    function getTrailerById() {
+        const idTrailer = document.getElementById('id_trailer').value;
+        if (idTrailer) {
+            window.location.href = `/trailers/${idTrailer}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function addCategory() {
+        const idTrailer = document.getElementById('id_traileradd_category').value;
+        const idCategory = document.getElementById('id_category_add').value;
+
+        if (idTrailer && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+
+            fetch(`/trailers/${idTrailer}/putcategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al asignar la categoría.');
+                    }
+                })
+                .then((data) => {
+                    alert('Categoría asignada correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, completa todos los campos.');
+        }
+    }
+
+    function deleteCategory() {
+        const idTrailer = document.getElementById('id_trailer_delete_category').value;
+        const idCategory = document.getElementById('id_category_delete').value;
+
+        if (idTrailer && idCategory) {
+            const formData = new FormData();
+            formData.append('id_category', idCategory);
+            fetch(`/trailers/${idTrailer}/deletecategory`, {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar la categoría.');
+                    }
+                })
+                .then((data) => {
+                    alert('Categoría eliminada correctamente.');
+                    console.log(data);
+                })
+                .catch((error) => {
+                    alert(error.message);
+                });
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

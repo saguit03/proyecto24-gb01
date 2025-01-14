@@ -14,19 +14,19 @@ public class FavoriteEntity {
     @GeneratedValue
     private long idFavorite;
 
-    @Column(name = "idUser", nullable = false)
-    private long idUser;
+    @Column(name = "iduser", nullable = false)
+    private long iduser;
 
     @Column(name = "idContent", nullable = false)
-    private long idContent;
+    private int idContent;
 
     private int contentType;
 
     public FavoriteEntity() {
     }
 
-    public FavoriteEntity(Long idUser, Long idContent, int contentType) {
-        this.idUser = idUser;
+    public FavoriteEntity(Long iduser, int idContent, int contentType) {
+        this.iduser = iduser;
         this.idContent = idContent;
         this.contentType = contentType;
     }
@@ -39,19 +39,19 @@ public class FavoriteEntity {
         this.idFavorite = idFavorite;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getiduser() {
+        return iduser;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setiduser(Long iduser) {
+        this.iduser = iduser;
     }
 
-    public Long getIdContent() {
+    public int getIdContent() {
         return idContent;
     }
 
-    public void setIdContent(Long idContent) {
+    public void setIdContent(int idContent) {
         this.idContent = idContent;
     }
 
@@ -68,7 +68,7 @@ public class FavoriteEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FavoriteEntity that = (FavoriteEntity) o;
-        return Objects.equals(idUser, that.idUser) &&
+        return Objects.equals(iduser, that.iduser) &&
                 Objects.equals(idContent, that.idContent) &&
                 contentType == that.contentType
                 ;
@@ -76,14 +76,14 @@ public class FavoriteEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, idContent, contentType);
+        return Objects.hash(iduser, idContent, contentType);
     }
 
     @Override
     public String toString() {
         return "FavoriteEntity{" +
                 "idFavorite=" + idFavorite +
-                ", idUser=" + idUser +
+                ", iduser=" + iduser +
                 ", idContent=" + idContent +
                 ", contentType=" + contentType +
                 '}';

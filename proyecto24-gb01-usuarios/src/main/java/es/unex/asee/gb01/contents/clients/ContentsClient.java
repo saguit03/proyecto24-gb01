@@ -11,18 +11,18 @@ import es.unex.asee.gb01.contents.dto.SeriesDTO;
 
 import java.util.List;
 
-@FeignClient(name = "contenidos-client", url = "http://localhost:8082")
+@FeignClient(name = "contenidos-client", url = "${CONTENIDOS_URL:http://localhost:8082}")
 public interface ContentsClient {
 
     @GetMapping("/movies/{idMovie}")
-    List<MovieDTO> getMovie(@PathVariable("idMovie") Integer idMovie);
+    MovieDTO getMovie(@PathVariable("idMovie") Integer idMovie);
 
     @GetMapping("/categories/{idCategory}")
-    List<CategoryDTO> getCategory(@PathVariable("idCategory") Integer idCategory);
+    CategoryDTO getCategory(@PathVariable("idCategory") Integer idCategory);
 
     @GetMapping("/series/{idSeries}")
-    List<SeriesDTO> getSeries(@PathVariable("idSeries") Integer idSeries);
+    SeriesDTO getSeries(@PathVariable("idSeries") Integer idSeries);
 
     @GetMapping("/seasons/{idSeason}")
-    List<SeasonDTO> getSeason(@PathVariable("idSeason") Integer idSeason);
+    SeasonDTO getSeason(@PathVariable("idSeason") Integer idSeason);
 }

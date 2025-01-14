@@ -24,10 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-10-18T10:29:32.211856553Z[GMT]")
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsersApiController implements UsersApi {
 
 
@@ -55,14 +56,14 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<User> deleteUserById(@Parameter(in = ParameterIn.PATH, description = "El id del user que se desea buscar.", required = false, schema = @Schema()) @PathVariable("idUser") Integer idUser
+    public ResponseEntity<User> deleteUserById(@Parameter(in = ParameterIn.PATH, description = "El id del user que se desea buscar.", required = false, schema = @Schema()) @PathVariable("iduser") Integer iduser
     ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                UserEntity user = userRepository.findById(idUser.longValue()).orElse(null);
+                UserEntity user = userRepository.findById(iduser.longValue()).orElse(null);
                 ResponseEntity<User> respuesta = new ResponseEntity<User>(UserMapper.toModel(user), HttpStatus.OK);
-                userRepository.deleteById(idUser.longValue());
+                userRepository.deleteById(iduser.longValue());
 
                 return respuesta;
             } catch (Exception e) {
@@ -90,7 +91,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Subscription>(objectMapper.readValue("{\n  \"idSubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"idUser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}", Subscription.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Subscription>(objectMapper.readValue("{\n  \"idsubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"iduser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}", Subscription.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Subscription>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -100,11 +101,11 @@ public class UsersApiController implements UsersApi {
         return new ResponseEntity<Subscription>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<User> getUserById(@PathVariable("idUser") Integer idUser) {
+    public ResponseEntity<User> getUserById(@PathVariable("iduser") Integer iduser) {
         String accept = request.getHeader("Accept");
         if (accept != null && (accept.contains("application/json") || accept.contains("application/xml"))) {
             try {
-                UserEntity userEntity = userRepository.findById(idUser.longValue())
+                UserEntity userEntity = userRepository.findById(iduser.longValue())
                         .orElse(null);
 
                 if (userEntity == null) {
@@ -113,7 +114,7 @@ public class UsersApiController implements UsersApi {
 
                 return new ResponseEntity<>(UserMapper.toModel(userEntity), HttpStatus.OK);
             } catch (Exception e) {
-                log.error("Error retrieving user with id: " + idUser, e);
+                log.error("Error retrieving user with id: " + iduser, e);
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
@@ -179,14 +180,14 @@ public class UsersApiController implements UsersApi {
         }
     }
 
-    public ResponseEntity<User> putUserById(@Parameter(in = ParameterIn.PATH, description = "El id del user que se desea buscar.", required = false, schema = @Schema()) @PathVariable("idUser") Integer idUser, @Valid @RequestBody User body
+    public ResponseEntity<User> putUserById(@Parameter(in = ParameterIn.PATH, description = "El id del user que se desea buscar.", required = false, schema = @Schema()) @PathVariable("iduser") Integer iduser, @Valid @RequestBody User body
     ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
 
                 // Verificar si el usuario existe
-                UserEntity existingUser = userRepository.findById(idUser.longValue())
+                UserEntity existingUser = userRepository.findById(iduser.longValue())
                         .orElse(null);
 
                 if (existingUser == null) {
@@ -222,7 +223,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Subscription>(objectMapper.readValue("{\n  \"idSubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"idUser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}", Subscription.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Subscription>(objectMapper.readValue("{\n  \"idsubscription\" : 1,\n  \"tipo-subscription\" : {\n    \"Quantity\" : 6.0274563,\n    \"id-tipo-subscription\" : 0,\n    \"Name-tipo-subscription\" : \"Name-tipo-subscription\"\n  },\n  \"startDate\" : \"08/10/2022\",\n  \"iduser\" : 0,\n  \"endDate\" : \"08/10/2024\"\n}", Subscription.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Subscription>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -252,7 +253,7 @@ public class UsersApiController implements UsersApi {
 
 
             Cookie cookieUser = new Cookie("User", user.getEmail());
-            cookieUser.setPath("http://localhost:3000/");
+            cookieUser.setPath("${INTERFAZ_URL:http://localhost:3000}");
             response.addCookie(cookieUser);
 
             return new ResponseEntity<User>(user, HttpStatus.OK);

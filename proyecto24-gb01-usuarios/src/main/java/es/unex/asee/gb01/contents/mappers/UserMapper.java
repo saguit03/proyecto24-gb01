@@ -24,7 +24,7 @@ public class UserMapper {
                 userModel.getPassword()
         );
 
-        userEntity.setIdUser(userModel.getIdUser());
+        userEntity.setiduser(userModel.getiduser());
         userEntity.setStartDate(userModel.getStartDate());
         userEntity.setProfilePicture(userModel.getProfilePicture());
         userEntity.setRegisterDate(userModel.getRegisterDate());
@@ -45,7 +45,7 @@ public class UserMapper {
         if (userEntity == null) return null;
 
         User userModel = new User();
-        userModel.setIdUser(userEntity.getIdUser());
+        userModel.setiduser(userEntity.getiduser());
         userModel.setName(userEntity.getName());
         userModel.setSurname(userEntity.getSurname());
         userModel.setUsername(userEntity.getUsername());
@@ -64,7 +64,7 @@ public class UserMapper {
         if(!listUserEntity.isEmpty()) {
             for (UserEntity userEntity : listUserEntity) {
                 User userModel = new User();
-                userModel.setIdUser(userEntity.getIdUser());
+                userModel.setiduser(userEntity.getiduser());
                 userModel.setName(userEntity.getName());
                 userModel.setSurname(userEntity.getSurname());
                 userModel.setUsername(userEntity.getUsername());

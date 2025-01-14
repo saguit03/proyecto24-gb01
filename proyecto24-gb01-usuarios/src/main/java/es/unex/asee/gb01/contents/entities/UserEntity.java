@@ -17,7 +17,7 @@ import java.util.Objects;
 public class UserEntity {
     @Id
     @GeneratedValue
-    private Long idUser = null;
+    private Long iduser = null;
 
     private String name = null;
 
@@ -83,12 +83,12 @@ public class UserEntity {
         this.userProfiles = userProfiles;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Long getiduser() {
+        return iduser;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setiduser(Long iduser) {
+        this.iduser = iduser;
     }
 
     public String getName() {
@@ -136,7 +136,7 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return idUser.equals(that.idUser) &&
+        return iduser.equals(that.iduser) &&
                 name.equals(that.name) &&
                 surname.equals(that.surname) &&
                 username.equals(that.username) &&
@@ -150,13 +150,13 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, name, surname, username, email, password, startDate, profilePicture, registerDate, userProfiles);
+        return Objects.hash(iduser, name, surname, username, email, password, startDate, profilePicture, registerDate, userProfiles);
     }
 
     @Override
     public String toString() {
         return "UserEntity{" +
-                "idUser=" + idUser +
+                "iduser=" + iduser +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", username='" + username + '\'' +

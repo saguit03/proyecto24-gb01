@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Idiomas</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de idiomas</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Obtener ALL idiomas -->
+<div>
+    <h2>Obtener ALL idiomas</h2>
+    <form action="/languages/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Añadir idioma -->
+<div>
+    <h2>Añadir idioma</h2>
+    <form action="/languages/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>Nombre*: <input name="name" required type="text"></label><br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<!-- Modificar idioma -->
+<div>
+    <h2>Modificar idioma</h2>
+    <form action="/languages/update" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>ID*: <input name="id_language" required type="text"></label><br>
+        <label>Nombre: <input name="name" type="text"></label><br>
+        <button type="submit">Modificar</button>
+    </form>
+</div>
+
+
+<div>
+    <h2>Eliminar idioma</h2>
+    <form action="/languages/delete" method="POST">
+        <label>ID*: <input name="id_language" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<!-- Obtener idioma por ID -->
+<div>
+    <h2>Obtener idioma por ID</h2>
+    <form action="/languages" method="GET" onsubmit="event.preventDefault(); getLanguageById();">
+        <label>ID*: <input id="id_language" name="id_language" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<!-- Obtener idioma por nombre -->
+<div>
+    <h2>Obtener idioma por nombre</h2>
+    <form action="/languages/name" method="GET">
+        <label>Nombre*: <input name="name" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+
+<script>
+    function getLanguageById() {
+        const idLanguage = document.getElementById('id_language').value;
+        if (idLanguage) {
+            window.location.href = `/languages/${idLanguage}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

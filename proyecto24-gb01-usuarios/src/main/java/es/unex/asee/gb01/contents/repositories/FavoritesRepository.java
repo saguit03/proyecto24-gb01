@@ -9,5 +9,5 @@ import es.unex.asee.gb01.contents.entities.FavoriteEntity;
 
 @Repository
 public interface FavoritesRepository extends JpaRepository<FavoriteEntity, Long> {
-    List<FavoriteEntity> findByIdUser(long idUser);
+    List<FavoriteEntity> findByiduser(long iduser);
 }

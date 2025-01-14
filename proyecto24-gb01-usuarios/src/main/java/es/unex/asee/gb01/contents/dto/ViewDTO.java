@@ -3,22 +3,22 @@ package es.unex.asee.gb01.contents.dto;
 public class ViewDTO {
     private long idView;
     private boolean isFinished;
-    private long idProfile;
+    private long idprofile;
     private long idContent;
     private int typeContent;
 
     public ViewDTO() {
         this.idView = 0;
         this.isFinished = false;
-        this.idProfile = 0;
+        this.idprofile = 0;
         this.idContent = 0;
         this.typeContent = 0;
     }
 
-    public ViewDTO(long idView, boolean isFinished, long idProfile, long idContent, int typeContent) {
+    public ViewDTO(long idView, boolean isFinished, long idprofile, long idContent, int typeContent) {
         this.idView = idView;
         this.isFinished = isFinished;
-        this.idProfile = idProfile;
+        this.idprofile = idprofile;
         this.idContent = idContent;
         this.typeContent = typeContent;
     }
@@ -39,12 +39,12 @@ public class ViewDTO {
         isFinished = finished;
     }
 
-    public long getIdProfile() {
-        return idProfile;
+    public long getidprofile() {
+        return idprofile;
     }
 
-    public void setIdProfile(long idProfile) {
-        this.idProfile = idProfile;
+    public void setidprofile(long idprofile) {
+        this.idprofile = idprofile;
     }
 
     public long getIdContent() {

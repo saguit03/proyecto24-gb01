@@ -14,10 +14,10 @@ public class SubscriptionEntity {
 
     @Id
     @GeneratedValue
-    private Long idSubscription;
+    private Long idsubscription;
 
-    @Column(name = "idUser", nullable = false)
-    private Long idUser;
+    @Column(name = "iduser", nullable = false)
+    private Long iduser;
 
     @Column(name = "startDate", nullable = false)
     private LocalDate startDate;
@@ -25,20 +25,20 @@ public class SubscriptionEntity {
     @Column(name = "endDate")
     private LocalDate endDate;
 
-    public Long getIdSubscription() {
-        return idSubscription;
+    public Long getidsubscription() {
+        return idsubscription;
     }
 
-    public void setIdSubscription(Long idSubscription) {
-        this.idSubscription = idSubscription;
+    public void setidsubscription(Long idsubscription) {
+        this.idsubscription = idsubscription;
     }
 
-    public Long getidUser() {
-        return idUser;
+    public Long getiduser() {
+        return iduser;
     }
 
-    public void setidUser(Long idUser) {
-        this.idUser = idUser;
+    public void setiduser(Long iduser) {
+        this.iduser = iduser;
     }
 
     public LocalDate getStartDate() {
@@ -62,22 +62,22 @@ public class SubscriptionEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubscriptionEntity that = (SubscriptionEntity) o;
-        return idSubscription.equals(that.idSubscription) &&
-                idUser.equals(that.idUser) &&
+        return idsubscription.equals(that.idsubscription) &&
+                iduser.equals(that.iduser) &&
                 startDate.equals(that.startDate) &&
                 endDate.equals(that.endDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idSubscription, idUser, startDate, endDate);
+        return Objects.hash(idsubscription, iduser, startDate, endDate);
     }
 
     @Override
     public String toString() {
         return "SubscriptionEntity{" +
-                "idSubscription=" + idSubscription +
-                ", idUser=" + idUser +
+                "idsubscription=" + idsubscription +
+                ", iduser=" + iduser +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';

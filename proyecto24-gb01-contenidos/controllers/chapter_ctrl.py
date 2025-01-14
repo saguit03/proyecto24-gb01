@@ -4,6 +4,7 @@ from pymongo.collection import Collection
 from database import get_next_sequence_value as get_next_sequence_value
 from models.chapter import Chapter
 from controllers.ok_ctrl import OkCtrl
+from clients.view_client import ViewClient
 
 
 class ChapterCtrl:
@@ -12,6 +13,18 @@ class ChapterCtrl:
     chapter_not_found_msg = 'Capítulo no encontrado';
     not_found = '404 Not Found';
     bad_request = '400 Bad Request';
+
+    @staticmethod
+    def get_json(chapter):
+
+        return {
+            'id_chapter': chapter.get('id_chapter'),
+            'title': chapter.get('title'),
+            'duration': chapter.get('duration'),
+            'chapter_number': chapter.get('chapter_number'),
+            'url_video': chapter.get('url_video'),
+            'views': ViewClient.get_number_views(id_content=chapter.get('id_chapter'), content_type=6)
+            }
 
     @staticmethod
     def render_template(db: Collection):
@@ -25,10 +38,9 @@ class ChapterCtrl:
         id_chapter = int(get_next_sequence_value(db, "id_chapter"))
         title = request.form.get('title')
         duration = request.form.get('duration')
-        url_video = request.form.get('url_video')
         chapter_number = int(request.form.get('chapter_number'))
         if id_chapter:
-            chapter = Chapter(id_chapter, title, duration, url_video, chapter_number)
+            chapter = Chapter(id_chapter=id_chapter, title=title, duration=duration, url_video=None, chapter_number=chapter_number)
             db.insert_one(chapter.to_db_collection())
             return OkCtrl.added('Chapter')
         else:
@@ -102,20 +114,31 @@ class ChapterCtrl:
         if id_chapter:
             id_chapter = int(id_chapter)
             matching_chapter = db.find({'id_chapter': id_chapter})
-            chapterFound = [
-                {
-                    'id_chapter': chapter.get('id_chapter'),
-                    'title': chapter.get('title'),
-                    'url_video': chapter.get('url_video'),
-                    'duration': chapter.get('duration'),
-                    'chapter_number': chapter.get('chapter_number')
-                }
+            chapter_found = [
+                ChapterCtrl.get_json(chapter)
                 for chapter in matching_chapter
             ]
-            if chapterFound.__len__() > 0:
-                return jsonify(chapterFound), 200
+            if chapter_found.__len__() > 0:
+                ViewClient.add_view_to_content(id_content=id_chapter, content_type=6)
+                return jsonify(chapter_found), 200
             else:
                 return jsonify({'error': ChapterCtrl.chapter_not_found_msg, 'status': ChapterCtrl.not_found}), 404
 
         else:
             return jsonify({'error': ChapterCtrl.err_msg, 'status': ChapterCtrl.bad_request}), 400
+
+    @staticmethod
+    def get_all_chapters(db: Collection):
+        all_chapters = db.find()
+
+        if db.count_documents({}) > 0:
+            chapters_list = [
+                ChapterCtrl.get_json(chapter)
+                for chapter in all_chapters
+            ]
+            if chapters_list.__len__()>0:
+               return jsonify(chapters_list), 200
+        return jsonify([]), 200
+    
+
+        

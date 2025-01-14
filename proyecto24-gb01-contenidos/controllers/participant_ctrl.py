@@ -4,6 +4,8 @@ from pymongo.collection import Collection
 from database import get_next_sequence_value as get_next_sequence_value
 from models.participant import Participant
 from controllers.ok_ctrl import OkCtrl
+from controllers.series_ctrl import SeriesCtrl
+from controllers.movie_ctrl import MovieCtrl
 
 
 class ParticipantCtrl:
@@ -168,10 +170,7 @@ class ParticipantCtrl:
     # ---------------------------------------------------------
 
     @staticmethod
-    def get_content_by_participant(participant_collection: Collection, movie_collection: Collection,
-                                series_collection: Collection):
-        id_participant = int(request.args.get('id_participant'))
-
+    def get_content_by_participant(id_participant: int, participant_collection: Collection, movie_collection: Collection, series_collection: Collection):
         if id_participant:
             matching_participant = participant_collection.find({'id_participant': id_participant})
 
@@ -182,43 +181,13 @@ class ParticipantCtrl:
                 content_list.append({'Content': 'Movies'})
 
                 for movie in matching_movie:
-                    content_list.append({
-                        'id_movie': movie.get('id_movie'),
-                        'title': movie.get('title'),
-                        'url_video': movie.get('url_video'),
-                        'url_title_page': movie.get('url_title_page'),
-                        'release_date': movie.get('release_date'),
-                        'synopsis': movie.get('synopsis'),
-                        'description': movie.get('description'),
-                        'is_subscription': movie.get('is_subscription'),
-                        'duration': movie.get('duration'),
-                        'languages': movie.get('languages'),
-                        'categories': movie.get('categories'),
-                        'characters': movie.get('characters'),
-                        'participants': movie.get('participants'),
-                        'trailer': movie.get('trailer'),
-                    })
+                    content_list.append(MovieCtrl.get_json(movie))
 
                 content_list.append({'Content': 'Series'})
-                matching_serie = series_collection.find({'participant': {'$in': [str(id_participant)]}})
+                matching_series = series_collection.find({'participant': {'$in': [str(id_participant)]}})
 
-                for series in matching_serie:
-                    content_list.append({
-                        'id_series': series.get('id_series'),
-                        'title': series.get('title'),
-                        'duration': series.get('duration'),
-                        'url_title_page': series.get('url_title_page'),
-                        'release_date': series.get('release_date'),
-                        'synopsis': series.get('synopsis'),
-                        'description': series.get('description'),
-                        'is_subscription': series.get('is_subscription'),
-                        'seasons': series.get('seasons'),
-                        'languages': series.get('languages'),
-                        'categories': series.get('categories'),
-                        'characters': series.get('characters'),
-                        'participants': series.get('participants'),
-                        'trailer': series.get('trailer')
-                    })
+                for series in matching_series:
+                    content_list.append(SeriesCtrl.get_json(series))
 
                 return jsonify(content_list), 200
 

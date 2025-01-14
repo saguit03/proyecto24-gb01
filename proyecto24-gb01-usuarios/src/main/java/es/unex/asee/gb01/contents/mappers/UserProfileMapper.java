@@ -15,18 +15,18 @@ public class UserProfileMapper {
 
     public static UserProfileEntity toEntity(UserProfile profile) {
         UserProfileEntity entity = new UserProfileEntity();
-        entity.setIdProfile(profile.getIdProfile());
-        entity.setidUser(profile.getidUser());
-        entity.setProfileName(profile.getProfileName());
+        entity.setidprofile(profile.getidprofile());
+        entity.setiduser(profile.getiduser());
+        entity.setprofilename(profile.getprofilename());
         entity.setPin(profile.getPin());
         return entity;
     }
 
     public static UserProfile toModel(UserProfileEntity profileEntity) {
         UserProfile model = new UserProfile();
-        model.setIdProfile(profileEntity.getIdProfile());
-        model.setidUser(profileEntity.getidUser());
-        model.setProfileName(profileEntity.getProfileName());
+        model.setidprofile(profileEntity.getidprofile());
+        model.setiduser(profileEntity.getiduser());
+        model.setprofilename(profileEntity.getprofilename());
         model.setPin(profileEntity.getPin());
         return model;
     }

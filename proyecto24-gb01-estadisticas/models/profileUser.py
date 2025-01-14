@@ -1,14 +1,14 @@
 class ProfileUser:
-    def __init__(self, id_profile, name, id_user, id_language):
-        self.id_profile = id_profile
+    def __init__(self, idprofile, name, iduser, id_language):
+        self.idprofile = idprofile
         self.name = name,
-        self.id_user = id_user,
+        self.iduser = iduser,
         self.id_language = id_language
 
     def to_db_collection(self):
         return {
-            'id_profile': self.id_profile,
+            'idprofile': self.idprofile,
             'name': self.name,
-            'id_user': self.id_user,
+            'iduser': self.iduser,
             'id_language': self.id_language
         }

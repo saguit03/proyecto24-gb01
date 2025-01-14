@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Gestión de Participantes</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de participantes</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Obtener ALL participantes -->
+<div>
+    <h2>Obtener ALL participantes</h2>
+    <form action="/participants/all" method="GET">
+        <button type="submit">Buscar</button>
+    </form>
+    <h2> Lista de participantes </h2>
+    <ul>
+        {% for participant in participants %}
+        <li>
+            
+            <h3> {{ participant.name }} </h3>
+            ID: {{ participant.id_participant }},
+            Edad: {{ participant.age }},
+            Apellido(s): {{ participant.surname }},
+            Nacionalidad: {{ participant.nationality }}
+
+            <a href="/participants/update/{{ participant.id_participant }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Añadir participante -->
+<div>
+    <h2>Añadir participante</h2>
+    <form action="/participants/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>Nombre*: <input name="name" required type="text"></label><br>
+        <label>Edad*: <input name="age" type="number" required></label><br>
+        <label>Apellido(s): <input name="surname" type="text"></label><br>
+        <label>Nacionalidad: <input name="nationality" type="text"></label><br>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+
+<div>
+    <h2>Eliminar participante</h2>
+    <form action="/participants/delete" method="POST">
+        <label>ID*: <input name="id_participant" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<!-- Obtener participante por ID -->
+<div>
+    <h2>Obtener participante por ID</h2>
+    <form action="/participants" method="GET" onsubmit="event.preventDefault(); getParticipantById();">
+        <label>ID*: <input id="id_participant" name="id_participant" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener participante por nombre</h2>
+    <form action="/participants/name" method="GET">
+        <label>Nombre*: <input name="name" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener participante por apellido</h2>
+    <form action="/participants/surname" method="GET">
+        <label>Apellido*: <input name="surname" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener participante por edad</h2>
+    <form action="/participants/age" method="GET">
+        <label>Edad*: <input name="age" required type="number"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener participante por nacionalidad</h2>
+    <form action="/participants/nationality" method="GET">
+        <label>Nacionalidad*: <input name="nationality" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+
+<div>
+    <h2>Obtener contenidos de un participante</h2>
+    <form action="/participants" method="GET" onsubmit="event.preventDefault(); getContentsByParticipant();">
+        <label>ID*: <input id="id_participant_content" name="id_participant" required type="text"></label><br>
+        <button type="submit">Buscar contenidos</button>
+    </form>
+</div>
+
+
+<script>
+    function getParticipantById() {
+        const idParticipant = document.getElementById('id_participant').value;
+        if (idParticipant) {
+            window.location.href = `/participants/${idParticipant}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+
+    function getContentsByParticipant() {
+        const idParticipant = document.getElementById('id_participant_content').value;
+        if (idParticipant) {
+            window.location.href = `/participants/${idParticipant}/content`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

@@ -21,13 +21,13 @@ import com.fasterxml.jackson.annotation.Nulls;
 
 
 public class Subscription {
-    @JsonProperty("idUser")
+    @JsonProperty("iduser")
 
-    private Long idUser = null;
+    private Long iduser = null;
 
-    @JsonProperty("idSubscription")
+    @JsonProperty("idsubscription")
 
-    private Long idSubscription = null;
+    private Long idsubscription = null;
 
     @JsonProperty("startDate")
 
@@ -40,39 +40,39 @@ public class Subscription {
     private String endDate = null;
 
     /**
-     * Get idUser
+     * Get iduser
      *
-     * @return idUser
+     * @return iduser
      **/
     @Schema(required = false, description = "")
-    public Long getidUser() {
-        return idUser;
+    public Long getiduser() {
+        return iduser;
     }
 
-    public void setidUser(Long idUser) {
+    public void setiduser(Long iduser) {
 
-        this.idUser = idUser;
+        this.iduser = iduser;
     }
 
-    public Subscription idSubscription(Long idSubscription) {
+    public Subscription idsubscription(Long idsubscription) {
 
-        this.idSubscription = idSubscription;
+        this.idsubscription = idsubscription;
         return this;
     }
 
     /**
-     * Get idSubscription
+     * Get idsubscription
      *
-     * @return idSubscription
+     * @return idsubscription
      **/
     @Schema(example = "1", required = false, description = "")
-    public Long getIdSubscription() {
-        return idSubscription;
+    public Long getidsubscription() {
+        return idsubscription;
     }
 
 
-    public void setIdSubscription(Long idSubscription) {
-        this.idSubscription = idSubscription;
+    public void setidsubscription(Long idsubscription) {
+        this.idsubscription = idsubscription;
     }
 
     public Subscription startDate(String startDate) {
@@ -124,23 +124,23 @@ public class Subscription {
         }
         Subscription subscription = (Subscription) o;
         return
-                Objects.equals(this.idUser, subscription.idUser) &&
-                        Objects.equals(this.idSubscription, subscription.idSubscription) &&
+                Objects.equals(this.iduser, subscription.iduser) &&
+                        Objects.equals(this.idsubscription, subscription.idsubscription) &&
                         Objects.equals(this.startDate, subscription.startDate) &&
                         Objects.equals(this.endDate, subscription.endDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, idSubscription, startDate, endDate);
+        return Objects.hash(iduser, idsubscription, startDate, endDate);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class Subscription {\n");
-        sb.append("    idUser: ").append(toIndentedString(idUser)).append("\n");
-        sb.append("    idSubscription: ").append(toIndentedString(idSubscription)).append("\n");
+        sb.append("    iduser: ").append(toIndentedString(iduser)).append("\n");
+        sb.append("    idsubscription: ").append(toIndentedString(idsubscription)).append("\n");
         sb.append("    startDate: ").append(toIndentedString(startDate)).append("\n");
         sb.append("    endDate: ").append(toIndentedString(endDate)).append("\n");
         sb.append("}");

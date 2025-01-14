@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edición de Capítulos</title>
+</head>
+<body>
+    <p><a href="/">Volver al menú de gestión</a></p>
+<!-- Modificar participante -->
+<div>
+    <h2>Modificar participante</h2>
+    <form action="/participants/update" method="POST">
+        <label>ID*: 
+            <input name="id_participant" required type="text" value="{{ participant.id_participant }}" readonly>
+        </label><br>
+        <label>Nombre: 
+            <input name="name" type="text" value="{{ participant.name }}">
+        </label><br>
+        <label>Apellido(s): 
+            <input name="surname" type="text" value="{{ participant.surname }}">
+        </label><br>
+        <label>Nacionalidad: 
+            <input name="nationality" type="text" value="{{ participant.nationality }}">
+        </label><br>
+        <label>Edad: 
+            <input name="age" type="number" value="{{ participant.age }}">
+        </label><br>
+        <button type="submit">Modificar</button>
+    </form>
+</div>
+
+
+</body>
+</html>

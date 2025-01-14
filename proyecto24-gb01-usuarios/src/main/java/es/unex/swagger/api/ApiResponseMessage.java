@@ -1,9 +1,11 @@
 package es.unex.swagger.api;
 
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-10-18T10:29:32.211856553Z[GMT]")
 @javax.xml.bind.annotation.XmlRootElement
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ApiResponseMessage {
     public static final int ERROR = 1;
     public static final int WARNING = 2;
