@@ -11,9 +11,9 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las visualizaciones -->
+<!-- Obtener ALL visualizaciones -->
 <div>
-    <h2>Obtener todas las visualizaciones</h2>
+    <h2>Obtener ALL visualizaciones</h2>
     <form action="/views/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
@@ -107,6 +107,14 @@
     <h2>Obtener visualización por contenido</h2>
     <form action="/views/contents" method="GET">
         <label>ID Contenido*: <input name="id_content" required type="text"></label><br>
+        <label>Tipo de contenido:
+            <select name="content_type">
+                {% for name, value in content_types %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </label>
         <button type="submit">Buscar</button>
     </form>
 </div>

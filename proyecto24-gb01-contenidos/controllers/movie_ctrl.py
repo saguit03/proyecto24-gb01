@@ -19,6 +19,26 @@ class MovieCtrl:
     bad_request = '400 Bad Request';
 
     @staticmethod
+    def get_json(movie):
+        return {
+                    'id_movie': movie.get('id_movie'),
+                    'title': movie.get('title'),
+                    'url_video': movie.get('url_video'),
+                    'url_title_page': movie.get('url_title_page'),
+                    'release_date': movie.get('release_date'),
+                    'synopsis': movie.get('synopsis'),
+                    'description': movie.get('description'),
+                    'is_subscription': movie.get('is_subscription'),
+                    'duration': movie.get('duration'),
+                    'languages': movie.get('languages'),
+                    'categories': movie.get('categories'),
+                    'characters': movie.get('characters'),
+                    'participants': movie.get('participants'),
+                    'trailer': movie.get('trailer'),
+                    'views': ViewClient.get_number_views(id_content=movie.get('id_movie'), content_type=1)
+                }
+
+    @staticmethod
     def render_template(db: Collection):
         movies_received = db.find()
         return render_template('Movie.html', movies=movies_received)
@@ -67,22 +87,7 @@ class MovieCtrl:
             matching_movie = db.find({'id_movie': id_movie})
 
             movie_found = [
-                {
-                    'id_movie': movie.get('id_movie'),
-                    'title': movie.get('title'),
-                    'url_video': movie.get('url_video'),
-                    'url_title_page': movie.get('url_title_page'),
-                    'release_date': movie.get('release_date'),
-                    'synopsis': movie.get('synopsis'),
-                    'description': movie.get('description'),
-                    'is_subscription': movie.get('is_subscription'),
-                    'duration': movie.get('duration'),
-                    'languages': movie.get('languages'),
-                    'categories': movie.get('categories'),
-                    'characters': movie.get('characters'),
-                    'participants': movie.get('participants'),
-                    'trailer': movie.get('trailer'),
-                }
+                MovieCtrl.get_json(movie)
                 for movie in matching_movie
             ]
             if movie_found.__len__()>0:
@@ -180,22 +185,7 @@ class MovieCtrl:
 
             if db.count_documents({'title': {'$regex': title, '$options': 'i'}}) > 0:
                 movie_found = [
-                    {
-                        'id_movie': movie.get('id_movie'),
-                        'title': movie.get('title'),
-                        'url_video': movie.get('url_video'),
-                        'url_title_page': movie.get('url_title_page'),
-                        'release_date': movie.get('release_date'),
-                        'synopsis': movie.get('synopsis'),
-                        'description': movie.get('description'),
-                        'is_subscription': movie.get('is_subscription'),
-                        'duration': movie.get('duration'),
-                        'languages': movie.get('languages'),
-                        'categories': movie.get('categories'),
-                        'characters': movie.get('characters'),
-                        'participants': movie.get('participants'),
-                        'trailer': movie.get('trailer'),
-                    }
+                    MovieCtrl.get_json(movie)
                     for movie in matching_movie
                 ]
                 if movie_found.__len__() > 0:
@@ -221,22 +211,7 @@ class MovieCtrl:
 
             if db.count_documents({'release_date': str(release_date)}) > 0:
                 movie_found = [
-                    {
-                        'id_movie': movie.get('id_movie'),
-                        'title': movie.get('title'),
-                        'url_video': movie.get('url_video'),
-                        'url_title_page': movie.get('url_title_page'),
-                        'release_date': movie.get('release_date'),
-                        'synopsis': movie.get('synopsis'),
-                        'description': movie.get('description'),
-                        'is_subscription': movie.get('is_subscription'),
-                        'duration': movie.get('duration'),
-                        'languages': movie.get('languages'),
-                        'categories': movie.get('categories'),
-                        'characters': movie.get('characters'),
-                        'participants': movie.get('participants'),
-                        'trailer': movie.get('trailer'),
-                    }
+                    MovieCtrl.get_json(movie)
                     for movie in matching_movies
                 ]
                 if movie_found.__len__() > 0:
@@ -258,27 +233,13 @@ class MovieCtrl:
 
         if db.count_documents({}) > 0:
             movies_list = [
-                {
-                    'id_movie': movie.get('id_movie'),
-                    'title': movie.get('title'),
-                    'url_video': movie.get('url_video'),
-                    'url_title_page': movie.get('url_title_page'),
-                    'release_date': movie.get('release_date'),
-                    'synopsis': movie.get('synopsis'),
-                    'description': movie.get('description'),
-                    'is_subscription': movie.get('is_subscription'),
-                    'duration': movie.get('duration'),
-                    'languages': movie.get('languages'),
-                    'categories': movie.get('categories'),
-                    'characters': movie.get('characters'),
-                    'participants': movie.get('participants'),
-                    'trailer': movie.get('trailer'),
-                }
+                    MovieCtrl.get_json(movie)
                 for movie in all_movies
             ]
             if movies_list.__len__()>0:
                return jsonify(movies_list), 200
-        return jsonify({'error': MovieCtrl.listmovies_not_found_msg, 'status': MovieCtrl.not_found}), 404
+        
+        return jsonify([]), 200
 
     # ---------------------------------------------------------
 

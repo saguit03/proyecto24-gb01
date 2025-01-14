@@ -1,9 +1,25 @@
-from flask import request
+from flask import request, render_template, redirect, url_for
+from types import SimpleNamespace
 import os
 import requests
 
 class CharactersClient:
     BASE_URL =  f"{os.getenv('CONTENIDOS_URL')}characters"
+    
+    @staticmethod
+    def render_update_character(id_character):
+        character_data = CharactersClient.get_character_by_id(id_character=id_character)
+        if character_data and len(character_data) > 0:
+            character_dict = character_data[0]
+            character = SimpleNamespace(**character_dict)
+            return render_template('update_character.html', character=character)
+        else:
+            return redirect(url_for('characters'))
+        
+    @staticmethod
+    def render_characters():
+        return render_template('characters.html')
+        
 
     @staticmethod
     def add_character():
@@ -62,7 +78,10 @@ class CharactersClient:
     def get_all_characters():
         url = f"{CharactersClient.BASE_URL}/all"
         response = requests.get(url)
-        return CharactersClient.handle_response(response)
+        if response.status_code == 200:
+            return render_template('characters.html', characters=response.json())
+        else:
+            return redirect(url_for('chapters'))
 
     @staticmethod
     def handle_response(response):

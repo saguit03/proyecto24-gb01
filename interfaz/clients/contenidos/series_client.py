@@ -1,10 +1,26 @@
-from flask import request
+from flask import request, render_template, redirect, url_for
+from types import SimpleNamespace
 import os
 import requests
 
 class SeriesClient:
     BASE_URL =  f"{os.getenv('CONTENIDOS_URL')}series"
 
+
+    @staticmethod
+    def render_update_series(id_series):
+        series_data = SeriesClient.get_series_by_id(id_series=id_series)
+        if series_data and len(series_data) > 0:
+            series_dict = series_data[0]
+            series = SimpleNamespace(**series_dict)
+            return render_template('update_series.html', series=series)
+        else:
+            return redirect(url_for('series'))
+        
+    @staticmethod
+    def render_series():
+        return render_template('series.html')
+    
     @staticmethod
     def add_series():
         form_data = request.form.to_dict()
@@ -48,7 +64,10 @@ class SeriesClient:
     def get_all_series():
         url = f"{SeriesClient.BASE_URL}/all"
         response = requests.get(url)
-        return SeriesClient.handle_response(response)
+        if response.status_code == 200:
+            return render_template('series.html', series=response.json())
+        else:
+            return redirect(url_for('series'))
 
     @staticmethod
     def get_series_by_title():

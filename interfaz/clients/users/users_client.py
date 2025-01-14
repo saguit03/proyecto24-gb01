@@ -9,6 +9,8 @@ from auth.user_mixin import User
 class UsersClient:
     BASE_URL = f"{os.getenv('USUARIOS_URL')}users"
 
+    headers = {"Accept: application/json", "Content-Type: application/json"}
+
     @staticmethod
     def handle_response(response):
         if response.status_code in {200, 201}:  # Agregado para cubrir el caso de creación exitosa
@@ -19,9 +21,7 @@ class UsersClient:
     @staticmethod
     def get_user(iduser):
         url = f"{UsersClient.BASE_URL}/{iduser}"
-        response = requests.get(url, 
-                                headers={"Accept": "application/json", "Content-Type": "application/json" }
-                                )
+        response = requests.get(url, headers=UsersClient.headers)
         return UsersClient.handle_response(response)
 
     @staticmethod
@@ -35,7 +35,7 @@ class UsersClient:
         url = f"{UsersClient.BASE_URL}/login"
         form_data = request.form.to_dict()
         response = requests.post(url, 
-                                 headers={"Accept": "application/json", "Content-Type": "application/json" }, 
+                                 headers=UsersClient.headers,
                                  data=json.dumps(form_data))
         
         if response.status_code in {200, 201}:
@@ -67,11 +67,7 @@ class UsersClient:
             "password": form_data.get("password"),
         }
         
-        response = requests.put(
-            url,
-            json=user,
-            headers={"Content-Type": "application/json"},
-        )
+        response = requests.put(url,json=user,headers=UsersClient.headers)
         return UsersClient.handle_response(response)
 
     @staticmethod
@@ -83,5 +79,5 @@ class UsersClient:
     @staticmethod
     def get_all_users():
         url = UsersClient.BASE_URL
-        response = requests.get(url, headers={"Accept": "application/json"})
+        response = requests.get(url, headers=UsersClient.headers)
         return UsersClient.handle_response(response)

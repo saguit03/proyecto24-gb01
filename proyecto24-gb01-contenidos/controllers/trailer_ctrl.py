@@ -14,6 +14,20 @@ class TrailerCtrl:
     bad_request = '400 Bad Request';
 
     @staticmethod
+    def get_json(trailer):
+        return {
+                'id_trailer': trailer.get('id_trailer'),
+                'title': trailer.get('title'),
+                'duration': trailer.get('duration'),
+                'url_video': trailer.get('url_video'),
+                'languages': trailer.get('languages'),
+                'categories': trailer.get('categories'),
+                'characters': trailer.get('characters'),
+                'participants': trailer.get('participants'),
+                'views': ViewClient.get_number_views(id_content=trailer.get('id_trailer'), content_type=5)
+            }
+
+    @staticmethod
     def render_template(db: Collection):
         trailers_received = db.find()
         return render_template('Trailer.html', trailers=trailers_received)
@@ -48,16 +62,7 @@ class TrailerCtrl:
             id_trailer = int(id_trailer)
             matching_trailer = db.find({'id_trailer': id_trailer})
             trailer_found = [
-                {
-                    'id_trailer': trailer.get('id_trailer'),
-                    'title': trailer.get('title'),
-                    'duration': trailer.get('duration'),
-                    'url_video': trailer.get('url_video'),
-                    'languages': trailer.get('languages'),
-                    'categories': trailer.get('categories'),
-                    'characters': trailer.get('characters'),
-                    'participants': trailer.get('participants'),
-                }
+                TrailerCtrl.get_json(trailer)
                 for trailer in matching_trailer
             ]
             if trailer_found.__len__()>0:
@@ -97,7 +102,7 @@ class TrailerCtrl:
     def put_trailer(db: Collection, id_trailer: int):
         if id_trailer:
             id_trailer = int(id_trailer)
-            trailerTitle = request.form.get('title')
+            title = request.form.get('title')
             duration = request.form.get('duration')
             url_video = request.form.get('url_video')
 
@@ -107,15 +112,15 @@ class TrailerCtrl:
             filter_dict = {'id_trailer': id_trailer}
             update_fields = {}
 
-            if trailerTitle:
-                update_fields['title'] = trailerTitle
+            if title:
+                update_fields['title'] = title
             if duration:
                 update_fields['duration'] = int(duration)
             if url_video:
                 update_fields['url_video'] = url_video
 
             change = {'$set': update_fields}
-            return TrailerCtrl.update_trailer(trailers, filter_dict, change)
+            return TrailerCtrl.update_trailer(db, filter_dict, change)
 
         return jsonify({'error': TrailerCtrl.err_msg, 'status': TrailerCtrl.bad_request}), 400
 
@@ -165,15 +170,10 @@ class TrailerCtrl:
 
         if db.count_documents({}) > 0:
             trailers_list = [
-                {
-                    'id_trailer': trailer.get('id_trailer'),
-                    'title': trailer.get('title'),
-                    'duration': trailer.get('duration'),
-                    'categories': trailer.get('categories')
-                }
+                TrailerCtrl.get_json(trailer)
                 for trailer in all_trailers
             ]
             if trailers_list.__len__()>0:
                return jsonify(trailers_list), 200
-        return jsonify({'error': TrailerCtrl.listtrailers_not_found_msg, 'status': TrailerCtrl.not_found}), 404
+        return jsonify([]), 200
 

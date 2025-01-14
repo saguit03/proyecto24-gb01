@@ -1,9 +1,13 @@
-from flask import request
+from flask import request, render_template, redirect, url_for
 import os
 import requests
 
 class CategoriesClient:
     BASE_URL =  f"{os.getenv('CONTENIDOS_URL')}categories"
+
+    @staticmethod
+    def render_categories():
+        return render_template('categories.html')
 
     @staticmethod
     def add_category():
@@ -21,7 +25,11 @@ class CategoriesClient:
     def get_all_categories():
         url = f"{CategoriesClient.BASE_URL}/all"
         response = requests.get(url)
-        return CategoriesClient.handle_response(response)
+        if response.status_code == 200:
+            return render_template('categories.html', categories=response.json())
+        else:
+            return redirect(url_for('categories'))
+
     
     @staticmethod
     def get_content_by_category(id_category):

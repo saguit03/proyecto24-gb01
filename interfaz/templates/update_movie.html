@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edición de Capítulos</title>
+</head>
+<body>
+    <p><a href="/">Volver al menú de gestión</a></p>
+<!-- Editar película -->
+<div>
+    <h2>Editar película</h2>
+    <form action="/movies/update" method="POST">
+        <label>ID*: 
+            <input name="id_movie" required type="text" value="{{ movie.id_movie }}" readonly>
+        </label><br>
+        <label>Título: 
+            <input name="title" type="text" value="{{ movie.title }}">
+        </label><br>
+        <label>Duración (minutos): 
+            <input name="duration" type="number" value="{{ movie.duration }}">
+        </label><br>
+        <label>Fecha de estreno: 
+            <input name="release_date" type="date" value="{{ movie.release_date }}">
+        </label><br>
+        <label>
+            ¿Disponible con suscripción?<br>
+            <input name="is_subscription" type="radio" value="True" {% if movie.is_subscription %}checked{% endif %}> Sí<br>
+            <input name="is_subscription" type="radio" value="False" {% if not movie.is_subscription %}checked{% endif %}> No
+        </label><br>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+
+</body>
+</html>

@@ -11,12 +11,26 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las tráileres -->
+
+<!-- Obtener ALL tráileres -->
 <div>
-    <h2>Obtener todas las tráileres</h2>
+    <h2>Obtener ALL tráileres</h2>
     <form action="/trailers/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
+    <h2> Lista de tráileres </h2>
+    <ul>
+        {% for trailer in trailers %}
+        <li>
+            
+            <h3> {{ trailer.title }} </h3>
+            ID: {{ trailer.id_trailer }},
+            Duración: {{ trailer.duration }}
+
+            <a href="/trailers/update/{{ trailer.id_trailer }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!-- Obtener tráiler por ID -->

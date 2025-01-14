@@ -17,6 +17,26 @@ class SeriesCtrl:
     def render_template(db: Collection):
         series_received = db.find()
         return render_template('Series.html', series=series_received)
+    
+    @staticmethod
+    def get_json(series):
+        return {
+                'id_series': series.get('id_series'),
+                'title': series.get('title'),
+                'duration': series.get('duration'),
+                'url_title_page': series.get('url_title_page'),
+                'release_date': series.get('release_date'),
+                'synopsis': series.get('synopsis'),
+                'description': series.get('description'),
+                'is_subscription': series.get('is_subscription'),
+                'seasons': series.get('seasons'),
+                'languages': series.get('languages'),
+                'categories': series.get('categories'),
+                'characters': series.get('characters'),
+                'participants': series.get('participants'),
+                'trailer': series.get('trailer'),
+                'views': ViewClient.get_number_views(id_content=series.get('id_series'), content_type=2)
+                }
 
     # --------------------------------------------------------------
 
@@ -64,22 +84,7 @@ class SeriesCtrl:
 
             if db.count_documents({'title': {'$regex': title, '$options': 'i'}}) > 0:
                 series_found = [
-                    {
-                        'id_series': series.get('id_series'),
-                        'title': series.get('title'),
-                        'duration': series.get('duration'),
-                        'url_title_page': series.get('url_title_page'),
-                        'release_date': series.get('release_date'),
-                        'synopsis': series.get('synopsis'),
-                        'description': series.get('description'),
-                        'is_subscription': series.get('is_subscription'),  # OJO
-                        'seasons': series.get('seasons'),
-                        'languages': series.get('languages'),
-                        'categories': series.get('categories'),
-                        'characters': series.get('characters'),
-                        'participants': series.get('participants'),
-                        'trailer': series.get('trailer')
-                    }
+                    SeriesCtrl.get_json(series)
                     for series in matching_series
                 ]
                 return jsonify(series_found), 200
@@ -98,22 +103,7 @@ class SeriesCtrl:
             id_series = int(id_series)
             matching_series = db.find({'id_series': id_series})
             series_found = [
-                {
-                    'id_series': series.get('id_series'),
-                    'title': series.get('title'),
-                    'duration': series.get('duration'),
-                    'url_title_page': series.get('url_title_page'),
-                    'release_date': series.get('release_date'),
-                    'synopsis': series.get('synopsis'),
-                    'description': series.get('description'),
-                    'is_subscription': series.get('is_subscription'),
-                    'seasons': series.get('seasons'),
-                    'languages': series.get('languages'),
-                    'categories': series.get('categories'),
-                    'characters': series.get('characters'),
-                    'participants': series.get('participants'),
-                    'trailer': series.get('trailer')
-                }
+                SeriesCtrl.get_json(series)
                 for series in matching_series
             ]
             if series_found.__len__()>0:
@@ -248,28 +238,13 @@ class SeriesCtrl:
 
         if db.count_documents({}) > 0:
             series_list = [
-                {
-                    'id_series': series.get('id_series'),
-                    'title': series.get('title'),
-                    'duration': series.get('duration'),
-                    'url_title_page': series.get('url_title_page'),
-                    'release_date': series.get('release_date'),
-                    'synopsis': series.get('synopsis'),
-                    'description': series.get('description'),
-                    'is_subscription': series.get('is_subscription'),
-                    'seasons': series.get('seasons'),
-                    'languages': series.get('languages'),
-                    'categories': series.get('categories'),
-                    'characters': series.get('characters'),
-                    'participants': series.get('participants'),
-                    'trailer': series.get('trailer')
-                }
+                SeriesCtrl.get_json(series)
                 for series in all_series
             ]
             return jsonify(series_list), 200
 
         else:
-            return jsonify({'error': 'No existen películas insertadas', 'status': SeriesCtrl.not_found}), 404
+            return jsonify([]), 200
 
     # --------------------------------------------------------------
 

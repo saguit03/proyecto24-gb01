@@ -11,12 +11,21 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las categorías -->
+<!-- Obtener ALL categorías -->
 <div>
-    <h2>Obtener todas las categorías</h2>
+    <h2>Obtener ALL categorías</h2>
     <form action="/categories/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
+    <h2> Lista de categorías </h2>
+    <ul>
+        {% for category in categories %}
+        <li>
+            <h3>{{ category.name }}</h3> 
+            ID: {{ category.id_category }}
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!-- Añadir categoría -->

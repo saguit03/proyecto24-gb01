@@ -11,12 +11,29 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
+
+<!-- Obtener ALL series -->
 <div>
-    <!-- Obtener todas las series -->
-    <h2>Obtener Todas las Series</h2>
+    <h2>Obtener ALL series</h2>
     <form action="/series/all" method="GET">
-        <button type="submit">Ver Todas las Series</button>
+        <button type="submit">Buscar</button>
     </form>
+    <h2> Lista de series </h2>
+    <ul>
+        {% for series in series %}
+        <li>
+            
+           <h3> {{ series.title }} </h3>
+            ID: {{ series.id_series }},
+            Duración: {{ series.duration }},
+            Fecha de estreno: {{ series.release_date }},
+            ¿Es suscripción? {{ series.is_subscription }}
+            <p>Descripción: {{ series.description }} </p>
+            
+            <a href="/series/update/{{ series.id_series }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!-- Obtener serie por ID -->
@@ -46,24 +63,6 @@
 </div>
 
 <div>
-    <!-- Actualizar una serie -->
-    <h2>Actualizar Serie</h2>
-    <form action="/series/update" method="POST">
-        <label>ID*: <input name="id_series" required type="text"></label><br>
-        <label>Título: <input name="title" type="text"></label><br>
-        <label>Duración (minutos): <input name="duration" type="number"></label><br>
-        <label>Descripción: <textarea name="description"></textarea></label><br>
-        <label>Fecha de estreno: <input name="release_date" type="date"></label><br>
-        <label>
-            ¿Disponible con suscripción?<br>
-            <input name="is_subscription" type="radio" value="True"> Sí<br>
-            <input name="is_subscription" type="radio" value="False"> No
-        </label><br>
-        <button type="submit">Actualizar Serie</button>
-    </form>
-</div>
-
-<div>
     <!-- Eliminar una serie -->
     <h2>Eliminar Serie</h2>
     <form action="/series/delete" method="POST">
@@ -80,36 +79,6 @@
         <button type="submit">Buscar Serie</button>
     </form>
 </div>
-
-
-<!--&lt;!&ndash; Obtener serie por ID &ndash;&gt;-->
-<!--<div>-->
-<!--    <h2>Obtener capítulos serie</h2>-->
-<!--    <form action="/series" method="GET" onsubmit="event.preventDefault(); getChapters();">-->
-<!--        <label>ID*: <input type="text" name="id_series" id="id_series" required></label><br>-->
-<!--        <button type="submit">Buscar capítulos</button>-->
-<!--    </form>-->
-<!--</div>-->
-
-
-<!--&lt;!&ndash; Obtener serie por ID &ndash;&gt;-->
-<!--<div>-->
-<!--    <h2>Obtener personajes serie</h2>-->
-<!--    <form action="/series" method="GET" onsubmit="event.preventDefault(); getCharacters();">-->
-<!--        <label>ID*: <input type="text" name="id_series" id="id_series" required></label><br>-->
-<!--        <button type="submit">Buscar personajes</button>-->
-<!--    </form>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Obtener serie por ID &ndash;&gt;-->
-<!--<div>-->
-<!--    <h2>Obtener intérpretes serie</h2>-->
-<!--    <form action="/series" method="GET" onsubmit="event.preventDefault(); getParticipants();">-->
-<!--        <label>ID*: <input type="text" name="id_series" id="id_series" required></label><br>-->
-<!--        <button type="submit">Buscar intérpretes</button>-->
-<!--    </form>-->
-<!--</div>-->
-
 
 <!--<div>-->
 <!--    <h2>Añadir Temporada a una Serie</h2>-->

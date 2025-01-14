@@ -1,10 +1,25 @@
-from flask import request
+from flask import request, render_template, redirect, url_for
 import os
 import requests
+from types import SimpleNamespace
 
 class ChaptersClient:
     BASE_URL =  f"{os.getenv('CONTENIDOS_URL')}chapters"
-
+    
+    @staticmethod
+    def render_update_chapter(id_chapter):
+        chapter_data = ChaptersClient.get_chapter_by_id(id_chapter=id_chapter)
+        if chapter_data and len(chapter_data) > 0:
+            chapter_dict = chapter_data[0]
+            chapter = SimpleNamespace(**chapter_dict)
+            return render_template('update_chapter.html', chapter=chapter)
+        else:
+            return redirect(url_for('chapters'))
+        
+    @staticmethod
+    def render_chapters():
+        return render_template('chapters.html')
+        
     @staticmethod
     def add_chapter():
         form_data = request.form.to_dict()
@@ -48,7 +63,10 @@ class ChaptersClient:
     def get_all_chapters():
         url = f"{ChaptersClient.BASE_URL}/all"
         response = requests.get(url)
-        return ChaptersClient.handle_response(response)
+        if response.status_code == 200:
+            return render_template('chapters.html', chapters=response.json())
+        else:
+            return redirect(url_for('chapters'))
 
     @staticmethod
     def handle_response(response):

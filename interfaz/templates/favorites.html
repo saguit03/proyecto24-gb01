@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="favoriteport">
+    <title>Gestión de Favoritos</title>
+</head>
+<body>
+<div>
+    <h1>Gestión de favoritos</h1>
+    <p><a href="/">Volver al menú de gestión</a></p>
+</div>
+
+<!-- Añadir favorito -->
+<div>
+    <h2>Añadir favorito</h2>
+    <form action="/favorites/create" method="POST">
+        <p>Nota: Los parámetros con * son obligatorios</p>
+        <label>ID Usuario*:
+            <input name="iduser" required type="number">
+            <br><br>
+        </label>
+        <label>ID Contenido*:
+            <input name="id_content" required type="number">
+            <br><br>
+        </label>
+        <label>Tipo de contenido:
+            <select name="content_type">
+                {% for name, value in content_types %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </label>
+        <button type="submit">Añadir</button>
+    </form>
+</div>
+
+<div>
+    <h2>Eliminar favorito</h2>
+    <form action="/favorites/delete" method="POST">
+        <label>ID*: <input name="idfavorite" required type="text"></label><br>
+        <button type="submit">Eliminar</button>
+    </form>
+</div>
+
+<!-- Obtener favorito por ID -->
+<div>
+    <h2>Obtener favorito por ID</h2>
+    <form action="/favorites" method="GET" onsubmit="event.preventDefault(); getFavoriteById();">
+        <label>ID*: <input id="idfavorite" name="idfavorite" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener favorito por contenido</h2>
+    <form action="/favorites/contents" method="GET">
+        <label>ID Contenido*: <input name="id_content" required type="text"></label><br>
+        <label>Tipo de contenido:
+            <select name="content_type">
+                {% for name, value in content_types %}
+                <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+        </label>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<div>
+    <h2>Obtener favorito por usuario</h2>
+    <form action="/favorites/profiles" method="GET">
+        <label>ID Usuario*: <input name="iduser" required type="text"></label><br>
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+<script>
+    function getFavoriteById() {
+        const idfavorite = document.getElementById('idfavorite').value;
+        if (idfavorite) {
+            window.location.href = `/favorites/${idfavorite}`;
+        } else {
+            alert('Por favor, introduce un ID válido.');
+        }
+    }
+</script>
+
+
+</body>
+</html>

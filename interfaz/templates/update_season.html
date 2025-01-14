@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edición de Capítulos</title>
+</head>
+<body>
+    <p><a href="/">Volver al menú de gestión</a></p>
+<!-- Editar temporada -->
+<div>
+    <h2>Editar temporada</h2>
+    <form action="/seasons/update" method="POST">
+        <label>ID Temporada*: 
+            <input name="id_season" required type="text" value="{{ season.id_season }}" readonly>
+        </label><br>
+        <label>ID Serie: 
+            <input id="id_series" name="id_series" type="text" value="{{ season.id_series }}">
+        </label><br>
+        <label>Título: 
+            <input name="title" type="text" value="{{ season.title }}">
+        </label><br>
+        <label>Número de temporada: 
+            <input name="season_number" type="number" value="{{ season.season_number }}">
+        </label><br>
+        <button type="submit">Editar</button>
+    </form>
+</div>
+
+
+</body>
+</html>

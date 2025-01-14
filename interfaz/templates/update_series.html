@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edición de Capítulos</title>
+</head>
+<body>
+    <p><a href="/">Volver al menú de gestión</a></p>
+<!-- Modificar Serie -->
+<div>
+    <h2>Modificar Serie</h2>
+    <form action="/series/update" method="POST">
+        <label>ID*: 
+            <input name="id_series" required type="text" value="{{ series.id_series }}" readonly>
+        </label><br>
+        <label>Título: 
+            <input name="title" type="text" value="{{ series.title }}">
+        </label><br>
+        <label>Duración (minutos): 
+            <input name="duration" type="number" value="{{ series.duration }}">
+        </label><br>
+        <label>Descripción: 
+            <textarea name="description">{{ series.description }}</textarea>
+        </label><br>
+        <label>Fecha de estreno: 
+            <input name="release_date" type="date" value="{{ series.release_date }}">
+        </label><br>
+        <label>
+            ¿Disponible con suscripción?<br>
+            <input name="is_subscription" type="radio" value="True" {% if series.is_subscription %}checked{% endif %}> Sí<br>
+            <input name="is_subscription" type="radio" value="False" {% if not series.is_subscription %}checked{% endif %}> No
+        </label><br>
+        <button type="submit">Actualizar Serie</button>
+    </form>
+</div>
+
+
+</body>
+</html>

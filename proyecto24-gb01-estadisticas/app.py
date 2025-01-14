@@ -138,10 +138,10 @@ def get_reviews_by_id_content():
     return ReviewCtrl.get_reviews_by_id_content(db['reviews'])
 
 
-@app.route('/reviews/profiles', methods=['GET'])
+@app.route('/reviews/profiles/<int:idprofile>', methods=['GET'])
 @cross_origin()
-def get_reviews_by_idprofile():
-    return ReviewCtrl.get_reviews_by_idprofile(db['reviews'])
+def get_reviews_by_idprofile(idprofile):
+    return ReviewCtrl.get_reviews_by_idprofile(idprofile, db['reviews'])
 
 
 @app.route('/reviews/ratings', methods=['GET'])

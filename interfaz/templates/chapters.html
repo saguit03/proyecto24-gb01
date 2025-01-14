@@ -11,12 +11,22 @@
     <p><a href="/">Volver al menú de gestión</a></p>
 </div>
 
-<!-- Obtener todas las capítulos -->
+<!-- Obtener ALL capítulos -->
 <div>
-    <h2>Obtener todas las capítulos</h2>
+    <h2>Obtener ALL capítulos</h2>
     <form action="/chapters/all" method="GET">
         <button type="submit">Buscar</button>
     </form>
+    <h2> Lista de capítulos </h2>
+    <ul>
+        {% for chapter in chapters %}
+        <li>
+            <h3>{{ chapter.title }}</h3>
+            ID: {{ chapter.id_chapter }} 
+            <a href="/chapters/update/{{ chapter.id_chapter }}">Editar</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <!-- Obtener capítulo por ID -->
@@ -40,21 +50,6 @@
         </label>
         <br></br>
         <button type="submit">Añadir</button>
-    </form>
-</div>
-
-<!-- Editar capítulo -->
-<div>
-    <h2>Editar capítulo</h2>
-    <form action="/chapters/update" method="POST">
-        <label>ID*: <input name="id_chapter" required type="text"></label><br>
-        <label>Título: <input name="title" type="text"></label><br>
-        <label>Duración (minutos): <input name="duration" type="number"></label><br>
-        <label>¿Cuál es el número del capítulo en la temporada?
-            <input name="chapter_number" type="number">
-        </label>
-        <br></br>
-        <button type="submit">Editar</button>
     </form>
 </div>
 

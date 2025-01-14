@@ -25,6 +25,21 @@ class ViewClient:
             return ViewClient.handle_response(response)
         except requests.exceptions.RequestException as e:
             return {"error": str(e)}
+        
+    @staticmethod
+    def get_number_views(id_content: int, content_type: int):
+        url = f"{ViewClient.BASE_URL}/contents"
+        params = {
+            "id_content": id_content,
+            "content_type": content_type
+        }
+        response = requests.get(url, params=params)
+        cont = 0
+        
+        if response.status_code == 200:
+            cont = len(response.json())
+        
+        return cont
 
     @staticmethod
     def handle_response(response):

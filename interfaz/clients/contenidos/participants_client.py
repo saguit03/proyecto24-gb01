@@ -1,9 +1,24 @@
-from flask import request
+from flask import request, render_template, redirect, url_for
+from types import SimpleNamespace
 import os
 import requests
 
 class ParticipantsClient:
     BASE_URL =  f"{os.getenv('CONTENIDOS_URL')}participants"
+
+    @staticmethod
+    def render_update_participant(id_participant):
+        participant_data = ParticipantsClient.get_participant_by_id(id_participant=id_participant)
+        if participant_data and len(participant_data) > 0:
+            participant_dict = participant_data[0]
+            participant = SimpleNamespace(**participant_dict)
+            return render_template('update_participant.html', participant=participant)
+        else:
+            return redirect(url_for('participants'))
+        
+    @staticmethod
+    def render_participants():
+        return render_template('participants.html')
 
     @staticmethod
     def add_participant():
@@ -82,7 +97,10 @@ class ParticipantsClient:
     def get_all_participants():
         url = f"{ParticipantsClient.BASE_URL}/all"
         response = requests.get(url)
-        return ParticipantsClient.handle_response(response)
+        if response.status_code == 200:
+            return render_template('participants.html', participants=response.json())
+        else:
+            return redirect(url_for('participants'))
 
     @staticmethod
     def handle_response(response):

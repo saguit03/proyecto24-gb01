@@ -82,7 +82,7 @@ services:
   mongodb-estadisticas:
     image: mongo:latest
     container_name: mongodb-estadisticas
-    command: ["mongod", "--port", "27018"]  # Cambia el puerto interno a 28018
+    command: ["mongod", "--port", "27018"]
 
     environment:
       - MONGO_INITDB_DATABASE=MedifliStats

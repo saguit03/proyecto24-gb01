@@ -1,10 +1,25 @@
-from flask import request
+from flask import request, render_template, redirect, url_for
+from types import SimpleNamespace
 import os
 import requests
 
 class MoviesClient:
     BASE_URL =  f"{os.getenv('CONTENIDOS_URL')}movies"
-
+    
+    @staticmethod
+    def render_update_movie(id_movie):
+        movie_data = MoviesClient.get_movie_by_id(id_movie=id_movie)
+        if movie_data and len(movie_data) > 0:
+            movie_dict = movie_data[0]
+            movie = SimpleNamespace(**movie_dict)
+            return render_template('update_movie.html', movie=movie)
+        else:
+            return redirect(url_for('movies'))
+        
+    @staticmethod
+    def render_movies():
+        return render_template('movies.html')
+        
     @staticmethod
     def add_movie():
         form_data = request.form.to_dict()
@@ -48,7 +63,10 @@ class MoviesClient:
     def get_all_movies():
         url = f"{MoviesClient.BASE_URL}/all"
         response = requests.get(url)
-        return MoviesClient.handle_response(response)
+        if response.status_code == 200:
+            return render_template('movies.html', movies=response.json())
+        else:
+            return redirect(url_for('movies'))
 
     @staticmethod
     def get_movie_by_title():
@@ -78,8 +96,8 @@ class MoviesClient:
         return MoviesClient.handle_response(response)
 
     @staticmethod
-    def get_movie_characters():
-        url = f"{MoviesClient.BASE_URL}/characters"
+    def get_movie_movies():
+        url = f"{MoviesClient.BASE_URL}/movies"
         form_data = request.form.to_dict()
         response = requests.get(url,data=form_data)
         return MoviesClient.handle_response(response)
