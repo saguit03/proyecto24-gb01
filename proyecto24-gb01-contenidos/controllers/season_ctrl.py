@@ -26,7 +26,7 @@ class SeasonCtrl:
                 'characters': season.get('characters'),
                 'participants': season.get('participants'),
                 'trailer': season.get('trailer'),
-                'views': ViewClient.get_number_views(id_content=season.get('id_season'), content_type=3)
+                # 'views': ViewClient.get_number_views(id_content=season.get('id_season'), content_type=3)
             }
 
     @staticmethod

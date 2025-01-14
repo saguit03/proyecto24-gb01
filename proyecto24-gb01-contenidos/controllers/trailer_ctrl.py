@@ -24,7 +24,7 @@ class TrailerCtrl:
                 'categories': trailer.get('categories'),
                 'characters': trailer.get('characters'),
                 'participants': trailer.get('participants'),
-                'views': ViewClient.get_number_views(id_content=trailer.get('id_trailer'), content_type=5)
+                # 'views': ViewClient.get_number_views(id_content=trailer.get('id_trailer'), content_type=5)
             }
 
     @staticmethod

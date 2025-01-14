@@ -35,7 +35,7 @@ class SeriesCtrl:
                 'characters': series.get('characters'),
                 'participants': series.get('participants'),
                 'trailer': series.get('trailer'),
-                'views': ViewClient.get_number_views(id_content=series.get('id_series'), content_type=2)
+                # 'views': ViewClient.get_number_views(id_content=series.get('id_series'), content_type=2)
                 }
 
     # --------------------------------------------------------------

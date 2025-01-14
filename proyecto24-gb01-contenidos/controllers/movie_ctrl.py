@@ -35,7 +35,7 @@ class MovieCtrl:
                     'characters': movie.get('characters'),
                     'participants': movie.get('participants'),
                     'trailer': movie.get('trailer'),
-                    'views': ViewClient.get_number_views(id_content=movie.get('id_movie'), content_type=1)
+                    # 'views': ViewClient.get_number_views(id_content=movie.get('id_movie'), content_type=1)
                 }
 
     @staticmethod

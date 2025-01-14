@@ -23,7 +23,7 @@ class ChapterCtrl:
             'duration': chapter.get('duration'),
             'chapter_number': chapter.get('chapter_number'),
             'url_video': chapter.get('url_video'),
-            'views': ViewClient.get_number_views(id_content=chapter.get('id_chapter'), content_type=6)
+            # 'views': ViewClient.get_number_views(id_content=chapter.get('id_chapter'), content_type=6)
             }
 
     @staticmethod
