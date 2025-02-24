@@ -2,8 +2,7 @@ name: Docker Deployment
 
 on:
   push:
-    branches:
-      - main
+  pull_request:
   workflow_dispatch:
     inputs:
       target_environment:
