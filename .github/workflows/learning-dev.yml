@@ -1,4 +1,4 @@
-name: Learning actions (DEV)
+name: DEV
 
 on:
   push:

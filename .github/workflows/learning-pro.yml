@@ -1,8 +1,8 @@
-name: Learning actions (PRO)
+name: PRO
 
 on:
   workflow_run:
-    workflows: ["Learning actions (PRE)"]
+    workflows: [PRE]
     types:
       - completed
 
