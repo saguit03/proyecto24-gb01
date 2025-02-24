@@ -1,23 +1,14 @@
-name: Learning actions
+name: Learning actions (DEV)
 
 on:
   push:
   pull_request:
   workflow_dispatch:
-    inputs:
-      target_environment:
-        description: 'Target environment (dev, pre, pro)'
-        required: true
-        type: choice
-        options:
-          - dev
-          - pre
-          - pro
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.target_environment || 'dev' }}
+    environment: 'dev'
 
     steps:
       - name: Check out repository code
