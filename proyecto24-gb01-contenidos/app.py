@@ -13,10 +13,10 @@ from controllers.season_ctrl import SeasonCtrl
 from controllers.series_ctrl import SeriesCtrl
 from controllers.trailer_ctrl import TrailerCtrl
 
-db = dbase.conexion_mongodb()
+# db = dbase.conexion_mongodb()
 
 app = Flask(__name__)
-cors = CORS(app) # allow CORS for all domains on all routes.
+# cors = CORS(app) # allow CORS for all domains on all routes.
 
 # -------------------------------------------------------------------------------------------------------
 
