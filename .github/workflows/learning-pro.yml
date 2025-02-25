@@ -22,3 +22,7 @@ jobs:
       - name: Build and start services with Docker Compose
         run: |
           docker compose up -d
+
+      - name: Check containers are running
+        run: |
+          docker ps
