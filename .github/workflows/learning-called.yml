@@ -33,6 +33,6 @@ jobs:
           
       - name: Run health check
         run: |
-          curl -f http://localhost:8080 || exit 1
-          curl -f http://localhost:8082 || exit 1
-          curl -f http://localhost:8083 || exit 1
+          curl -f http://localhost:8080/alive || exit 1
+          curl -f http://localhost:8082/alive || exit 1
+          curl -f http://localhost:8083/alive || exit 1

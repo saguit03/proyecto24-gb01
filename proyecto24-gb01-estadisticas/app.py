@@ -299,7 +299,7 @@ def get_stats_view():
 
 @app.route('/alive')
 def is_alive():
-    return jsonify({'OK, I\'m alive'}), 200
+    return "OK"
     
 # -------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
