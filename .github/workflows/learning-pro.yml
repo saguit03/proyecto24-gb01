@@ -2,7 +2,7 @@ name: PRO
 
 on:
   workflow_run:
-    workflows: [DEV, PRE]
+    workflows: [PRE]
     types:
       - completed
 
