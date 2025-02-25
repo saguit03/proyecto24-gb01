@@ -20,3 +20,15 @@ jobs:
       - name: Build and start services with Docker Compose
         run: |
           docker compose up -d
+
+      - name: Check containers are running
+        run: |
+          docker ps
+      
+      - name: Run check health
+        run: |
+          sleep 10
+          curl http://localhost:8080/alive
+          curl http://localhost:8081/alive
+          curl http://localhost:8082/alive
+          curl http://localhost:8083/alive

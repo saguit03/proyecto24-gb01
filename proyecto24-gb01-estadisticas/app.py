@@ -297,6 +297,10 @@ def get_stats_view():
     return ViewsCtrl.get_stats_view(db['views'])
 
 
+@app.route('/alive')
+def is_alive():
+    return jsonify({'OK, I\'m alive'}), 200
+    
 # -------------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=8083)
