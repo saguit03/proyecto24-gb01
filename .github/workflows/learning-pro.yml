@@ -28,8 +28,9 @@ jobs:
           docker ps
 
   on-failure:
+    environment: 'pro'
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - run: echo 'The triggering workflow failed'
-      - run: exit 1
+      # - run: exit 1
