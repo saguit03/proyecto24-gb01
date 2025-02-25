@@ -9,7 +9,7 @@ jobs:
   ReuseableMatrixJobForDeployment:
     strategy:
       matrix:
-        target: [dev, pre, pro]
+        env-type: [dev, pre, pro]
     uses: saguit03/proyecto24-gb01/.github/workflows/learning-called.yml@actions
     with:
-      target: ${{ matrix.target }}
+      env-type: ${{ matrix.env-type }}
