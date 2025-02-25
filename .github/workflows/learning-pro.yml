@@ -2,7 +2,7 @@ name: PRO
 
 on:
   workflow_run:
-    workflows: [PRE]
+    workflows: [DEV, PRE]
     types:
       - completed
 
@@ -32,3 +32,4 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - run: echo 'The triggering workflow failed'
+      - run: exit 1
