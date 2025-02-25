@@ -1,0 +1,15 @@
+name: CALLER
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ReuseableMatrixJobForDeployment:
+    strategy:
+      matrix:
+        target: [dev, pre, pro]
+    uses: saguit03/proyecto24-gb01/.github/workflows/learning-called.yml@actions
+    with:
+      target: ${{ matrix.target }}

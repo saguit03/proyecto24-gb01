@@ -1,15 +1,16 @@
-name: DEV
+name: CALLED
 
 on:
-  # push:
-  # pull_request:
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      env-type:
+        required: true
+        type: string
 
 jobs:
   deploy:
+    environment:  ${{ inputs.env-type }}
     runs-on: ubuntu-latest
-    environment: 'dev'
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
