@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, redirect, url_for, session
+from flask import Flask, jsonify, Blueprint, render_template, redirect, url_for, session
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 import os
 from content import ContentType
